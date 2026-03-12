@@ -1,0 +1,313 @@
+
+*{
+
+    box-sizing:border-box;
+    padding: 0;
+    margin: 0;
+}
+
+.bloque-incial{
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 20px;
+}
+
+.bloque-incial a{
+
+    text-decoration: none;
+    color: #F4F6F8;
+}
+
+.imagenPerfil{
+
+    width: 70px;
+    height: 70px;
+    border-radius: 50px;
+    border: 4px solid #2E6DA4;
+    object-fit: cover;
+    
+   
+}
+
+.list-image{
+
+    border: none ;
+}
+
+#titulo-header{
+
+    padding: 20px;
+    color: #F4F6F8;
+    font-weight: bolder;
+    font-size: 60px;
+    
+
+}
+
+.botonAgregar{
+
+    padding: 10px;
+    height: 50px;
+    border: 2px solid #F4F6F8;
+    border-radius: 20px;
+    color: #F4F6F8;
+    background-color: #2E6DA4;
+}
+
+body{
+
+    background-color: #1A3A5C;
+}
+
+header{
+
+    border-bottom: 3px solid #2E6DA4;
+    background-color: #1A3A5C;
+    width: 100%;
+    height: auto;
+    z-index: 9999;
+    position: fixed;
+
+}
+
+header nav{
+
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+
+    width: auto;
+   
+
+}
+
+header nav ul{
+
+    justify-content: space-between;
+    display: flex;
+
+}
+
+header nav ul li{
+
+    list-style: none;
+    font-size: 20px;
+    font-weight: bold;
+    color: #F4F6F8;
+    border: 4px solid #2E6DA4;
+    border-radius: 12px;
+    padding: 6px;
+    margin: 20px 20px 20px 0;
+   
+}
+
+header nav ul li a{
+
+    text-decoration: none;
+    color: #F4F6F8;
+}
+
+
+.main{
+
+    padding-top: 120px;
+}
+
+.panelOperativo{
+
+   min-height: 100vh;
+   background-color: #1A3A5C;
+   border-right: 3px solid #2E6DA4;
+
+}
+
+.panelOperativo ul{
+
+    list-style: none;
+    padding-top: 20px;
+}
+
+.panelOperativo .busqueda {
+
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.panelOperativo .busqueda h2{
+
+    color: #F4F6F8;
+    text-align: center;
+}
+
+.panelOperativo .busqueda input{
+
+    width: 100%;
+    height: auto;
+    background-color: #F4F6F8;
+    border: 4px #2E6DA4 solid;
+    border-radius: 20px;
+  
+   
+} 
+
+.panelOperativo .busqueda .button-busqueda{
+
+    height: auto;
+    width: 100%;
+    background-color: #2E6DA4;
+    border-radius: 20px;
+    margin-top: 10px;
+    padding: 5px;
+    color: #F4F6F8;
+    border: 4px solid #F4F6F8;
+}
+
+.panelOperativo .busqueda .filtro1_dano, .filtro2_dano{
+
+    height: auto;
+    width: 100%;
+    border-radius: 20px;
+    padding: 5px;
+    background-color: #F4F6F8;
+    border: 4px #2E6DA4 solid;
+}
+
+.mapa{
+
+    min-height: 100vh;
+    background-color: navy;
+}
+
+#map{
+
+    height: 100%;
+    width: 100%;
+}
+
+footer{
+
+    width: 100%;
+    height: auto;
+    padding: 20px;
+    bottom: 0;
+    background-color: #1A3A5C;
+    display: flex;
+    justify-content: space-between;
+    border-top: 4px solid #2E6DA4;
+}
+
+footer .contact-content{
+
+    padding: 10px;
+    color: #F4F6F8;
+
+}
+
+footer .contact-content input{
+
+    height: 60px;
+    width: 100%;
+    border: 3px solid #2E6DA4;
+    padding: 20px;
+}
+
+footer .contact-content textarea{
+
+    height: 90px;
+    width: 100%;
+    border: 3px solid #2E6DA4;
+
+}
+
+footer .contact-content button{
+
+    background-color: #2E6DA4;
+    border: 4px solid #F4F6F8;
+    color: #F4F6F8;
+
+}
+
+footer .content-socialmedia{
+
+    padding: 10px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+}
+
+footer .content-socialmedia ul li{
+
+    list-style: none;
+
+}
+
+footer .content-socialmedia ul li a{
+
+    font-size: 30px;
+    display: flex;
+    gap: 10px;
+    color: #F4F6F8;
+    text-decoration: none;
+    padding-top: 12px;
+
+    
+
+}
+
+footer .content-socialmedia ul li a p{
+
+    padding-bottom: 8px;
+
+    
+}
+
+.contenedor-registro{
+
+    padding-top: 120px;
+}
+
+.formulario-registro {
+
+    width: 600px;
+    height: auto;
+    background-color: #1A3A5C;
+    border: 4px solid #2E6DA4;
+    border-radius: 20px;
+    padding: 20px;
+    color: #F4F6F8;
+    margin-top: 100px;
+   
+}
+
+.formulario-registro label{
+
+    font-size: 16px;
+}
+
+.formulario-registro input{
+
+    border-radius: 16px;
+    width: 100%;
+    height: 50px;
+    color: #2E6DA4;
+    border: 4px solid #2E6DA4;
+}
+
+.formulario-registro button{
+
+    width: 100%;
+    height: 50px;
+    border-radius: 12px;
+    background-color: #2E6DA4;
+    color: #F4F6F8;
+    border: 4px solid #F4F6F8;
+}
+
+.formulario-registro a{
+
+    text-align: center;
+}
