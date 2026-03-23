@@ -8,7 +8,9 @@ $(function(){
 
             const longitude = position.coords.longitude;
 
-            var map = L.map('map').setView([latitude , longitude], 45);
+            
+
+            var map = L.map('map').setView([latitude, longitude], 25);
     
             L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
                 attribution: '&copy; OpenStreetMap contributors'
