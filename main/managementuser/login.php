@@ -37,7 +37,7 @@
 
         <div class="row pt-4">
             <div class="col-12">
-                <button>Iniciar sesión</button>
+                <a id="botonIniciarSesionCorreo" href="login2.php" class="btn w-100" >Iniciar sesión</a>
             </div>
         </div>   
 
