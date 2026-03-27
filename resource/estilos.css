@@ -310,6 +310,16 @@ footer .content-socialmedia ul li a p{
     border: 4px solid #F4F6F8;
 }
 
+#botonIniciarSesionCorreo{
+
+    width: 100%;
+    height: 50px;
+    border-radius: 12px;
+    background-color: #2E6DA4;
+    color: #F4F6F8;
+    border: 4px solid #F4F6F8;
+}
+
 .formulario-registro a{
 
     text-align: center;

@@ -1,9 +1,9 @@
 <?php
 
-$usuario = "ReporteVial_Admin";
+$usuario = "REPORTEVIAL_ADMIN";
 $contrasena = "RVA123";
 
-$conexion = "//DESKTOP-EU2CB1I:1521/XE";
+$conexion = "192.168.100.196:1521/XE";
 
 $conn = oci_connect($usuario, $contrasena, $conexion);
 
