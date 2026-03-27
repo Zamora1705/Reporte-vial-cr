@@ -4,7 +4,7 @@ require_once '../controller/UsuariosController.php';
 
 $usuarios = new UsuariosController();
 
-$action = $_POST['action'] ?? '';
+$action = $_GET['action'] ?? '';
 
 switch ($action){
 
