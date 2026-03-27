@@ -26,28 +26,29 @@
     <section class="container-fluid d-flex justify-content-center align-items-center contenedor-registro">
         <div class="formulario-registro" >
         <h2>Crear usuario</h2>
+        <form id='formularioRegistroUsuario' action="">
         <div class="row">
             <div class="col-12 pt-4">
                 <label for="Usuario" class="form-label">Usuario</label>
-                <input type="text" class="form-control" id="Usuario">
+                <input type="text" class="form-control" name='Usuario' id="Usuario">
             </div>
         </div>
         <div class="row pt-3"> 
             <div class="col-12">
                 <label for="Cedula" class="form-label">Cedula</label>
-                <input type="text" class="form-control" id="Cedula">
+                <input type="text" class="form-control" name='Cedula' id="Cedula">
             </div>
         </div>       
         <div class="row pt-3">
             <div class="col-12">
                 <label for="Correo" class="form-label">Correo electrónico</label>
-                <input type="text" class="form-control" id="Correo">
+                <input type="text" class="form-control" name='Correo' id="Correo">
             </div>
         </div>  
         <div class="row pt-3">
             <div class="col-12">
                 <label for="Contra" class="form-label">Contraseña</label>
-                <input type="text" class="form-control" id="Contra">
+                <input type="text" class="form-control" name='Contrasena' id="Contra">
             </div>
         </div>  
         <div class="row pt-3">
@@ -62,12 +63,9 @@
                 <button>Registrarse</button>
             </div>
         </div>   
-
-
         </div>
+        </form>
         </div>
-
-
     </section>
 
 
@@ -76,5 +74,6 @@
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.bundle.min.js" ></script>
     <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js" integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo=" crossorigin=""></script>
     <script src="../resource/mapa.js" ></script>
+    <script src="../../resource/usuarios.js" ></script>
 </body>
 </html>
