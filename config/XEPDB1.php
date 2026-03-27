@@ -1,11 +1,17 @@
 <?php
 
-$usuario = "ReporteVial_Admin";
+class DataBase{
+
+public static function connect(){
+
+$usuario = "REPORTEVIAL_ADMIN";
 $contrasena = "RVA123";
 
-$conexion = "//DESKTOP-EU2CB1I:1521/XE";
+$conexion = "localhost:1521/XEPDB1";
 
 $conn = oci_connect($usuario, $contrasena, $conexion);
+
+return new oci_connect($usuario, $contrasena, $conexion);
 
 if (!$conn){
     $e = oci_error();
@@ -13,5 +19,6 @@ if (!$conn){
 }else{
     echo "Conexión correcta";
 }
-
+}
+}
 ?>

@@ -19,6 +19,7 @@
             <div class="bloque-incial">
                 <h1 id="titulo-header">Reporte Vial</h1>
                 <button class="botonAgregar">Crear reporte <i class="fa-solid fa-plus"></i></button>
+                <a class="btn btn-primary" href="../config/XEPDB1.php">Ir a DB</a>
             </div>
             <ul>
                 <li><a href="managementuser/login.php">Acceder <i class="fa-solid fa-arrow-right-to-bracket"></i></a>
