@@ -15,6 +15,8 @@ class Usuarios{
 
         $sql = "INSERT INTO Usuarios (Nombre, Correo, Contrasena, Cedula)
         VALUES (:Usuario, :Correo, :Contrasena, :Cedula)";
+        $commit = "COMMIT";
+        $commitSmtp = oci_parse($this->DB, $commit);
 
         $smtp = oci_parse($this->DB, $sql);
 
@@ -23,7 +25,9 @@ class Usuarios{
         oci_bind_by_name($smtp, ':Contrasena', $Contrasena);
         oci_bind_by_name($smtp, ':Cedula', $Cedula);
 
-        return oci_execute($smtp);
+        $result = oci_execute($smtp);
+        oci_execute($commitSmtp);
+        return $result;
         
     }
 }

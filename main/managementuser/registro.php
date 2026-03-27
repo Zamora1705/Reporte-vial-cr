@@ -7,6 +7,7 @@
     <link rel="stylesheet" href="../../resource/estilos.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11/dist/sweetalert2.all.min.js"></script>
     <title>Registro</title>
 </head>
 <body>
@@ -26,7 +27,7 @@
     <section class="container-fluid d-flex justify-content-center align-items-center contenedor-registro">
         <div class="formulario-registro" >
         <h2>Crear usuario</h2>
-        <form id='formularioRegistroUsuario' action="">
+        <form id='formularioRegistroUsuario'>
         <div class="row">
             <div class="col-12 pt-4">
                 <label for="Usuario" class="form-label">Usuario</label>
@@ -60,20 +61,14 @@
 
         <div class="row pt-4">
             <div class="col-12">
-                <button>Registrarse</button>
+                <button type='submit' >Registrarse</button>
             </div>
         </div>   
-        </div>
         </form>
         </div>
     </section>
-
-
-
-    
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.bundle.min.js" ></script>
     <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js" integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo=" crossorigin=""></script>
-    <script src="../resource/mapa.js" ></script>
     <script src="../../resource/usuarios.js" ></script>
 </body>
 </html>
