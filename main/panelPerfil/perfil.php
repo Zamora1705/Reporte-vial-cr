@@ -75,7 +75,7 @@ $Correo =  $_SESSION['Correo'];
             </div>
             <div class='row mt-3'>
                 <div class='col-12'>
-                    <button class='btn btn-danger w-100'>Eliminar cuenta</button>
+                    <button class='btn btn-danger w-100'><a href='../../mail/emailEliminarCuenta.php'>Eliminar cuenta</a></button>
                 </div>
             </div>
         </div>
