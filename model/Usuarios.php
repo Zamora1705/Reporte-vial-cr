@@ -102,6 +102,8 @@ class Usuarios{
         $Cedula= $_SESSION['Cedula'];
 
         $query = "UPDATE Usuarios SET $TipoDato = :DatoNuevo WHERE Cedula = :Cedula";
+        $queryCommit='COMMIT';
+        $commitSmtp = oci_parse($this->DB, $queryCommit);
 
         $smtp= oci_parse($this->DB, $query);
 
@@ -109,6 +111,7 @@ class Usuarios{
         oci_bind_by_name($smtp, ':Cedula', $Cedula);
 
         $resultado = oci_execute($smtp);
+        oci_execute($commitSmtp);
 
         if($TipoDato == 'Nombre'){
 

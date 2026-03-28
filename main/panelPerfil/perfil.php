@@ -90,19 +90,19 @@ $Correo =  $_SESSION['Correo'];
         <h5 class='modal-title'>Modificar dato</h5>
         <button type='button' class='btn-close' data-bs-dismiss='modal' aria-label='Close'></button>
       </div>
+      <form id='formularioEditarDato'>
       <div class='modal-body'>
-       <form id='formularioEditarDato'>
         <label for='DatoActual' class='form-label'>Dato actual</label>
        <input type='text' class='form-control' id='DatoActual' readonly>
        <input style='display:none;' type='text' class='form-control' id='TipoDato' readonly>
 
        <label for='DatoNuevo' class='form-label pt-3'>Dato nuevo</label>
        <input type='text' name='DatoNuevo' class='form-control' id='DatoNuevo'>
-       </form>
       </div>
       <div class='modal-footer'>
         <button type='submit' class='btn w-100'>Guardar cambios</button>
       </div>
+      </form>
     </div>
   </div>
 </div>"
@@ -114,7 +114,7 @@ $Correo =  $_SESSION['Correo'];
     <script src='https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.bundle.min.js'></script>
     <script src='https://unpkg.com/leaflet@1.9.4/dist/leaflet.js'
         integrity='sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo=' crossorigin=''></script>
-    <script src="../../resorce/perfil.js" ></script>
+    <script src="../../resource/perfil.js" ></script>
 </body>
 
 </html>

@@ -31,7 +31,7 @@ $(function () {
     });
 
     $('#formularioEditarDato').submit(function (e){
-
+        console.log('Se envio el formulario de editar perfil');
         e.preventDefault();
 
         let TipoEdit = $('#TipoDato').val();
