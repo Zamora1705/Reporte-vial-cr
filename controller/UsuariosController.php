@@ -83,7 +83,9 @@ class UsuariosController{
 
         $Usuarios = new Usuarios();
 
-        if($Usuarios->eliminarCuenta()){
+        $resultado = $Usuarios->eliminarCuenta();
+
+        if($resultado){
 
             echo json_encode(['status'=>'success']);
 

@@ -73,16 +73,16 @@ $(function () {
 
         e.preventDefault();
 
-        if($('#TextoEliminar').val() == 'CEPTO ELIMINAR MI CUENTA Y CONOZCO LAS CONSECUENCIAS'){
+        if($('#TextoEliminar').val() == 'ACEPTO ELIMINAR MI CUENTA Y CONOZCO LAS CONSECUENCIAS'){
 
 
         $.ajax({
             url:'../../router/rutas.php?action=EliminarCuenta',
             method : 'POST',
-            datType: 'json',
-            data: ($this).serialize(),
-            success: function (response){
-
+            dataType: 'json',
+            data: $(this).serialize(),
+            success: function (response, xhr){
+            
                 if(response.status == 'success'){
 
                     Swal.fire('Eliminación de cuenta exitosa', '', 'success');
@@ -93,7 +93,7 @@ $(function () {
                     }, 1000);
                 }else{
 
-                    Swal.fire('Error en la eliminación de cuenta', '', 'error');
+                    Swal.fire('Error en la eliminación de cuenta', xhr.responseText, 'error');
 
                 }
 

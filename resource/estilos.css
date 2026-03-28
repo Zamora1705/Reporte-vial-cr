@@ -378,6 +378,12 @@ footer .content-socialmedia ul li a p{
     align-items: center;
 }
 
+.editPerfil button a{
+
+    color:#F4F6F8;
+    text-decoration: none;
+}
+
 .notificaciones{
 
     color: #F4F6F8;

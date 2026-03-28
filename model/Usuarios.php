@@ -131,6 +131,7 @@ class Usuarios{
 
     public function eliminarCuenta(){
 
+        session_start();
         $Cedula = $_SESSION['Cedula'];
 
         $query = "DELETE FROM Usuarios WHERE Cedula = :Cedula";

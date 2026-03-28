@@ -60,7 +60,7 @@ $(function () {
                     }, 1000);
                 } else {
 
-                    Swal.fire('Este correo electronico no esta registrado', '', 'error');
+                    Swal.fire('Este usuario no esta registrado', '', 'error');
                 }
             }, error: function (xhr, status, error) {
 
