@@ -1,3 +1,9 @@
+<?php
+
+session_start();
+
+?>
+
 <!DOCTYPE html>
 <html lang="en">
 
@@ -19,25 +25,43 @@
             <div class="bloque-incial">
                 <h1 id="titulo-header">Reporte Vial</h1>
                 <button class="botonAgregar">Crear reporte <i class="fa-solid fa-plus"></i></button>
-                <a class="btn btn-primary" href="../config/XEPDB1.php">Ir a DB</a>
+                <?php
+                if(isset($_SESSION['Username'])){
+
+                    echo " <h2>Bienvenido,".  $_SESSION['Username'] ."</h2>";
+                }
+               
+                ?>
             </div>
             <ul>
-                <li><a href="managementuser/login.php">Acceder <i class="fa-solid fa-arrow-right-to-bracket"></i></a>
-                </li>
-                <li><a href="managementuser/registro.php">Registrarse <i class="fa-solid fa-user-plus"></i></a></li>
-                <li>
-                    <div class="dropdown">
-                        <button class="btn btn-secondary dropdown-toggle" type="button"
-                            id="dropdownMenuButton" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                            <i class="fa-solid fa-user"></i>
+                <?php
+
+                if (isset($_SESSION['Usuario'])) {
+
+                echo "<li>
+                    <div class='dropdown'>
+                        <button class='btn btn-secondary dropdown-toggle' type='button' id='dropdownMenuButton'
+                            data-bs-toggle='dropdown' aria-haspopup='true' aria-expanded='false'>
+                            <i class='fa-solid fa-user'></i>
                         </button>
-                        <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-                            <a href="panelPerfil/perfil.php" class="dropdown-item" >Mi perfil</a>
-                            <a href="panelPerfil/notificaciones.php" class="dropdown-item" >Notificaciones</a>
-                            <a href="panelPerfil/misreportes.php" class="dropdown-item" >Mis reportes</a>
+                        <div class='dropdown-menu' aria-labelledby='dropdownMenuButton'>
+                            <a href='panelPerfil/perfil.php' class='dropdown-item'>Mi perfil</a>
+                            <a href='panelPerfil/notificaciones.php' class='dropdown-item'>Notificaciones</a>
+                            <a href='panelPerfil/misreportes.php' class='dropdown-item'>Mis reportes</a>
+                            <a href='panelPerfil/logout.php' class='dropdown-item'>Cerrar sesión <i class='fa-solid fa-arrow-right-from-bracket'></i></a>
                         </div>
                     </div>
+                </li>";
+                }else
+
+                echo  "<li><a href='managementuser/login.php'>Acceder <i class='fa-solid fa-arrow-right-to-bracket'></i></a>
                 </li>
+                <li><a href='managementuser/registro.php'>Registrarse <i class='fa-solidfa-user-plus'></i></a></li>";
+
+                
+
+
+                ?>
             </ul>
         </nav>
     </header>

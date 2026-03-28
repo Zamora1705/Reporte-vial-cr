@@ -11,6 +11,14 @@ switch ($action){
    case 'crearUsuario':
     $usuarios->create();
     break;
+    
+   case 'buscarCorreo':
+    $usuarios->buscarCorreo();
+    break;
+
+   case 'IniciarSesion':
+    $usuarios->IniciarSesion();
+    break;
 
 }
 
