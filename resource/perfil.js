@@ -69,6 +69,49 @@ $(function () {
 
     });
 
+    $("#formularioEliminarCuenta").submit(function (e){
+
+        e.preventDefault();
+
+        if($('#TextoEliminar').val() == 'CEPTO ELIMINAR MI CUENTA Y CONOZCO LAS CONSECUENCIAS'){
+
+
+        $.ajax({
+            url:'../../router/rutas.php?action=EliminarCuenta',
+            method : 'POST',
+            datType: 'json',
+            data: ($this).serialize(),
+            success: function (response){
+
+                if(response.status == 'success'){
+
+                    Swal.fire('Eliminación de cuenta exitosa', '', 'success');
+                    setTimeout(function (){
+
+                        window.location.href="../panelPerfil/logout.php";
+
+                    }, 1000);
+                }else{
+
+                    Swal.fire('Error en la eliminación de cuenta', '', 'error');
+
+                }
+
+
+            }, error:function(xhr){
+
+                console.log('ERROR:', xhr.responseText);
+            }
+        })
+
+    }else{
+
+        Swal.fire('Error', 'Debes escribir de forma correcta el texto indicado', 'error');
+    }
+
+
+    });
+
 
 
 });

@@ -79,6 +79,21 @@ class UsuariosController{
         }
     }
 
+    public function EliminarCuenta(){
+
+        $Usuarios = new Usuarios();
+
+        if($Usuarios->eliminarCuenta()){
+
+            echo json_encode(['status'=>'success']);
+
+        }else{
+
+            echo json_encode(['status'=>'error']);
+
+        }
+    }
+
 }
 
 

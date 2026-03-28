@@ -24,6 +24,10 @@ switch ($action){
     $usuarios->EditarDatoPerfil();
     break; 
 
+   case 'EliminarCuenta':
+    $usuarios->EliminarCuenta();
+    break; 
+
 }
 
 

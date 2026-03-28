@@ -435,6 +435,24 @@ footer .content-socialmedia ul li a p{
     background-color: #1A3A5C;
 }
 
+.section-eliminar-cuenta{
 
+    padding-top: 150px;
+    color: #F4F6F8;
+    width: 800px;
+    height: auto;
+}
 
-    
+.section-eliminar-cuenta .content .body-content{
+
+    padding: 30px;
+  
+} 
+
+.section-eliminar-cuenta .content .body-content input{
+
+    background: transparent;
+    border: 1px solid #F4F6F8;
+    border-radius: 12px;
+    color: #F4F6F8;
+}

@@ -130,6 +130,35 @@ class Usuarios{
 
         return $resultado;
 
+    }
+
+    public function eliminarCuenta(){
+
+        $Cedula = $_SESSION['Cedula'];
+
+        $query = "DELETE FROM Usuarios WHERE Cedula = :Cedula";
+
+        $queryCommit = 'COMMIT';
+
+        $smtp = oci_parse($this->DB, $query);
+
+        oci_bind_by_name($smtp, ':Cedula', $Cedula);
+
+        $commitQuery = oci_parse($this->DB, $queryCommit);
+
+        $result = oci_execute($smtp);
+
+        oci_execute($commitQuery);
+
+        if($result){
+
+            return true;
+            
+        }else{
+
+            return false;
+        }
+
 
     }
 }
