@@ -1,7 +1,4 @@
 <?php
-session_start();
-
-
 
 require_once '../config/XEPDB1.php';
 
@@ -79,7 +76,7 @@ class Usuarios{
                 $_SESSION['Usuario'] = $row['NOMBRE'];
                 $_SESSION['Correo'] = $row['CORREO'];
                 $_SESSION['Cedula'] = $row['CEDULA'];
-                $_SESSION['ID'] = $row['ID'];
+            
 
                 return true;
 
