@@ -26,9 +26,9 @@ session_start();
                 <h1 id="titulo-header">Reporte Vial</h1>
                 <button class="botonAgregar">Crear reporte <i class="fa-solid fa-plus"></i></button>
                 <?php
-                if(isset($_SESSION['Username'])){
+                if(isset($_SESSION['Usuario'])){
 
-                    echo " <h2>Bienvenido,".  $_SESSION['Username'] ."</h2>";
+                    echo " <p class='bienvenida' >Bienvenido, ".  $_SESSION['Usuario'] ."</p>";
                 }
                
                 ?>

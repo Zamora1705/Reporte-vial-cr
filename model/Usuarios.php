@@ -44,7 +44,8 @@ class Usuarios{
         if($result){
 
             $row = oci_fetch_assoc($smtp);
-            return $row['Total']>0;
+            return $row['TOTAL']>0;
+
         }else{
 
             return false;
@@ -54,17 +55,17 @@ class Usuarios{
 
     public function IniciarSesion($User, $Password){
 
-        $query = "SELECT * FROM Usuarios WHERE Nombre = :User";
+        $query = "SELECT * FROM Usuarios WHERE Nombre = :Usuario";
         
         $smtp = oci_parse($this->DB, $query);
 
-        oci_bind_by_name($smtp, ':User', $User);
+        oci_bind_by_name($smtp, ':Usuario', $User);
 
         $resultado = oci_execute($smtp);
 
-        if ($resultado){
-
             $row = oci_fetch_assoc($smtp);
+
+            if($row){
 
             $contra = $row['CONTRASENA'];
 
@@ -78,13 +79,16 @@ class Usuarios{
 
                 return true;
 
-
             }else{
 
-                return false;
+               return false;
             }
 
 
+
+        }else{
+
+           return false;
         }
        
     }

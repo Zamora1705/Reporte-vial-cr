@@ -17,6 +17,7 @@ $(function () {
                     setTimeout(function () {
 
                         let usuario = $('#Usuario').val();
+                        console.log('El usuario:', usuario);
                         window.location.href = `login2.php?Usuario=${usuario}`;
 
                     }, 1000);

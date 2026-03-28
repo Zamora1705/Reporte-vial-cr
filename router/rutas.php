@@ -13,7 +13,7 @@ switch ($action){
     break;
     
    case 'buscarCorreo':
-    $usuarios->buscarCorreo();
+    $usuarios->buscarUsuario();
     break;
 
    case 'IniciarSesion':
