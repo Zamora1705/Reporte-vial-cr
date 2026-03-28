@@ -20,6 +20,10 @@ switch ($action){
     $usuarios->IniciarSesion();
     break;
 
+   case 'EditarDatoPerfil':
+    $usuarios->EditarDatoPerfil();
+    break; 
+
 }
 
 

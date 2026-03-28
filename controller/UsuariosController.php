@@ -63,6 +63,22 @@ class UsuariosController{
 
     }
 
+    public function EditarDatoPerfil(){
+
+        $Usuarios = new Usuarios();
+
+        $DatoNuevo = $_POST['DatoNuevo'] ?? '' ;
+        $TipoDato = $_GET['tipo'] ?? '';
+
+        if($Usuarios->EditarDatoPerfil($DatoNuevo, $TipoDato)){
+
+            echo json_encode(['status'=>'success']);
+        }else{
+
+            echo json_encode(['status'=>'error']);
+        }
+    }
+
 }
 
 

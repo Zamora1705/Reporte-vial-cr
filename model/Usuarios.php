@@ -1,4 +1,7 @@
 <?php
+session_start();
+
+
 
 require_once '../config/XEPDB1.php';
 
@@ -76,6 +79,7 @@ class Usuarios{
                 $_SESSION['Usuario'] = $row['NOMBRE'];
                 $_SESSION['Correo'] = $row['CORREO'];
                 $_SESSION['Cedula'] = $row['CEDULA'];
+                $_SESSION['ID'] = $row['ID'];
 
                 return true;
 
@@ -91,6 +95,39 @@ class Usuarios{
            return false;
         }
        
+    }
+
+    public function EditarDatoPerfil($DatoNuevo, $TipoDato){
+
+        $Cedula= $_SESSION['Cedula'];
+
+        $query = "UPDATE Usuarios SET $TipoDato = :DatoNuevo WHERE Cedula = :Cedula";
+
+        $smtp= oci_parse($this->DB, $query);
+
+        oci_bind_by_name($smtp, ':DatoNuevo', $DatoNuevo);
+        oci_bind_by_name($smtp, ':Cedula', $Cedula);
+
+        $resultado = oci_execute($smtp);
+
+        if($TipoDato == 'Nombre'){
+
+            $_SESSION['Usuario'] = $DatoNuevo;
+
+        }else if ($TipoDato == 'Correo'){
+
+            $_SESSION['Correo'] = $DatoNuevo;
+
+        }else{
+
+            $_SESSION['Cedula'] = $DatoNuevo;
+
+        }
+
+
+        return $resultado;
+
+
     }
 }
 
