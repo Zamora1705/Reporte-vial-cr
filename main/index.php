@@ -151,6 +151,30 @@ session_start();
             </div>
         </div>
     </footer>
+
+    <div class='modal' id='nuevoReporte' tabindex='-1'>
+  <div class='modal-dialog'>
+    <div class='modal-content'>
+      <div class='modal-header'>
+        <h5 class='modal-title'>Reportar Daño</h5>
+        <button type='button' class='btn-close' data-bs-dismiss='modal' aria-label='Close'></button>
+      </div>
+      <form id='formularioNuevoReporte'>
+      <div class='modal-body'>
+        <select name="tipodano" id="tipodano"><option value="">Tipo de daño</option></select>
+
+      
+      </div>
+      <div class='modal-footer'>
+        <button type='submit' class='btn w-100'>Generar reporte</button>
+      </div>
+      </form>
+    </div>
+  </div>
+</div>
+
+
+
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.bundle.min.js"></script>
     <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"
         integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo=" crossorigin=""></script>

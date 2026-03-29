@@ -1,8 +1,10 @@
 <?php
 
 require_once '../controller/UsuariosController.php';
+require_once '../controller/TipoDanoController.php';
 
 $usuarios = new UsuariosController();
+$TipoDano = new TipoDano();
 
 $action = $_GET['action'] ?? '';
 
@@ -35,6 +37,10 @@ switch ($action){
 
    case 'cambiarContrasena':
     $usuarios->CambiarContrasena();
+    break; 
+
+   case 'obtenerTipoDanos':
+    $TipoDano->listado();
     break; 
 
 }
