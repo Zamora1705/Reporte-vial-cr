@@ -2,7 +2,7 @@
 
 require_once '../model/TipoDano.php';
 
- class TipoDano{
+ class TipoDanoController{
 
     public function listado(){
 

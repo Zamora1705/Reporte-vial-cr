@@ -4,7 +4,7 @@ require_once '../controller/UsuariosController.php';
 require_once '../controller/TipoDanoController.php';
 
 $usuarios = new UsuariosController();
-$TipoDano = new TipoDano();
+$TipoDano = new TipoDanoController();
 
 $action = $_GET['action'] ?? '';
 

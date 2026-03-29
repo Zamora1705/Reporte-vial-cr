@@ -52,28 +52,24 @@ $(function(){
 
     function cargarTipoDanos(){
 
+        $.get("../router/rutas.php?action=obtenerTipoDanos", function(response){
+            console.log('Datos obtenidos:', response.data);
 
-        $.ajax({
+            let options = '';
+            response.data.forEach(dano => {
 
-            url: '../router/rutas?action=obtenerTipoDanos',
-            method : 'GET',
-            dataType: 'json',
-            success: function(data){
+                options += ` <option value=${dano.Dano_ID} >${dano.Nombre_dano}</option> `;
+                
+            });
 
-                var select = $('#tipodano');
-                data.forEach(function(tipoDano){
+            $('#tipodano').html(options);
 
-                    select.append('<option value='+tipoDano.Dano_ID+'>'+tipoDano.Nombre_dano+'</option>');
-
-                });
-
-            }, error: function(xhr){
-
-                console.log('ERROR: ', xhr);
-            }
 
 
         });
+
+
+
       
             
 

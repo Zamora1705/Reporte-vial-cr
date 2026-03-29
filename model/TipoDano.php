@@ -1,6 +1,6 @@
 <?php
 
-require_once '../config/XEPDB1';
+require_once '../config/XEPDB1.php';
 
 class TipoDano{
 
@@ -19,9 +19,15 @@ class TipoDano{
 
         oci_execute($smtp);
 
-        $row = oci_fetch_assoc($smtp);
+        $datos = [];
 
-        return $row;
+        while($row = oci_fetch_array($smtp, OCI_ASSOC)){
+
+             $datos[]=$row;
+        }
+
+
+        return $datos;
 
 
 
