@@ -122,7 +122,9 @@ class UsuariosController{
 
         $PasswordHash = password_hash($Contrasena, PASSWORD_BCRYPT);
 
-        if($Usuarios->CambiarContrasena($PasswordHash)){
+        $result = $Usuarios->CambiarContrasena($PasswordHash);
+
+        if($result){
 
             echo json_encode(['status'=>'success']);
         }else{

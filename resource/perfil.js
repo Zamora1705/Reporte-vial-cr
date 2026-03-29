@@ -114,7 +114,7 @@ $(function () {
 
     $('#NewContra').attr('disabled', true);
     $('#NewContra2').attr('disabled', true);
-    $('#btnCambiarContrasena').attr('disable', true);
+    $('#btnCambiarContrasena').attr('disabled', true);
 
 
     $('#formularioNuevaContrasena').submit(function (e) {
@@ -135,10 +135,10 @@ $(function () {
 
                 url: '../../router/rutas.php?action=cambiarContrasena',
                 method: 'POST',
-                datType: 'json',
+                dataType: 'json',
                 data: $(this).serialize(),
             
-                success: function (response) {
+                success: function (response, xhr) {
             
                     if (response.status == 'success') {
             
@@ -152,7 +152,7 @@ $(function () {
             
                     } else {
             
-                        Swal.fire('Error en el cambio de contraseña', '', 'error');
+                        Swal.fire('Error en el cambio de contraseña', xhr.responseText, 'error');
                     }
                 }, error: function (xhr) {
             
@@ -180,10 +180,10 @@ $(function () {
 
         $.ajax({
 
-            url: `../../router/rutas.php?action=validarContrasenaActual&contra=${valor}`,
+            url: '../../router/rutas.php?action=validarContrasenaActual&',
             method: 'POST',
-            datType: 'json',
-            data: $(this).serialize(),
+            dataType: 'json',
+            data: { contra: valor },
 
             success: function (response) {
 
@@ -191,7 +191,7 @@ $(function () {
 
                     $('#NewContra').attr('disabled', false);
                     $('#NewContra2').attr('disabled', false);
-                    $('#btnCambiarContrasena').attr('disable', false);
+                    $('#btnCambiarContrasena').attr('disabled', false);
 
                 } else {
 
