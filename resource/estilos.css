@@ -462,3 +462,23 @@ footer .content-socialmedia ul li a p{
     border-radius: 12px;
     color: #F4F6F8;
 }
+
+.contenedor-mensaje{
+
+    padding-top: 150px;
+}
+
+.contenedor-mensaje .content{
+
+    background-color: #2E6DA4;
+    color:#F4F6F8;
+    text-align: center;
+    border-radius: 16px;
+    padding: 20px;
+    width: 500px;
+}
+
+.contenedor-mensaje .content i{
+
+    font-size: 90px;
+}

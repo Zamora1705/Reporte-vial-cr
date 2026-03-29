@@ -112,6 +112,92 @@ $(function () {
 
     });
 
+    $('#NewContra').attr('disabled', true);
+    $('#NewContra2').attr('disabled', true);
+    $('#btnCambiarContrasena').attr('disable', true);
+
+    $('#Contra').blur(function (){
+
+        let valor = $('#Contra').val();
+
+        $.ajax({
+
+            url: '../../router/rutas.php?action=cambiarContrasena',
+            method : 'POST',
+            datType: 'json',
+            data: $(this).serialize(),
+
+            success: function(response){
+
+                if(response.status == 'success'){
+
+                    Swal.fire('Cambio de contraseña exitosa', '', 'success');
+
+                    setTimeout(function (){
+
+                        window.location.reload();
+
+                    }, 1000);
+
+                }else{
+
+                    Swal.fire('Error en el cambio de contraseña', '', 'error');
+                }
+            }, error: function(xhr){
+
+                console.log('ERROR:', xhr.responseText);
+            }
+        });
+
+
+
+
+
+    });
+
+    $('#formularioNuevaContrasena').submit(function (e){
+
+        e.preventDefault();
+
+        let contra1 = $('#NewContra').val();
+        let contra2 = $('#NewContra2').val();
+
+        if(contra1 != contra2){
+
+            Swal.fire('Las contraseñas no coinciden', '', 'error');
+        }else{
+
+            $.ajax({
+
+                url: `../../router/rutas.php?action=validarContrasenaActual&contra=${valor}`,
+                method : 'POST',
+                datType: 'json',
+                data: $(this).serialize(),
+    
+                success: function(response){
+    
+                    if(response.status == 'success'){
+    
+                        $('#NewContra').attr('disabled', false);
+                        $('#NewContra2').attr('disabled', false);
+                        $('#btnCambiarContrasena').attr('disable', false);
+    
+                    }else{
+    
+                        Swal.fire('Contraseña incorrecta', '', 'error');
+                    }
+                }, error: function(xhr){
+    
+                    console.log('ERROR:', xhr.responseText);
+                }
+            });
+
+
+        }
+
+
+    });
+
 
 
 });

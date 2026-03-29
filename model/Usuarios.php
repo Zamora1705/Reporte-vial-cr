@@ -61,7 +61,7 @@ class Usuarios{
 
         oci_bind_by_name($smtp, ':Usuario', $User);
 
-        $resultado = oci_execute($smtp);
+        oci_execute($smtp);
 
             $row = oci_fetch_assoc($smtp);
 
@@ -152,6 +152,72 @@ class Usuarios{
 
             return true;
             
+        }else{
+
+            return false;
+        }
+
+
+    }
+
+    public function ValidarContrasena($Contrasena){
+
+        session_start();
+
+        $Cedula = $_SESSION['Cedula'];
+
+        $query = "SELECT Contrasena FROM Usuarios WHERE Cedula = :Cedula";
+
+        $smtp = oci_parse($this->DB, $query);
+
+        oci_bind_by_name($smtp, ':Cedula', $Cedula);
+
+        oci_execute($smtp);
+
+        $row = oci_fetch_assoc($smtp);
+
+        if($row){
+
+            $contra = $row['CONTRASENA'];
+
+            if(password_verify($Contrasena, $contra)){
+
+                return true;
+            }else{
+
+                return false;
+            }
+
+
+        }else{
+
+            return false;
+        }
+
+
+        
+    }
+
+    public function CambiarContrasena($PasswordHash){
+
+        session_start();
+
+        $query = "UPDATE Usuarios SET Contrasena = :PasswordHash WHERE Cedula = :Cedula";
+        $commitQuery = 'COMMIT';
+
+        $smtp = oci_parse($this->DB, $query);
+        $smtpcommitQuery = oci_parse($this->DB, $commitQuery);
+
+        oci_bind_by_name($smtp, ':PasswordHash', $PasswordHash);
+        oci_bind_by_name($smtp, ':Cedula', $_SESSION['Cedula']);
+
+        $result = oci_execute($smtp);
+        oci_execute( $smtpcommitQuery );
+
+        if($result){
+
+            return true;
+
         }else{
 
             return false;

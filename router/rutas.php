@@ -28,6 +28,15 @@ switch ($action){
     $usuarios->EliminarCuenta();
     break; 
 
+
+   case 'validarContrasenaActual':
+    $usuarios->ValidarContrasena();
+    break;
+
+   case 'cambiarContrasena':
+    $usuarios->CambiarContrasena();
+    break; 
+
 }
 
 

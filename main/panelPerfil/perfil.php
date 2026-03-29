@@ -1,11 +1,10 @@
-
 <?php
 
 session_start();
 
 $Usuario = $_SESSION['Usuario'];
-$Cedula =$_SESSION['Cedula'];
-$Correo =  $_SESSION['Correo'];
+$Cedula = $_SESSION['Cedula'];
+$Correo = $_SESSION['Correo'];
 
 ?>
 
@@ -35,8 +34,8 @@ $Correo =  $_SESSION['Correo'];
     </header>
 
     <?php
-    
-    
+
+
 
     echo "<section class='editPerfil container-fluid d-flex justify-content-center align-items-center'>
         <div class='formulario-editar-perfil'>
@@ -69,9 +68,40 @@ $Correo =  $_SESSION['Correo'];
                 </div>
             </div>
             <div class='row mt-5'>
-                <div class='col-12'>
-                    <button class='btn btn-warning w-100'>Cambiar Contraseña</button>
+                <hr>
+                <h2>Cambiar Contraseña</h2>
+                <div class='col-6 pt-3' >
+                <label for='contra' class='form-label'>Contraseña actual</label>
+                <input type='text' type='password' id='Contra' class='form-control' >
                 </div>
+                <form id='formularioNuevaContrasena' >
+                <div class='row pt-2'>
+                <div class='col-6'>
+                <label for='NewContra' class='form-label'>Nueva contraseña</label>
+                <input type='text' type='password' id='NewContra' name='NewContra' class='form-control' >
+
+                </div>
+
+                <div class='col-6'>
+
+                <label for='NewContra2' class='form-label'>Repetir nueva contraseña</label>
+                <input type='text' type='password' id='NewContra2' class='form-control' >
+
+                </div>
+
+
+                </div>
+                <div class='row mt-3'>
+                <div class='col-12'>
+                
+                <button type='submit' id='btnCambiarContrasena' class='btn w-100 btn-warning'>Cambiar contraseña</button>
+               
+                
+                </div>
+                
+                </div>
+                </form>
+                <hr class='mt-3'>
             </div>
             <div class='row mt-3'>
                 <div class='col-12'>
@@ -108,13 +138,15 @@ $Correo =  $_SESSION['Correo'];
 </div>"
 
 
-    ?>
+        ?>
+
+
 
 
     <script src='https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.bundle.min.js'></script>
     <script src='https://unpkg.com/leaflet@1.9.4/dist/leaflet.js'
         integrity='sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo=' crossorigin=''></script>
-    <script src="../../resource/perfil.js" ></script>
+    <script src="../../resource/perfil.js"></script>
 </body>
 
 </html>

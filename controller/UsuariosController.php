@@ -96,6 +96,42 @@ class UsuariosController{
         }
     }
 
+    public function ValidarContrasena(){
+
+        $Usuarios = new Usuarios();
+
+        $Contrasena = $_POST['contra'] ?? '';
+
+        $resultado = $Usuarios->ValidarContrasena($Contrasena);
+
+        if($resultado){
+
+            echo json_encode(['status'=>'success']);
+
+        }else{
+
+            echo json_encode(['status'=>'error']);
+        }
+    }
+
+    public function CambiarContrasena(){
+
+        $Usuarios = new Usuarios();
+
+        $Contrasena = $_POST['NewContra'] ?? '';
+
+        $PasswordHash = password_hash($Contrasena, PASSWORD_BCRYPT);
+
+        if($Usuarios->CambiarContrasena($PasswordHash)){
+
+            echo json_encode(['status'=>'success']);
+        }else{
+
+            echo json_encode(['status'=>'error']);
+
+        }
+    }
+
 }
 
 
