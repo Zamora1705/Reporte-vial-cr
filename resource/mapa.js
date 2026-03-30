@@ -99,7 +99,7 @@ $(function () {
 
     function cargarCategorias() {
 
-        ajax({
+        $.ajax({
 
             url: '../router/rutas.php?action=obtenerCategorias',
             method: 'GET',
@@ -112,7 +112,7 @@ $(function () {
 
                     response.data.forEach(item => {
 
-                        options += `<option value="${item.CATEGORIA_ID}">${item.NOMBRE_CATEGORIA} ${item.DESCRIPCION}</option>`;
+                        options += `<option value="${item.CATEGORIA_ID}">${item.NOMBRE_CATEGORIA} (${item.DESCRIPCION})</option>`;
 
 
                     });
@@ -142,7 +142,7 @@ $(function () {
 
     function cargarProvincias() {
 
-        ajax({
+        $.ajax({
 
             url: '../router/rutas.php?action=obtenerProvincias',
             method: 'GET',
@@ -210,17 +210,20 @@ $(function () {
 
     });
 
+    $('#Provincia').change(function(){
 
+        cargarCantones();
 
+    });
 
-
-    cargarCantones();
 
     function cargarCantones() {
 
         let provincia = $('#Provincia').val();
 
-        ajax({
+        console.log(provincia);
+
+        $.ajax({
 
             url: `../router/rutas.php?action=obtenerCantones&provincia=${provincia}`,
             method: 'GET',
@@ -259,21 +262,30 @@ $(function () {
 
     }
 
+    $('#Canton').change(function() {
 
-    cargarDistritos();
+        cargarDistritos();
+
+    });
+
+
+    
 
     function cargarDistritos() {
 
         let canton = $('#Canton').val();
+        console.log(canton);
 
-        ajax({
+        $.ajax({
 
             url: `../router/rutas.php?action=obtenerDistritos&canton=${canton}`,
             method: 'GET',
             dataType: 'json',
             success: function (response) {
+                console.log('Entro en function la recoleccion de distritos');
 
                 if (response.status == 'success') {
+                    console.log('respondio la funcion de distritos success');
 
                     let options = '';
 
@@ -284,7 +296,7 @@ $(function () {
 
                     });
 
-                    $('#Distritos').html(options);
+                    $('#Distrito').html(options);
 
 
 
@@ -305,13 +317,18 @@ $(function () {
 
     }
 
-    cargarCalles();
+    $('#Distrito').change(function() {
+
+         cargarCalles();
+    });
+
+   
 
     function cargarCalles() {
 
         let distrito = $('#Distrito').val();
 
-        ajax({
+        $.ajax({
 
             url: `../router/rutas.php?action=obtenerCalles&distrito=${distrito}`,
             method: 'GET',

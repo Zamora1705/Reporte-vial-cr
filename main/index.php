@@ -164,37 +164,37 @@ session_start();
                         <div class="select">
                             <label for="tipodano" class="form-label">Tipo de daño</label>
                             <select name="tipodano" class="form-control" id="tipodano">
-                                <option value="">Hueco</option>
+                                <option value="">Seleccione el tipo de daño</option>
                             </select>
                         </div>
                         <div class="select mt-3">
                             <label for="Categoria" class="form-label">Categoría del daño</label>
                             <select name="Categoria" class="form-control" id="Categoria">
-                                <option value="">Hueco</option>
+                               
                             </select>
                         </div>
                         <div class="select mt-3">
                             <label for="Provincia" class="form-label">Provincia</label>
                             <select name="Provincia" class="form-control" id="Provincia">
-                                <option value="">Hueco</option>
+                                
                             </select>
                         </div>
                         <div id="bloqueCanton" class="select mt-3">
                             <label for="Canton" class="form-label">Cantón</label>
                             <select name="Canton" class="form-control" id="Canton">
-                                <option value="">Hueco</option>
+                              
                             </select>
                         </div>
                         <div id="bloqueDistrito" class="select mt-3">
                             <label for="Distrito" class="form-label">Distrito (opcional)</label>
                             <select name="Distrito" class="form-control" id="Distrito">
-                                <option value="">Hueco</option>
+                              
                             </select>
                         </div>
                         <div id="bloqueCalle" class="select mt-3">
                             <label for="calle" class="form-label">Nombre de la calle (opcional)</label>
                             <select name="calle" class="form-control" id="calle">
-                                <option value="">Hueco</option>
+                
                             </select>
                         </div>
                         

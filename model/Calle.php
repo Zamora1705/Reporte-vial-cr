@@ -17,7 +17,7 @@ class Calle{
 
         $smtp=oci_parse($this->DB, $query);
 
-        oci_bind_by_name($query, ':distrito', $distrito);
+        oci_bind_by_name($smtp, ':distrito', $distrito);
 
         oci_execute($smtp);
 

@@ -17,7 +17,7 @@ class Canton{
 
         $smtp=oci_parse($this->DB, $query);
 
-        oci_bind_by_name($query, ':provincia', $provincia);
+        oci_bind_by_name($smtp, ':provincia', $provincia);
 
         oci_execute($smtp);
 

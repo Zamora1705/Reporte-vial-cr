@@ -17,7 +17,7 @@ class Distrito{
 
         $smtp=oci_parse($this->DB, $query);
 
-        oci_bind_by_name($query, ':canton', $canton);
+        oci_bind_by_name($smtp, ':canton', $canton);
 
         oci_execute($smtp);
 
@@ -37,8 +37,6 @@ class Distrito{
 
         return $result;
     }
-
-
 
 }
 

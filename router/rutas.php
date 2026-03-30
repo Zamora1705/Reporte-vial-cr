@@ -66,7 +66,7 @@ switch ($action){
     $Canton->listado();
     break; 
 
-   case 'obtenerDistritos':
+   case 'obtenerDistritos': 
     $Distrito->listado();
     break; 
 
