@@ -41,7 +41,8 @@ switch ($action){
 
    case 'obtenerTipoDanos':
     $TipoDano->listado();
-    break; 
+    break;
+ 
 
 }
 

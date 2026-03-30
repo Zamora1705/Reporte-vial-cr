@@ -11,7 +11,7 @@ class TipoDano{
         $this->DB=DataBase::connect();
     }
 
-    public function listado(){
+    public function listadoDATA(){
 
         $query = "SELECT Dano_ID, Nombre_dano FROM Tipo_dano";
 
@@ -19,22 +19,23 @@ class TipoDano{
 
         oci_execute($smtp);
 
-        $datos = [];
+        $result = [];
 
-        while($row = oci_fetch_array($smtp, OCI_ASSOC)){
+        while($row = oci_fetch_assoc($smtp)){
 
-             $datos[]=$row;
+            $filaLimpia = [];
+
+            foreach($row as $key => $value){
+
+              $filaLimpia[$key] = mb_convert_encoding($value, 'UTF-8', 'Windows-1252');
+
+            }
+
+            $result[] = $filaLimpia;
         }
 
-
-        return $datos;
-
-
-
+        return $result;
     }
-
-
-
 }
-
 ?>
+

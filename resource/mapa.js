@@ -51,29 +51,46 @@ $(function(){
     cargarTipoDanos();
 
     function cargarTipoDanos(){
+        console.log('Se ejecuto la funcion');
 
-        $.get("../router/rutas.php?action=obtenerTipoDanos", function(response){
-            console.log('Datos obtenidos:', response.data);
+        $.ajax({
+            url: '../router/rutas.php?action=obtenerTipoDanos',
+            method: 'GET',
+            dataType: 'json',
+            success: function(response){
 
-            let options = '';
-            response.data.forEach(dano => {
+                if(response.status == 'success'){
+                   console.log('datos obtenidos !');
+                    let options = '';
 
-                options += ` <option value=${dano.Dano_ID} >${dano.Nombre_dano}</option> `;
+                       response.data.forEach(data => {
+
+                        options += `<option value="${data.DANO_ID}">${data.NOMBRE_DANO}</option>`;
+
+                       });
+                        
+
+                    $('#tipodano').html(options);
+
+                }else{
+
+                    console.log('ocurrio un error en la obtencion de los datos');
+
+
+                }
+            }, error: function(xhr, status, error){
+
+                console.log('error:', xhr);
+                console.log('error como tal:', xhr.responseText);
+                console.log('status', status);
+
                 
-            });
-
-            $('#tipodano').html(options);
-
+            }
 
 
         });
 
+    }
+        
 
-
-      
-            
-
-
-
-        };
     });

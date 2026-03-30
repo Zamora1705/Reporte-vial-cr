@@ -161,7 +161,7 @@ session_start();
       </div>
       <form id='formularioNuevoReporte'>
       <div class='modal-body'>
-        <select name="tipodano" id="tipodano"><option value="">Tipo de daño</option></select>
+        <select name="tipodano" id="tipodano"></select>
 
       
       </div>
