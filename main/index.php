@@ -1,7 +1,7 @@
 <?php
 
 session_start();
-$Usuario = $_SESSION['Cedula'];
+
 
 ?>
 
@@ -197,14 +197,9 @@ $Usuario = $_SESSION['Cedula'];
                             <select name="calle" class="form-control" id="calle">
                 
                             </select>
-                            <input type="text">
+            
                             <input style="display:none;" type="text" name="Longitud" id="Longitud" >
                             <input style="display:none;" type="text" name="Latitud" id="Latitud" >
-                            <?php
-                            
-                            echo " <input style='display:none;' type='text' name='Usuario' value='$Usuario'";
-
-                            ?>
                            
                         </div>
                         

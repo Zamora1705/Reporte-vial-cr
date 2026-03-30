@@ -1,5 +1,6 @@
 <?php
 
+
 require_once '../config/XEPDB1.php';
 
 class Reporte{
@@ -11,7 +12,10 @@ class Reporte{
         $this->DB = DataBase :: connect();
     }
 
-    public function create($Longitud, $Latitud, $Tipodano, $Categoria, $Usuario, $Provincia, $Canton, $Distrito, $Calle){
+    public function create($Longitud, $Latitud, $Tipodano, $Categoria, $Provincia, $Canton, $Distrito, $Calle){
+
+
+        $Usuario = $_SESSION['Cedula'];
 
         $query = "INSERT INTO Reporte (Tipo_Dano_FK, Categoria_FK, Usuario_FK, Calle_FK, Longitud, Latitud, Provincia
         _nom, Canton_nom, Distrito_nom) VALUES (:Tipodano, :Categoria, :Usuario, :Calle, :Longitud, :Latitud,

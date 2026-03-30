@@ -16,9 +16,9 @@ class ReporteController{
         $Canton = $_POST['Canton'];
         $Distrito = $_POST['Distrito'];
         $Calle = $_POST['calle'];
-        $Usuario = $_POST['Usuario'];
+    
 
-        if($Reporte->create($Longitud, $Latitud, $Tipodano, $Categoria, $Usuario, $Provincia, $Canton, $Distrito, $Calle)){
+        if($Reporte->create($Longitud, $Latitud, $Tipodano, $Categoria, $Provincia, $Canton, $Distrito, $Calle)){
 
             echo json_encode(['status'=>'success']);
 
