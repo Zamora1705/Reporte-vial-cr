@@ -112,6 +112,7 @@ $(function () {
                     console.log('datos obtenidos !');
                     let options = '';
 
+                    options = ' <option>Seleccione el tipo de daño</option>';
                     response.data.forEach(data => {
 
                         options += `<option value="${data.DANO_ID}">${data.NOMBRE_DANO}</option>`;
@@ -155,6 +156,7 @@ $(function () {
                 if (response.status == 'success') {
 
                     let options = '';
+                    options = ' <option>Seleccione la categoria del daño</option>';
 
                     response.data.forEach(item => {
 
@@ -198,7 +200,7 @@ $(function () {
                 if (response.status == 'success') {
 
                     let options = '';
-
+                    options = ' <option>Seleccione la provincia del suceso</option>';
                     response.data.forEach(item => {
 
                         options += `<option value="${item.NOMBRE_PROVINCIA}">${item.NOMBRE_PROVINCIA}</option>`;
@@ -279,6 +281,7 @@ $(function () {
                 if (response.status == 'success') {
 
                     let options = '';
+                    options = ' <option>Seleccione el cantón del suceso</option>';
 
                     response.data.forEach(item => {
 
@@ -334,7 +337,7 @@ $(function () {
                     console.log('respondio la funcion de distritos success');
 
                     let options = '';
-
+                    options = ' <option>Seleccione el distrito del suceso</option>';
                     response.data.forEach(item => {
 
                         options += `<option value="${item.NOMBRE_DISTRITO}">${item.NOMBRE_DISTRITO}</option>`;
@@ -384,7 +387,7 @@ $(function () {
                 if (response.status == 'success') {
 
                     let options = '';
-
+                    options = ' <option>Seleccione la calle del suceso</option>';
                     response.data.forEach(item => {
 
                         options += `<option value="${item.NOMBRE_CALLE}">${item.NOMBRE_CALLE}</option>`;
