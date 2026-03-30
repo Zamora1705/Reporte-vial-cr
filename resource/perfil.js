@@ -206,6 +206,38 @@ $(function () {
 
     });
 
+    $('.btnContraAA').click(function (){
+
+        $('.btnContraAA').hide();
+        $('.btnContraA').show();
+        $('#Contra').attr('type', 'text');
+
+    });
+
+    $('.btnContraA').click(function (){
+
+        $('.btnContraA').hide();
+        $('.btnContraAA').show();
+        $('#Contra').attr('type', 'password');
+
+    });
+
+    $('.btnOjo').click(function (){
+
+        $('.btnOjo').hide();
+        $('.btnOjoCerrar').show();
+        $('#NewContra').attr('type', 'text');
+
+
+    });
+
+    $('.btnOjoCerrar').click(function (){
+
+        $('.btnOjoCerrar').hide();
+        $('.btnOjo').show();
+        $('#NewContra').attr('type', 'password');
+
+
+    });
 
 });
-

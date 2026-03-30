@@ -70,22 +70,30 @@ $Correo = $_SESSION['Correo'];
             <div class='row mt-5'>
                 <hr>
                 <h2>Cambiar Contraseña</h2>
-                <div class='col-6 pt-3' >
+                <div class='col-6 pt-3 estructuracontra' >
                 <label for='contra' class='form-label'>Contraseña actual</label>
-                <input type='text' type='password' id='Contra' class='form-control' >
+                <input type='password' id='Contra' class='form-control' >
+
+                <button style='display:none;' class='btnContraA' ><i class='fa-solid fa-eye'></i></button>
+                <button class='btnContraAA' ><i class='fa-solid fa-eye-slash'></i></button>
+
                 </div>
                 <form id='formularioNuevaContrasena' >
                 <div class='row pt-2'>
-                <div class='col-6'>
+                <div class='col-6 estructuracontra'>
                 <label for='NewContra' class='form-label'>Nueva contraseña</label>
-                <input type='text' type='password' id='NewContra' name='NewContra' class='form-control' >
+                <input type='password' id='NewContra' name='NewContra' class='form-control' >
+                <button class='btnOjo' ><i style='display:none;' class='fa-solid fa-eye'></i></button>
+                <button class='btnOjoCerrar' ><i class='fa-solid fa-eye-slash'></i></button>
 
                 </div>
 
-                <div class='col-6'>
+                <div class='col-6 estructuracontra'>
 
                 <label for='NewContra2' class='form-label'>Repetir nueva contraseña</label>
                 <input type='text' type='password' id='NewContra2' class='form-control' >
+                <button class='btnOjo' ><i style='display:none;' class='fa-solid fa-eye'></i></button>
+                <button class='btnOjoCerrar' ><i class='fa-solid fa-eye-slash'></i></button>
 
                 </div>
 

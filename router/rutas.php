@@ -2,9 +2,20 @@
 
 require_once '../controller/UsuariosController.php';
 require_once '../controller/TipoDanoController.php';
+require_once '../controller/CategoriaController.php';
+require_once '../controller/ProvinciaController.php';
+require_once '../controller/CantonController.php';
+require_once '../controller/DistritoController.php';
+require_once '../controller/CalleController.php';
+
 
 $usuarios = new UsuariosController();
 $TipoDano = new TipoDanoController();
+$Categoria = new CategoriaController();
+$Provincia = new ProvinciaController();
+$Canton = new CantonController();
+$Distrito = new DistritoController();
+$Calle = new CalleController();
 
 $action = $_GET['action'] ?? '';
 
@@ -42,6 +53,26 @@ switch ($action){
    case 'obtenerTipoDanos':
     $TipoDano->listado();
     break;
+
+   case 'obtenerCategorias':
+    $Categoria->listado();
+    break; 
+
+   case 'obtenerProvincias':
+    $Provincia->listado();
+    break; 
+
+   case 'obtenerCantones':
+    $Canton->listado();
+    break; 
+
+   case 'obtenerDistritos':
+    $Distrito->listado();
+    break; 
+
+   case 'obtenerCalles':
+    $Calle->listado();
+    break; 
  
 
 }

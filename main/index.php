@@ -26,11 +26,11 @@ session_start();
                 <h1 id="titulo-header">Reporte Vial</h1>
                 <button class="botonAgregar">Crear reporte <i class="fa-solid fa-plus"></i></button>
                 <?php
-                if(isset($_SESSION['Usuario'])){
+                if (isset($_SESSION['Usuario'])) {
 
-                    echo " <p class='bienvenida' >Bienvenido, ".  $_SESSION['Usuario'] ."</p>";
+                    echo " <p class='bienvenida' >Bienvenido, " . $_SESSION['Usuario'] . "</p>";
                 }
-               
+
                 ?>
             </div>
             <ul>
@@ -38,7 +38,7 @@ session_start();
 
                 if (isset($_SESSION['Usuario'])) {
 
-                echo "<li>
+                    echo "<li>
                     <div class='dropdown'>
                         <button class='btn btn-secondary dropdown-toggle' type='button' id='dropdownMenuButton'
                             data-bs-toggle='dropdown' aria-haspopup='true' aria-expanded='false'>
@@ -52,13 +52,13 @@ session_start();
                         </div>
                     </div>
                 </li>";
-                }else
+                } else
 
-                echo  "<li><a href='managementuser/login.php'>Acceder <i class='fa-solid fa-arrow-right-to-bracket'></i></a>
+                    echo "<li><a href='managementuser/login.php'>Acceder <i class='fa-solid fa-arrow-right-to-bracket'></i></a>
                 </li>
                 <li><a href='managementuser/registro.php'>Registrarse <i class='fa-solidfa-user-plus'></i></a></li>";
 
-                
+
 
 
                 ?>
@@ -153,25 +153,59 @@ session_start();
     </footer>
 
     <div class='modal' id='nuevoReporte' tabindex='-1'>
-  <div class='modal-dialog'>
-    <div class='modal-content'>
-      <div class='modal-header'>
-        <h5 class='modal-title'>Reportar Daño</h5>
-        <button type='button' class='btn-close' data-bs-dismiss='modal' aria-label='Close'></button>
-      </div>
-      <form id='formularioNuevoReporte'>
-      <div class='modal-body'>
-        <select name="tipodano" id="tipodano"></select>
-
-      
-      </div>
-      <div class='modal-footer'>
-        <button type='submit' class='btn w-100'>Generar reporte</button>
-      </div>
-      </form>
+        <div class='modal-dialog'>
+            <div class='modal-content'>
+                <div class='modal-header'>
+                    <h5 class='modal-title'>Reportar Daño</h5>
+                    <button type='button' id="botonCerrarModel" class='btn-close' data-bs-dismiss='modal' aria-label='Close'></button>
+                </div>
+                <form id='formularioNuevoReporte'>
+                    <div class='modal-body'>
+                        <div class="select">
+                            <label for="tipodano" class="form-label">Tipo de daño</label>
+                            <select name="tipodano" class="form-control" id="tipodano">
+                                <option value="">Hueco</option>
+                            </select>
+                        </div>
+                        <div class="select mt-3">
+                            <label for="Categoria" class="form-label">Categoría del daño</label>
+                            <select name="Categoria" class="form-control" id="Categoria">
+                                <option value="">Hueco</option>
+                            </select>
+                        </div>
+                        <div class="select mt-3">
+                            <label for="Provincia" class="form-label">Provincia</label>
+                            <select name="Provincia" class="form-control" id="Provincia">
+                                <option value="">Hueco</option>
+                            </select>
+                        </div>
+                        <div id="bloqueCanton" class="select mt-3">
+                            <label for="Canton" class="form-label">Cantón</label>
+                            <select name="Canton" class="form-control" id="Canton">
+                                <option value="">Hueco</option>
+                            </select>
+                        </div>
+                        <div id="bloqueDistrito" class="select mt-3">
+                            <label for="Distrito" class="form-label">Distrito (opcional)</label>
+                            <select name="Distrito" class="form-control" id="Distrito">
+                                <option value="">Hueco</option>
+                            </select>
+                        </div>
+                        <div id="bloqueCalle" class="select mt-3">
+                            <label for="calle" class="form-label">Nombre de la calle (opcional)</label>
+                            <select name="calle" class="form-control" id="calle">
+                                <option value="">Hueco</option>
+                            </select>
+                        </div>
+                        
+                    </div>
+                    <div class='modal-footer'>
+                        <button type='submit' class='btn w-100'>Generar reporte</button>
+                    </div>
+                </form>
+            </div>
+        </div>
     </div>
-  </div>
-</div>
 
 
 
