@@ -23,8 +23,11 @@ $(function () {
                 $('#Longitud').attr('value', lon);
                 $('#Latitud').attr('value', lat);
 
+               });  
+
                 $('#formularioNuevoReporte').submit(function (e){
 
+                     console.log('Se ejecuto el formulario');
                     e.preventDefault();
 
                     $.ajax({
@@ -35,6 +38,7 @@ $(function () {
                         data: $(this).serialize(),
 
                         success: function(response){
+                            console.log('Se ejecuto el formulario y entro en funcion success');
 
                             if(response.status == 'success'){
 
@@ -63,7 +67,7 @@ $(function () {
                 });
 
 
-            });
+           
 
             L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
                 attribution: '&copy; OpenStreetMap contributors'
