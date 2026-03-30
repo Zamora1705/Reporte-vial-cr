@@ -20,6 +20,48 @@ $(function () {
                 $('#Distrito').prop('disabled', true);
                 $('#calle').prop('disabled', true);
 
+                $('#Longitud').attr('value', lon);
+                $('#Latitud').attr('value', lat);
+
+                $('#formularioNuevoReporte').submit(function (e){
+
+                    e.preventDefault();
+
+                    $.ajax({
+
+                        url: '../router/rutas.php?crearReporte',
+                        method: 'POST',
+                        dataType: 'json',
+                        data: $(this).serialize(),
+
+                        success: function(response){
+
+                            if(response.status == 'success'){
+
+                                Swal.fire('! Reporte perfectamente generado ¡', '', 'success');
+                                setTimeout(function (){
+
+                                    window.location.reload();
+
+                                }, 1000);
+                            }else{
+
+                                Swal.fire('Error en generar el reporte', '', 'error');
+                            }
+
+
+                        }, error: function(xhr, status){
+
+                            console.log('Error: ', xhr.responseText);
+                            console.log('status:', status);
+                        }
+
+
+                    });
+
+
+                });
+
 
             });
 

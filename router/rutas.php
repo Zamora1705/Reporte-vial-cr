@@ -7,6 +7,7 @@ require_once '../controller/ProvinciaController.php';
 require_once '../controller/CantonController.php';
 require_once '../controller/DistritoController.php';
 require_once '../controller/CalleController.php';
+require_once '../controller/ReporteController.php';
 
 
 $usuarios = new UsuariosController();
@@ -16,6 +17,7 @@ $Provincia = new ProvinciaController();
 $Canton = new CantonController();
 $Distrito = new DistritoController();
 $Calle = new CalleController();
+$Reporte = new ReporteController();
 
 $action = $_GET['action'] ?? '';
 
@@ -73,6 +75,10 @@ switch ($action){
    case 'obtenerCalles':
     $Calle->listado();
     break; 
+
+   case 'crearReporte' :
+    $Reporte->create();
+    break;
  
 
 }
