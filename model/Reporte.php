@@ -13,9 +13,9 @@ class Reporte{
 
     public function create($Longitud, $Latitud, $Tipodano, $Categoria, $Usuario, $Provincia, $Canton, $Distrito, $Calle){
 
-        $query = "INSERT INTO Reporte (Longitud, Latitud, Tipo_Dano_FK, Categoria_FK, Usuario_FK, Provincia_nom, Canton_nom, 
-        Distrito_nom, Calle_FK) VALUES (:Longitud, :Latitud, :Tipodano, :Categoria, :Usuario, :Provincia, :Canton, :Distrito, 
-        :Calle)";
+        $query = "INSERT INTO Reporte (Tipo_Dano_FK, Categoria_FK, Usuario_FK, Calle_FK, Longitud, Latitud, Provincia
+        _nom, Canton_nom, Distrito_nom) VALUES (:Tipodano, :Categoria, :Usuario, :Calle, :Longitud, :Latitud,
+        :Provincia, :Canton, :Distrito)";
 
         $queryCommit = 'COMMIT';
 
