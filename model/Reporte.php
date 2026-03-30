@@ -1,7 +1,10 @@
 <?php
 
 
+
 require_once '../config/XEPDB1.php';
+
+
 
 class Reporte{
 
@@ -14,6 +17,7 @@ class Reporte{
 
     public function create($Longitud, $Latitud, $Tipodano, $Categoria, $Provincia, $Canton, $Distrito, $Calle){
 
+        session_start();
 
         $Usuario = $_SESSION['Cedula'];
 

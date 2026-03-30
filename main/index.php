@@ -202,8 +202,6 @@ session_start();
                             <input style="display:none;" type="text" name="Latitud" id="Latitud" >
                            
                         </div>
-                        
-                    </div>
                     <div class='modal-footer'>
                         <button type='submit' class='btn w-100'>Generar reporte</button>
                     </div>

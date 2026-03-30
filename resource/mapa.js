@@ -34,7 +34,7 @@ $(function () {
 
                         url: '../router/rutas.php?crearReporte',
                         method: 'POST',
-                        dataType: 'json',
+                
                         data: $(this).serialize(),
 
                         success: function(response){
