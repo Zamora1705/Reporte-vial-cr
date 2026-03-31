@@ -79,6 +79,10 @@ switch ($action){
    case 'crearReporte' :
     $Reporte->create();
     break;
+
+   case 'obtenerReportes':
+    $Reporte->listado();
+    break; 
  
 
 }

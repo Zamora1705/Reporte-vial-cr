@@ -44,6 +44,32 @@ class Reporte{
 
         return $result;
     }
+
+    public function listado(){
+
+        $query = "SELECT * FROM Reporte";
+
+        $smtp = oci_parse($this->DB, $query);
+
+        oci_execute($smtp);
+
+        $listado = [];
+
+        while($row = oci_fetch_assoc($smtp)){
+
+            $filaLimpia = [];
+
+            foreach($row as $key => $value){
+
+                $filaLimpia[$key] = mb_convert_encoding($value, 'UTF-8', 'Windows-1252');
+            }
+
+            $listado[] = $filaLimpia;
+
+        }
+
+        return $listado;
+    }
 }
 
 

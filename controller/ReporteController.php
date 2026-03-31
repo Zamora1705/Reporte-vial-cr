@@ -32,6 +32,15 @@ class ReporteController{
 
     }
 
+    public function listado(){
+
+        $Reporte = new Reporte();
+
+        $data = $Reporte->listado();
+
+        echo json_encode(['status'=>'success', 'data'=>$data]);
+    }
+
 
 }
 

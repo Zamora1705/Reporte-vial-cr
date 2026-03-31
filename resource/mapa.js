@@ -89,15 +89,7 @@ $(function () {
 
            
 
-            var puntero = L.divIcon({
-
-                className: 'custom-marker',
-                html: '<div class="pin"></div>',
-                iconSize: [32, 32],
-             
-
-
-            });
+          
 
             var marker2 = L.marker(['10.0044', '-84.2115'], {icon: puntero}).addTo(map);
 
@@ -119,13 +111,56 @@ $(function () {
 
            
 
-            marker1.bindPopup(
-
-                "<div style='height:auto;witdh:400px;background-color:blue;color:#F4F6F8' ><p>Daño: Hueco</p><p>Categoria: Grave</p><p>Provincia: Alajuela</p><p>Cantó: Alajuela</p><p>Distrito: El Coyol</p></div>"
-
-            ).openPopup();
+       
 
 
+            $.ajax({
+
+                url: '../router/rutas.php?action=obtenerReportes',
+                method: 'GET',
+                dataType: 'json',
+                success: function(response){
+
+                    if(response.status == 'success'){
+
+                        let marker = '';
+
+                        var puntero = L.divIcon({
+
+                            className: 'custom-marker',
+                            html: '<div class="pin"></div>',
+                            iconSize: [32, 32],
+                         
+                        });
+                        
+
+                        response.data.forEach(reporte=> {
+
+
+                            marker += `L.marker(['${reporte.LATITUD}', '${reporte.LONGITUD}'], {icon: puntero}).addTo(map)`;
+
+                            marker.bindPopup(
+
+                                `<div style='border:3px solid #2E6DA4;height:auto;witdh:400px;background-color:#1A3A5C;color:#F4F6F8' ><img style='width:100%;height:100%;object-fit:contain;' src='../image/hueco.png' ><div style='padding:20px;' ><p>Daño: ${reporte.NOMBRE_DANO}</p><p>Categoria: ${reporte.NOMBRE_CATEGORIA}</p><p>Provincia: ${reporte.NOMBRE_PROVINCIA}</p><p>Cantó: ${reporte.NOMBRE_CANTON}</p><p>Distrito: ${reporte.NOMBRE_DISTRITO}</p><button class='btn btn-success w-100' >Asignar responsable</button></div></div>`
+                                
+                            ).openPopup();
+
+
+                        });
+
+                    }else{
+
+                        Swal.fire('Error en cargar los reportes', '', 'error');
+
+                    }
+                }, error: function(xhr, status){
+
+                    console.log("ERROR:", xhr.responseText);
+                    console.log('status:', status);
+                }
+
+
+            });
             
 
 
@@ -468,44 +503,7 @@ $(function () {
 
     }
 
-    obtenerReportes();
-
-    function obtenerReportes(){
-
-        $.ajax({
-
-            url: '../router/rutas.php?action=obtenerReportes',
-            method: 'GET',
-            dataType: 'json',
-            success: function(response){
-
-                if(response.status == 'success'){
-
-                    let markers = ''
-
-                    response.data.forEach(reporte =>{
-
-                        
-
-                    });
-
-
-                }else{
-
-                    Swal.fire('Error en la obtención de los reportes', '', 'error');
-                }
-
-
-            }, error: function(xhr, status){
-
-                console.log('ERROR:', xhr.responseText);
-                console.log('status:', status);
-            }
-            
-
-
-        });
-    }
+    
 
    
 
