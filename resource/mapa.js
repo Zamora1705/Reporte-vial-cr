@@ -3,6 +3,7 @@ $(function () {
     var lat;
     var lon;
     var map;
+    var puntero;
     navigator.geolocation.getCurrentPosition(
 
         (position) => {
@@ -87,33 +88,7 @@ $(function () {
                 "<h4>Estas aquí</h4>"
             ).openPopup();
 
-           
-
-          
-
-            var marker2 = L.marker(['10.0044', '-84.2115'], {icon: puntero}).addTo(map);
-
-            marker2.bindPopup(
-
-                "<div style='border:3px solid #2E6DA4;height:auto;witdh:400px;background-color:#1A3A5C;color:#F4F6F8' ><img style='width:100%;height:100%;object-fit:contain;' src='../image/hueco.png' ><div style='padding:20px;' ><p>Daño: Hueco</p><p>Categoria: Grave</p><p>Provincia: Alajuela</p><p>Cantó: Alajuela</p><p>Distrito: El Coyol</p><button class='btn btn-success w-100' >Asignar responsable</button></div></div>"
-
-
-            ).openPopup();
-
-            var icono = L.icon({
-
-                iconUrl: '../image/hueco.png',
-                iconSize: [40, 40],
-                iconAnchor: [20, 40],
-                popoupAnchor: [0, -40]
-
-            });
-
-           
-
-       
-
-
+    
             $.ajax({
 
                 url: '../router/rutas.php?action=obtenerReportes',
@@ -123,9 +98,10 @@ $(function () {
 
                     if(response.status == 'success'){
 
-                        let marker = '';
+                        console.log('obtencion satisfactoria de los reportes');
+                      
 
-                        var puntero = L.divIcon({
+                        puntero = L.divIcon({
 
                             className: 'custom-marker',
                             html: '<div class="pin"></div>',
@@ -137,11 +113,11 @@ $(function () {
                         response.data.forEach(reporte=> {
 
 
-                            marker += `L.marker(['${reporte.LATITUD}', '${reporte.LONGITUD}'], {icon: puntero}).addTo(map)`;
+                           let marker = L.marker([(reporte.LATITUD), (reporte.LONGITUD)], {icon: puntero}).addTo(map);
 
                             marker.bindPopup(
 
-                                `<div style='border:3px solid #2E6DA4;height:auto;witdh:400px;background-color:#1A3A5C;color:#F4F6F8' ><img style='width:100%;height:100%;object-fit:contain;' src='../image/hueco.png' ><div style='padding:20px;' ><p>Daño: ${reporte.NOMBRE_DANO}</p><p>Categoria: ${reporte.NOMBRE_CATEGORIA}</p><p>Provincia: ${reporte.NOMBRE_PROVINCIA}</p><p>Cantó: ${reporte.NOMBRE_CANTON}</p><p>Distrito: ${reporte.NOMBRE_DISTRITO}</p><button class='btn btn-success w-100' >Asignar responsable</button></div></div>`
+                                `<div style='border:3px solid #2E6DA4;height:auto;witdh:400px;background-color:#1A3A5C;color:#F4F6F8' ><img style='width:100%;height:100%;object-fit:contain;' src='../image/hueco.png' ><div style='padding:20px;' ><p>Daño: ${reporte.NOMBRE_DANO}</p><p>Categoria: ${reporte.NOMBRE_CATEGORIA}</p><p>Provincia: ${reporte.PROVINCIA_NOM}</p><p>Cantó: ${reporte.CANTON_NOM}</p><p>Distrito: ${reporte.DISTRITO_NOM}</p><p>Fecha: ${reporte.FECHA}</p><button class='btn btn-success w-100' >Asignar responsable</button></div></div>`
                                 
                             ).openPopup();
 
