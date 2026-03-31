@@ -101,28 +101,75 @@ $(function () {
                         console.log('obtencion satisfactoria de los reportes');
                       
 
-                        puntero = L.divIcon({
-
-                            className: 'custom-marker',
-                            html: '<div class="pin"></div>',
-                            iconSize: [32, 32],
-                         
-                        });
                         
 
                         response.data.forEach(reporte=> {
+
+                            let image = '';
+
+                            if(reporte.NOMBRE_DANO == 'Hueco' ){
+
+                                image = '../image/hueco.png';
+
+                            }else if(reporte.NOMBRE_DANO == 'Daño en desague'){
+
+                                image = '../image/desague.png';
+
+                            }else if (reporte.NOMBRE_DANO == 'Semaforo dañado'){
+
+                                image = '../image/semaforo.png';
+
+                            }
+
+                            if(reporte.NOMBRE_CATEGORIA == 'Leve'){
+
+                                  puntero = L.divIcon({
+
+                                  className: 'custom-marker-leve',
+                                  html: '<div class="pin-leve"></div>',
+                                  iconSize: [32, 32],
+                         
+                                 });
+
+                            }else if (reporte.NOMBRE_CATEGORIA == 'Medio'){
+
+                                 puntero = L.divIcon({
+
+                                  className: 'custom-marker-medio',
+                                  html: '<div class="pin-medio"></div>',
+                                  iconSize: [32, 32],
+                         
+                                 });
+                                
+                            }else{
+
+                                 puntero = L.divIcon({
+
+                                  className: 'custom-marker',
+                                  html: '<div class="pin"></div>',
+                                  iconSize: [32, 32],
+                         
+                                 });
+
+
+                            }
+
+                          
+
 
 
                            let marker = L.marker([(reporte.LATITUD), (reporte.LONGITUD)], {icon: puntero}).addTo(map);
 
                             marker.bindPopup(
 
-                                `<div style='border:3px solid #2E6DA4;height:auto;witdh:400px;background-color:#1A3A5C;color:#F4F6F8' ><img style='width:100%;height:100%;object-fit:contain;' src='../image/hueco.png' ><div style='padding:20px;' ><p>Daño: ${reporte.NOMBRE_DANO}</p><p>Categoria: ${reporte.NOMBRE_CATEGORIA}</p><p>Provincia: ${reporte.PROVINCIA_NOM}</p><p>Cantó: ${reporte.CANTON_NOM}</p><p>Distrito: ${reporte.DISTRITO_NOM}</p><p>Fecha: ${reporte.FECHA}</p><button class='btn btn-success w-100' >Asignar responsable</button></div></div>`
+                                `<div style='border:3px solid #2E6DA4;height:auto;witdh:400px;background-color:#1A3A5C;color:#F4F6F8' ><img style='width:100%;height:100%;object-fit:contain;' src='${image}' ><div style='padding:20px;' ><p>Daño: ${reporte.NOMBRE_DANO}</p><p class='categoriaDano' >Categoria: ${reporte.NOMBRE_CATEGORIA}</p><p>Provincia: ${reporte.PROVINCIA_NOM}</p><p>Cantó: ${reporte.CANTON_NOM}</p><p>Distrito: ${reporte.DISTRITO_NOM}</p><p>Fecha: ${reporte.FECHA}</p><button class='btn btn-success w-100' >Asignar responsable</button></div></div>`
                                 
                             ).openPopup();
 
 
                         });
+
+                        
 
                     }else{
 
@@ -478,6 +525,8 @@ $(function () {
 
 
     }
+
+    
 
     
 

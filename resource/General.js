@@ -5,7 +5,7 @@ $(function(){
 
     categoria.forEach(categoria => {
 
-        let texto = categoria .textContent;
+        let texto = categoria.textContent;
 
     if(texto == 'Grave'){
 

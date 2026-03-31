@@ -541,6 +541,25 @@ footer .content-socialmedia ul li a p{
 
 }
 
+.custom-marker-leve, .pin-leve{
+
+    width:  30px;
+    height: 30px;
+    background: green;
+    border-radius: 30px;
+    border: 2px solid white;
+}
+
+.custom-marker-medio, .pin-medio{
+
+    width:  30px;
+    height: 30px;
+    background: orange;
+    border-radius: 30px;
+    border: 2px solid white;
+
+}
+
 .pin img{
 
     object-fit: cover;
