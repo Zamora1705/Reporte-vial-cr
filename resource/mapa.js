@@ -2,6 +2,7 @@ $(function () {
 
     var lat;
     var lon;
+    var map;
     navigator.geolocation.getCurrentPosition(
 
         (position) => {
@@ -10,7 +11,7 @@ $(function () {
 
             const longitude = position.coords.longitude;
 
-            var map = L.map('map').setView([latitude, longitude], 25);
+            map = L.map('map').setView([latitude, longitude], 25);
 
             map.on('click', function (e) {
 
@@ -85,6 +86,34 @@ $(function () {
             marker.bindPopup(
                 "<h4>Estas aquí</h4>"
             ).openPopup();
+
+            var marker1 = L.marker(['10.0044', '-84.2115']).addTo(map);
+
+            var icono = L.icon({
+
+                iconUrl: '../image/hueco.png',
+                iconSize: [40, 40],
+                iconAnchor: [20, 40],
+                popoupAnchor: [0, -40]
+
+            });
+
+            var marker1 = L.marker(['10.0044', '-84.2115'], {icon: icono}).addTo(map);
+
+            marker1.bindPopup(
+
+                "<div style='height:50px;witdh:400px;background-color:blue;' >"+
+                
+                <p>Hola este es un reporte</p>
+                +"</div>"
+
+            ).openPopup();
+
+
+            
+
+
+
 
         },
 
@@ -423,6 +452,46 @@ $(function () {
 
     }
 
+    obtenerReportes();
+
+    function obtenerReportes(){
+
+        $.ajax({
+
+            url: '../router/rutas.php?action=obtenerReportes',
+            method: 'GET',
+            dataType: 'json',
+            success: function(response){
+
+                if(response.status == 'success'){
+
+                    let markers = ''
+
+                    response.data.forEach(reporte =>{
+
+                        
+
+                    });
+
+
+                }else{
+
+                    Swal.fire('Error en la obtención de los reportes', '', 'error');
+                }
+
+
+            }, error: function(xhr, status){
+
+                console.log('ERROR:', xhr.responseText);
+                console.log('status:', status);
+            }
+            
+
+
+        });
+    }
+
+   
 
 
 
