@@ -87,7 +87,26 @@ $(function () {
                 "<h4>Estas aquí</h4>"
             ).openPopup();
 
-            var marker1 = L.marker(['10.0044', '-84.2115']).addTo(map);
+           
+
+            var puntero = L.divIcon({
+
+                className: 'custom-marker',
+                html: '<div class="pin"></div>',
+                iconSize: [32, 32],
+             
+
+
+            });
+
+            var marker2 = L.marker(['10.0044', '-84.2115'], {icon: puntero}).addTo(map);
+
+            marker2.bindPopup(
+
+                "<div style='border:3px solid #2E6DA4;height:auto;witdh:400px;background-color:#1A3A5C;color:#F4F6F8' ><img style='width:100%;height:100%;object-fit:contain;' src='../image/hueco.png' ><div style='padding:20px;' ><p>Daño: Hueco</p><p>Categoria: Grave</p><p>Provincia: Alajuela</p><p>Cantó: Alajuela</p><p>Distrito: El Coyol</p><button class='btn btn-success w-100' >Asignar responsable</button></div></div>"
+
+
+            ).openPopup();
 
             var icono = L.icon({
 
@@ -98,14 +117,11 @@ $(function () {
 
             });
 
-            var marker1 = L.marker(['10.0044', '-84.2115'], {icon: icono}).addTo(map);
+           
 
             marker1.bindPopup(
 
-                "<div style='height:50px;witdh:400px;background-color:blue;' >"+
-                
-                <p>Hola este es un reporte</p>
-                +"</div>"
+                "<div style='height:auto;witdh:400px;background-color:blue;color:#F4F6F8' ><p>Daño: Hueco</p><p>Categoria: Grave</p><p>Provincia: Alajuela</p><p>Cantó: Alajuela</p><p>Distrito: El Coyol</p></div>"
 
             ).openPopup();
 
