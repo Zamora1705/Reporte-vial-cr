@@ -567,3 +567,58 @@ footer .content-socialmedia ul li a p{
     height: 100%;
    
 } 
+
+.contenedor-contra{
+
+    position: relative;
+}
+
+#btnVer{
+
+    position: absolute;
+    border: none;
+    background: transparent;
+    right: 50px;
+    top: 34px;
+    width: 0%;
+    
+}
+
+
+
+#btnNoVer{
+
+    position: absolute;
+    border: none;
+    background: transparent;
+    right: 50px;
+    top: 34px;
+    width: 0%;
+    
+
+}
+
+#btnVer1{
+
+    position: absolute;
+    border: none;
+    background: transparent;
+    right: 50px;
+    top: 34px;
+    width: 0%;
+    
+}
+
+
+
+#btnNoVer1{
+
+    position: absolute;
+    border: none;
+    background: transparent;
+    right: 50px;
+    top: 34px;
+    width: 0%;
+    
+
+}

@@ -47,15 +47,19 @@
             </div>
         </div>  
         <div class="row pt-3">
-            <div class="col-12">
+            <div  class="contenedor-contra" class="col-12">
                 <label for="Contra" class="form-label">Contraseña</label>
-                <input type="text" class="form-control" name='Contrasena' id="Contra">
+                <input type="password" class="form-control" name='Contrasena' id="Contra">
+                <button type="button" style="display:none;" id="btnVer" ><i style="color:#1A3A5C;" class="fa-solid fa-eye"></i></button>
+                <button type="button" id="btnNoVer"><i style="color:#1A3A5C ;" class="fa-solid fa-eye-slash"></i></button>
             </div>
         </div>  
         <div class="row pt-3">
-            <div class="col-12">
+            <div class="contenedor-contra" class="col-12">
                 <label for="CContra" class="form-label">Confirmar Contraseña</label>
-                <input type="text" class="form-control" id="CContra">
+                <input type="password" class="form-control" id="CContra">
+                <button type="button" style="display:none;" id="btnVer1" ><i style="color:#1A3A5C;" class="fa-solid fa-eye"></i></button>
+                <button type="button" id="btnNoVer1"><i style="color:#1A3A5C;" class="fa-solid fa-eye-slash"></i></button>
             </div>
         </div>    
 

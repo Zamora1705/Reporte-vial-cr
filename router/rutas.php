@@ -27,7 +27,7 @@ switch ($action){
     $usuarios->create();
     break;
     
-   case 'buscarCorreo':
+   case 'buscarUsuario':
     $usuarios->buscarUsuario();
     break;
 

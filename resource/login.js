@@ -6,7 +6,7 @@ $(function () {
 
         $.ajax({
 
-            url: '../../router/rutas.php?action=buscarCorreo',
+            url: '../../router/rutas.php?action=buscarUsuario',
             method: 'POST',
             dataType: 'json',
             data: $(this).serialize(),

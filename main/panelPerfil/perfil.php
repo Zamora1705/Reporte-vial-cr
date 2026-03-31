@@ -83,8 +83,8 @@ $Correo = $_SESSION['Correo'];
                 <div class='col-6 estructuracontra'>
                 <label for='NewContra' class='form-label'>Nueva contraseña</label>
                 <input type='password' id='NewContra' name='NewContra' class='form-control' >
-                <button class='btnOjo' ><i style='display:none;' class='fa-solid fa-eye'></i></button>
-                <button class='btnOjoCerrar' ><i class='fa-solid fa-eye-slash'></i></button>
+                <button type='button' class='btnOjo' ><i style='display:none;' class='fa-solid fa-eye'></i></button>
+                <button type='button' class='btnOjoCerrar' ><i class='fa-solid fa-eye-slash'></i></button>
 
                 </div>
 
@@ -92,8 +92,8 @@ $Correo = $_SESSION['Correo'];
 
                 <label for='NewContra2' class='form-label'>Repetir nueva contraseña</label>
                 <input type='text' type='password' id='NewContra2' class='form-control' >
-                <button class='btnOjo' ><i style='display:none;' class='fa-solid fa-eye'></i></button>
-                <button class='btnOjoCerrar' ><i class='fa-solid fa-eye-slash'></i></button>
+                <button type='button' class='btnOjo' ><i style='display:none;' class='fa-solid fa-eye'></i></button>
+                <button type='button' class='btnOjoCerrar' ><i class='fa-solid fa-eye-slash'></i></button>
 
                 </div>
 
