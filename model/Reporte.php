@@ -1,9 +1,7 @@
 <?php
 
 
-
 require_once '../config/XEPDB1.php';
-
 
 
 class Reporte{
@@ -21,8 +19,7 @@ class Reporte{
 
         $Usuario = $_SESSION['Cedula'];
 
-        $query = "INSERT INTO Reporte (Tipo_Dano_FK, Categoria_FK, Usuario_FK, Calle_FK, Longitud, Latitud, Provincia
-        _nom, Canton_nom, Distrito_nom) VALUES (:Tipodano, :Categoria, :Usuario, :Calle, :Longitud, :Latitud,
+        $query = "INSERT INTO Reporte (Tipo_Dano_FK, Categoria_FK, Usuario_FK, Calle_FK, Longitud, Latitud, Provincia_nom, Canton_nom, Distrito_nom) VALUES (:Tipodano, :Categoria, :Usuario, :Calle, :Longitud, :Latitud,
         :Provincia, :Canton, :Distrito)";
 
         $queryCommit = 'COMMIT';
@@ -39,6 +36,8 @@ class Reporte{
         oci_bind_by_name($smtp, ':Canton', $Canton);
         oci_bind_by_name($smtp, ':Distrito', $Distrito);
         oci_bind_by_name($smtp, ':Calle', $Calle);
+
+        
 
         $result = oci_execute($smtp);
         oci_execute($smtpCommit);

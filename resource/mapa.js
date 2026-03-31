@@ -1,5 +1,7 @@
 $(function () {
 
+    var lat;
+    var lon;
     navigator.geolocation.getCurrentPosition(
 
         (position) => {
@@ -12,14 +14,16 @@ $(function () {
 
             map.on('click', function (e) {
 
-                var lat = e.latlng.lat;
-                var lon = e.latlng.lng;
+                lat = e.latlng.lat;
+                lon = e.latlng.lng;
 
                 $('#nuevoReporte').modal('show');
                 $('#Canton').prop('disabled', true);
                 $('#Distrito').prop('disabled', true);
                 $('#calle').prop('disabled', true);
 
+                console.log(lon);
+                console.log(lat);
                 $('#Longitud').attr('value', lon);
                 $('#Latitud').attr('value', lat);
 
@@ -27,21 +31,24 @@ $(function () {
 
                 $('#formularioNuevoReporte').submit(function (e){
 
+                    
                      console.log('Se ejecuto el formulario');
+                     console.log(lon);
+                     console.log(lat);
                     e.preventDefault();
 
                     $.ajax({
 
-                        url: '../router/rutas.php?crearReporte',
+                        url: '../router/rutas.php?action=crearReporte',
                         method: 'POST',
-                
+                        dataType: 'json',
                         data: $(this).serialize(),
 
                         success: function(response){
-                            console.log('Se ejecuto el formulario y entro en funcion success');
+                          
 
                             if(response.status == 'success'){
-
+                                console.log('Se ejecuto el formulario y entro en funcion success');
                                 Swal.fire('! Reporte perfectamente generado ¡', '', 'success');
                                 setTimeout(function (){
 
@@ -390,7 +397,7 @@ $(function () {
                     options = ' <option>Seleccione la calle del suceso</option>';
                     response.data.forEach(item => {
 
-                        options += `<option value="${item.NOMBRE_CALLE}">${item.NOMBRE_CALLE}</option>`;
+                        options += `<option value="${item.CALLE_ID}">${item.NOMBRE_CALLE}</option>`;
 
 
                     });
