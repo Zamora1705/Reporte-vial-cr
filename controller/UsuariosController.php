@@ -25,6 +25,27 @@ class UsuariosController{
 
     }
 
+    public function buscarUsuarioRegistro(){
+
+        $Usuarios = new Usuarios();
+
+        $Usuario = $_POST['usuario'] ?? '';
+
+        $resultado = $Usuarios->buscarUsuarioRegistro($Usuario);
+
+        if($resultado){
+
+        echo json_encode(['status'=>'success', 'data'=>$resultado]);
+
+        }else{
+
+        echo json_encode(['status'=>'success', 'data'=>$resultado]);
+
+        }
+
+
+    }
+
     public function buscarUsuario(){
 
         $Usuarios = new Usuarios();

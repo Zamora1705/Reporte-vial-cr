@@ -31,6 +31,27 @@ class Usuarios{
         
     }
 
+    public function buscarUsuarioRegistro($Usuario){
+    
+    $query = "SELECT COUNT(*) AS Total FROM Usuarios WHERE Nombre = :Usuario";
+
+    $smtp = oci_parse($this->DB, $query);
+
+    oci_bind_by_name($smtp, ':Usuario', $Usuario);
+
+    oci_execute($smtp);
+
+    $row = oci_fetch_assoc($smtp);
+
+    $result = $row['TOTAL'];
+
+    return $result;
+
+   
+    
+    
+    }
+
     public function BuscarUsuario($Usuario){
 
         $query = "SELECT COUNT(*) AS Total FROM Usuarios WHERE Nombre = :Usuario";

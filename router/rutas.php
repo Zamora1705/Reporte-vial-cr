@@ -27,6 +27,10 @@ switch ($action){
     $usuarios->create();
     break;
     
+   case 'buscarUsuarioRegistro':
+    $usuarios->buscarUsuarioRegistro();
+    break;
+
    case 'buscarUsuario':
     $usuarios->buscarUsuario();
     break;
@@ -83,6 +87,8 @@ switch ($action){
    case 'obtenerReportes':
     $Reporte->listado();
     break; 
+
+
  
 
 }

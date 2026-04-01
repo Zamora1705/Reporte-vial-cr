@@ -3,30 +3,45 @@ $(function (){
     
     
     $("#formularioRegistroUsuario").submit(function(e){
+        let form = $(this);
         e.preventDefault();
         console.log('ejecutando formulario');
 
-        if(consultarUsuario($('#Usuario').val()) == 1){
-           
-            Swal.fire('El usuario que selecciono ya existe, favor de utilizar otro', '', 'error');
+        let usuario = $('#Usuario').val();
+        console.log('El usuario:', usuario);
 
-           
-
-      
-        }else if($('#Contra').val() !== $('#CContra').val()){
+           $.ajax({
 
 
+        url: '../../router/rutas.php?action=buscarUsuarioRegistro',
+        method: 'POST',
+        dataType: 'json',
+        data: { usuario : usuario},
 
-            Swal.fire('Las contraseñas no coinciden', '', 'error');
-            
+        success: function(response){
 
-        }else{
+            if(response.status=='success'){
 
-            $.ajax({
+                console.log('La busqueda del usuario fue success y el resultado es:', response.data);
+                if(response.data>0){
+                    
+
+
+                    Swal.fire('Lo sentimos este nombre de usuario ya existe', '', 'error');
+                      
+                }else{
+                    
+                    if($('#Contra').val() !== $('#CContra').val()){
+
+
+                        Swal.fire('Las contraseñas no coinciden', '', 'error');
+                    }else{
+
+                         $.ajax({
 
                 url: '../../router/rutas.php?action=crearUsuario',
                 method : 'POST',
-                data: $(this).serialize(),
+                data: form.serialize(),
                 dataType: 'json',
                 success: function (response){
                         console.log(response);
@@ -53,29 +68,14 @@ $(function (){
                 }
         
             });
+                    }
+                }
 
-        }
+              
 
+            }else{
 
-
-   
-
-});
-
-function consultarUsuario(usuario){
-
-    $.ajax({
-
-        url: '../router/rutas.php?action=buscarUsuarioRegistro',
-        method: 'POST',
-        dataType: 'json',
-        data: (usuario).serialize(),
-
-        success: function(response){
-
-            if(response.status=='success'){
-
-
+                Swal.fire('Error en verificar el usuario', '', 'error');
             }
 
 
@@ -85,7 +85,22 @@ function consultarUsuario(usuario){
             console.log('STATUS:', status);
         }
     });
-}
+
+           
+
+
+        
+
+
+  
+   
+
+});
+
+
+
+ 
+
 
 $('#btnNoVer').click(function() {
 

@@ -58,7 +58,7 @@ session_start();
 
                     echo "<li><a href='managementuser/login.php'>Acceder <i class='fa-solid fa-arrow-right-to-bracket'></i></a>
                 </li>
-                <li><a href='managementuser/registro.php'>Registrarse <i class='fa-solidfa-user-plus'></i></a></li>";
+                <li><a href='managementuser/registro.php'>Registrarse <i class='fa-solid fa-user-plus'></i></a></li>";
 
 
 
