@@ -560,6 +560,16 @@ footer .content-socialmedia ul li a p{
 
 }
 
+.custom-marker-user, .pin-user{
+
+    width:  30px;
+    height: 30px;
+    background: blue;
+    border-radius: 30px;
+    border: 2px solid white;
+
+}
+
 .pin img{
 
     object-fit: cover;

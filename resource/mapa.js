@@ -99,6 +99,7 @@ $(function () {
                     if(response.status == 'success'){
 
                         console.log('obtencion satisfactoria de los reportes');
+                        console.log('Los datos son:', response.data);
                       
 
                         
@@ -154,17 +155,45 @@ $(function () {
 
                             }
 
-                          
+                            let sessionUsuario = $("#Identidad").val();
+                            console.log('La cedula de session es:', sessionUsuario, 'y el id del usuario recojido del listado es:', reporte.USUARIO_FK);
+
+                            if(reporte.USUARIO_FK == sessionUsuario){
+
+                                  puntero = L.divIcon({
+
+                                  className: 'custom-marker-user',
+                                  html: '<div class="pin-user"></div>',
+                                  iconSize: [32, 32],
+                         
+                                 });
+
+                            }                          
 
 
 
                            let marker = L.marker([(reporte.LATITUD), (reporte.LONGITUD)], {icon: puntero}).addTo(map);
+
+                           if (reporte.USUARIO_FK == sessionUsuario){
+
+
+                             marker.bindPopup(
+
+                                `<div style='border:3px solid #2E6DA4;height:auto;background-color:#1A3A5C;color:#F4F6F8' ><img style='width:100%;height:100%;object-fit:contain;' src='${image}' ><div style='padding:20px;' ><p>Daño: ${reporte.NOMBRE_DANO}</p><p class='categoriaDano' >Categoria: ${reporte.NOMBRE_CATEGORIA}</p><p>Provincia: ${reporte.PROVINCIA_NOM}</p><p>Cantó: ${reporte.CANTON_NOM}</p><p>Distrito: ${reporte.DISTRITO_NOM}</p><p>Fecha: ${reporte.FECHA}</p><button class='btn btn-success w-100' >Asignar responsable</button><div style='display:flex;gap:10px;padding-top:10px;' ><button onclick='EditarReporte(${reporte.REPORTE_ID})' class='btn btn-primary w-100' >Editar Reporte</button><button onclick='EliminarReporte(${reporte.REPORTE_ID})' class='btn btn-danger w-100' >Eliminar Reporte</button></div></div></div>`
+                                
+                            ).openPopup();
+
+
+
+                           }else{
 
                             marker.bindPopup(
 
                                 `<div style='border:3px solid #2E6DA4;height:auto;witdh:400px;background-color:#1A3A5C;color:#F4F6F8' ><img style='width:100%;height:100%;object-fit:contain;' src='${image}' ><div style='padding:20px;' ><p>Daño: ${reporte.NOMBRE_DANO}</p><p class='categoriaDano' >Categoria: ${reporte.NOMBRE_CATEGORIA}</p><p>Provincia: ${reporte.PROVINCIA_NOM}</p><p>Cantó: ${reporte.CANTON_NOM}</p><p>Distrito: ${reporte.DISTRITO_NOM}</p><p>Fecha: ${reporte.FECHA}</p><button class='btn btn-success w-100' >Asignar responsable</button></div></div>`
                                 
                             ).openPopup();
+
+                            }
 
 
                         });

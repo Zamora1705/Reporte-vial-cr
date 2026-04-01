@@ -2,6 +2,15 @@
 
 session_start();
 
+if(isset($_SESSION['Usuario'])){
+
+    $Cedula = $_SESSION['Cedula'];
+
+    echo "<input value='$Cedula' type='text' style='display:none;' id='Identidad' ></input>";
+
+
+}
+
 
 ?>
 
