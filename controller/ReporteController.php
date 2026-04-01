@@ -41,6 +41,25 @@ class ReporteController{
         echo json_encode(['status'=>'success', 'data'=>$data]);
     }
 
+    public function obtenerReporteByID(){
+
+        $Reporte = new Reporte();
+
+        $idReporte = $_GET['reporte_id'] ?? '';
+
+        $resultado = $Reporte->obtenerReporteByID($idReporte);
+
+        if($resultado){
+
+            echo json_encode(['status'=>'success', 'data'=>$resultado]);
+
+        }else{
+
+            echo json_encode(['status'=>'error']);
+
+        }
+    }
+
 
 }
 

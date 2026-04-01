@@ -88,6 +88,10 @@ switch ($action){
     $Reporte->listado();
     break; 
 
+   case 'obtenerReporteByID':
+   $Reporte->obtenerReporteByID();
+   break; 
+
 
  
 

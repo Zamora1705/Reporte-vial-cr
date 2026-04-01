@@ -120,6 +120,13 @@ $(function () {
 
                                 image = '../image/semaforo.png';
 
+                            }else if (reporte.NOMBRE_DANO == 'Grieta'){
+
+                                image = '../image/Grieta.png';
+
+                            }else if(reporte.NOMBRE_DANO == 'Señal caida'){
+
+                                image = '../image/SenalCaida.png';
                             }
 
                             if(reporte.NOMBRE_CATEGORIA == 'Leve'){
@@ -179,7 +186,7 @@ $(function () {
 
                              marker.bindPopup(
 
-                                `<div style='border:3px solid #2E6DA4;height:auto;background-color:#1A3A5C;color:#F4F6F8' ><img style='width:100%;height:100%;object-fit:contain;' src='${image}' ><div style='padding:20px;' ><p>Daño: ${reporte.NOMBRE_DANO}</p><p class='categoriaDano' >Categoria: ${reporte.NOMBRE_CATEGORIA}</p><p>Provincia: ${reporte.PROVINCIA_NOM}</p><p>Cantó: ${reporte.CANTON_NOM}</p><p>Distrito: ${reporte.DISTRITO_NOM}</p><p>Fecha: ${reporte.FECHA}</p><button class='btn btn-success w-100' >Asignar responsable</button><div style='display:flex;gap:10px;padding-top:10px;' ><button onclick='EditarReporte(${reporte.REPORTE_ID})' class='btn btn-primary w-100' >Editar Reporte</button><button onclick='EliminarReporte(${reporte.REPORTE_ID})' class='btn btn-danger w-100' >Eliminar Reporte</button></div></div></div>`
+                                `<div style='border:3px solid #2E6DA4;height:auto;background-color:#1A3A5C;color:#F4F6F8' ><img style='width:100%;height:100%;object-fit:contain;' src='${image}' ><div style='padding:20px;' ><p>Daño: ${reporte.NOMBRE_DANO}</p><p class='categoriaDano' >Categoria: ${reporte.NOMBRE_CATEGORIA}</p><p>Provincia: ${reporte.PROVINCIA_NOM}</p><p>Cantó: ${reporte.CANTON_NOM}</p><p>Distrito: ${reporte.DISTRITO_NOM}</p><p>Fecha: ${reporte.FECHA}</p><button class='btn btn-success w-100' >Asignar responsable <i class="fa-solid fa-hammer"></i></button><div style='display:flex;gap:10px;padding-top:10px;' ><button onclick='EditarReporte(${reporte.REPORTE_ID})' class='btn btn-primary w-100' >Editar Reporte</button><button onclick='EliminarReporte(${reporte.REPORTE_ID})' class='btn btn-danger w-100' >Eliminar Reporte</button></div></div></div>`
                                 
                             ).openPopup();
 
@@ -189,7 +196,7 @@ $(function () {
 
                             marker.bindPopup(
 
-                                `<div style='border:3px solid #2E6DA4;height:auto;witdh:400px;background-color:#1A3A5C;color:#F4F6F8' ><img style='width:100%;height:100%;object-fit:contain;' src='${image}' ><div style='padding:20px;' ><p>Daño: ${reporte.NOMBRE_DANO}</p><p class='categoriaDano' >Categoria: ${reporte.NOMBRE_CATEGORIA}</p><p>Provincia: ${reporte.PROVINCIA_NOM}</p><p>Cantó: ${reporte.CANTON_NOM}</p><p>Distrito: ${reporte.DISTRITO_NOM}</p><p>Fecha: ${reporte.FECHA}</p><button class='btn btn-success w-100' >Asignar responsable</button></div></div>`
+                                `<div style='border:3px solid #2E6DA4;height:auto;witdh:400px;background-color:#1A3A5C;color:#F4F6F8' ><img style='width:100%;height:100%;object-fit:contain;' src='${image}' ><div style='padding:20px;' ><p>Daño: ${reporte.NOMBRE_DANO}</p><p class='categoriaDano' >Categoria: ${reporte.NOMBRE_CATEGORIA}</p><p>Provincia: ${reporte.PROVINCIA_NOM}</p><p>Cantó: ${reporte.CANTON_NOM}</p><p>Distrito: ${reporte.DISTRITO_NOM}</p><p>Fecha: ${reporte.FECHA}</p><button class='btn btn-success w-100' >Asignar responsable <i class="fa-solid fa-hammer"></i></button></div></div>`
                                 
                             ).openPopup();
 
@@ -327,7 +334,7 @@ $(function () {
 
     cargarProvincias();
 
-    function cargarProvincias() {
+    function cargarProvincias(opcion) {
 
         $.ajax({
 
@@ -347,7 +354,17 @@ $(function () {
 
                     });
 
-                    $('#Provincia').html(options);
+                    if(opcion == 1){
+
+                        $('#ProvinciaOld').html(options);
+
+                    }else{
+
+                        $('#Provincia').html(options);
+
+                    }
+
+                   
 
 
 
@@ -404,7 +421,7 @@ $(function () {
     });
 
 
-    function cargarCantones() {
+    function cargarCantones(opcion) {
 
         let provincia = $('#Provincia').val();
 
@@ -429,7 +446,17 @@ $(function () {
 
                     });
 
-                    $('#Canton').html(options);
+                    if(opcion == 1){
+
+                        $('#CantonOld').html(options);
+
+                    }else{
+
+                        $('#Canton').html(options);
+
+                    }
+
+                    
 
 
 
@@ -459,7 +486,7 @@ $(function () {
 
     
 
-    function cargarDistritos() {
+    function cargarDistritos(opcion) {
 
         let canton = $('#Canton').val();
         console.log(canton);
@@ -484,7 +511,17 @@ $(function () {
 
                     });
 
-                    $('#Distrito').html(options);
+                    if(opcion == 1){
+
+                        $('#DistritoOld').html(options);
+
+                    }else{
+
+                        $('#Distrito').html(options);
+
+                    }
+
+                    
 
 
 
@@ -512,7 +549,7 @@ $(function () {
 
    
 
-    function cargarCalles() {
+    function cargarCalles(opcion) {
 
         let distrito = $('#Distrito').val();
 
@@ -534,7 +571,17 @@ $(function () {
 
                     });
 
-                    $('#calle').html(options);
+                    if(opcion == 1){
+
+
+                        $('#calleOld').html(options);
+                    }else{
+
+                        $('#calle').html(options);
+
+                    }
+
+                    
 
 
 
@@ -552,6 +599,61 @@ $(function () {
         });
 
 
+
+    }
+
+    function EditarReporte(Reporte_ID){
+
+        $.ajax({
+
+            url: '../router/rutas.php?action=obtenerReporteByID',
+            method: 'GET',
+            dataType: 'json',
+            data: {reporte_id : Reporte_ID},
+            success: function(response){
+
+                if(response.status == 'success'){
+
+                    let reporte = response.data;
+
+                    let tipodano = reporte.NOMBRE_DANO;
+                    let categoria = reporte.NOMBRE_CATEGORIA;
+                    let provincia = reporte.NOMBRE_PROVINCIA;
+                    let canton = reporte.NOMBRE_CANTON;
+                    let distrito = reporte.NOMBRE_DISTRITO;
+                    let calle = reporte.NOMBRE_CALLE;
+
+                    cargarProvincias(1);
+                    cargarCantones(1);
+                    cargarDistritos(1);
+                    cargarCalles(1);
+
+
+
+
+
+
+
+                    $('#EditarReporte').modal('show');
+
+
+
+                }else{
+
+                    Swal.fire('Error en editar reporte', '', 'error');
+                }
+
+
+            }, error: function(xhr, status){
+
+                console.log('ERROR:', xhr.responseText);
+                console.log('Status:', status);
+            }
+
+
+
+
+        });
 
     }
 

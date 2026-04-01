@@ -220,6 +220,63 @@ if(isset($_SESSION['Usuario'])){
         </div>
     </div>
 
+    <div class='modal' id='EditarReporte' tabindex='-1'>
+        <div class='modal-dialog'>
+            <div class='modal-content'>
+                <div class='modal-header'>
+                    <h5 class='modal-title'>Editar reportar</h5>
+                    <button type='button' id="botonCerrarModel" class='btn-close' data-bs-dismiss='modal' aria-label='Close'></button>
+                </div>
+                <form id='formularioEditarReporte'>
+                    <div class='modal-body'>
+                        <div class="select">
+                            <label for="tipodano" class="form-label">Tipo de daño</label>
+                            <select name="tipodano" class="form-control" id="tipodanoOld">
+                                <option value="">Seleccione el tipo de daño</option>
+                            </select>
+                        </div>
+                        <div class="select mt-3">
+                            <label for="Categoria" class="form-label">Categoría del daño</label>
+                            <select name="Categoria" class="form-control" id="CategoriaOld">
+                               
+                            </select>
+                        </div>
+                        <div class="select mt-3">
+                            <label for="Provincia" class="form-label">Provincia</label>
+                            <select name="Provincia" class="form-control" id="ProvinciaOld">
+                                
+                            </select>
+                        </div>
+                        <div id="bloqueCanton" class="select mt-3">
+                            <label for="Canton" class="form-label">Cantón</label>
+                            <select name="Canton" class="form-control" id="CantonOld">
+                              
+                            </select>
+                        </div>
+                        <div id="bloqueDistrito" class="select mt-3">
+                            <label for="Distrito" class="form-label">Distrito (opcional)</label>
+                            <select name="Distrito" class="form-control" id="DistritoOld">
+                              
+                            </select>
+                        </div>
+                        <div id="bloqueCalle" class="select mt-3 mb-3">
+                            <label for="calle" class="form-label">Nombre de la calle (opcional)</label>
+                            <select name="calle" class="form-control" id="calleOld">
+                
+                            </select>
+            
+                            <input style="display:none;" type="text" name="Longitud" id="Longitud" >
+                            <input style="display:none;" type="text" name="Latitud" id="Latitud" >
+                           
+                        </div>
+                    <div class='modal-footer'>
+                        <button type='submit' class='btn w-100'>Editar reporte</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
 
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.bundle.min.js"></script>

@@ -71,6 +71,22 @@ class Reporte{
 
         return $listado;
     }
+
+    public function obtenerReporteByID($idReporte){
+
+        $query = "SELECT t.Nombre_dano, c.Nombre_categoria, r.Fecha, r.Longitud, r.Latitud, r.Provincia_nom, r.Canton_nom, r.Distrito_nom
+        FROM Reporte r INNER JOIN Categoria c ON r.Categoria_FK = c.Categoria_ID INNER JOIN Tipo_dano t ON r.Tipo_Dano_FK = t.Dano_ID WHERE r.Reporte_ID = :idReporte";
+
+        $smtp = oci_parse($this->DB, $query);
+
+        oci_bind_by_name($smtp, ':idReporte', $idReporte);
+
+        oci_execute($smtp);
+
+        $row = oci_fetch_assoc($smtp);
+
+        return $row;
+    }
 }
 
 
