@@ -92,6 +92,14 @@ switch ($action){
    $Reporte->obtenerReporteByID();
    break; 
 
+   case 'editarReporte':
+   $Reporte->editarReporte();
+   break;
+
+   case 'eliminarReporte':
+      $Reporte->eliminarReporte();
+      break;
+
 
  
 

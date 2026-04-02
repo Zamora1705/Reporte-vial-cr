@@ -74,8 +74,9 @@ class Reporte{
 
     public function obtenerReporteByID($idReporte){
 
-        $query = "SELECT t.Nombre_dano, c.Nombre_categoria, r.Fecha, r.Longitud, r.Latitud, r.Provincia_nom, r.Canton_nom, r.Distrito_nom
-        FROM Reporte r INNER JOIN Categoria c ON r.Categoria_FK = c.Categoria_ID INNER JOIN Tipo_dano t ON r.Tipo_Dano_FK = t.Dano_ID WHERE r.Reporte_ID = :idReporte";
+        $query = "SELECT t.Nombre_dano, t.Dano_ID , c.Categoria_ID, c.Nombre_categoria, r.Fecha, r.Reporte_ID, r.Longitud, r.Latitud, r.Provincia_nom, r.Canton_nom, r.Distrito_nom, r.Calle_FK, a.Nombre_calle
+        FROM Reporte r INNER JOIN Categoria c ON r.Categoria_FK = c.Categoria_ID INNER JOIN Tipo_dano t ON r.Tipo_Dano_FK = t.Dano_ID INNER JOIN Calle_Report a 
+        ON r.Calle_FK = a.Calle_ID WHERE r.Reporte_ID = :idReporte";
 
         $smtp = oci_parse($this->DB, $query);
 
@@ -86,6 +87,50 @@ class Reporte{
         $row = oci_fetch_assoc($smtp);
 
         return $row;
+    }
+
+    public function editarReporte($Tipodano, $Categoria, $Provincia, $Canton, $Distrito, $Calle, $idReporte){
+
+       
+
+          $query="UPDATE Reporte SET Tipo_Dano_FK = :Tipodano, Categoria_FK = :Categoria, Calle_FK = :Calle, 
+          Provincia_nom = :Provincia, Canton_nom = :Canton, Distrito_nom = :Distrito WHERE Reporte_ID = :idReporte";
+          $queryCommit = "COMMIT";
+
+          $smtp=oci_parse($this->DB, $query);
+          $smtpCommit=oci_parse($this->DB, $queryCommit);
+
+          
+        oci_bind_by_name($smtp, ':Tipodano', $Tipodano);
+        oci_bind_by_name($smtp, ':Categoria', $Categoria);
+        oci_bind_by_name($smtp, ':Provincia', $Provincia);
+        oci_bind_by_name($smtp, ':Canton', $Canton);
+        oci_bind_by_name($smtp, ':Distrito', $Distrito);
+        oci_bind_by_name($smtp, ':Calle', $Calle);
+        oci_bind_by_name($smtp, ':idReporte', $idReporte);
+
+        $result = oci_execute($smtp);
+        oci_execute($smtpCommit);
+
+        return $result;
+
+    }
+
+    public function eliminarReporte($idreporte){
+
+    $query="DELETE FROM Reporte WHERE Reporte_ID = :idreporte";
+    $queryCommit = "COMMIT";
+
+    $smtp = oci_parse($this->DB, $query);
+    $smtpCommit=oci_parse($this->DB, $queryCommit);
+
+    oci_bind_by_name($smtp, ':idreporte', $idreporte);
+
+    $result = oci_execute($smtp);
+    oci_execute($smtpCommit);
+    
+    return $result;
+
     }
 }
 

@@ -165,6 +165,9 @@ $(function () {
                             let sessionUsuario = $("#Identidad").val();
                             console.log('La cedula de session es:', sessionUsuario, 'y el id del usuario recojido del listado es:', reporte.USUARIO_FK);
 
+                          
+
+
                             if(reporte.USUARIO_FK == sessionUsuario){
 
                                   puntero = L.divIcon({
@@ -334,7 +337,7 @@ $(function () {
 
     cargarProvincias();
 
-    function cargarProvincias(opcion) {
+    function cargarProvincias() {
 
         $.ajax({
 
@@ -354,15 +357,11 @@ $(function () {
 
                     });
 
-                    if(opcion == 1){
-
-                        $('#ProvinciaOld').html(options);
-
-                    }else{
+                 
 
                         $('#Provincia').html(options);
 
-                    }
+                    
 
                    
 
@@ -446,15 +445,11 @@ $(function () {
 
                     });
 
-                    if(opcion == 1){
-
-                        $('#CantonOld').html(options);
-
-                    }else{
+                 
 
                         $('#Canton').html(options);
 
-                    }
+                    
 
                     
 
@@ -511,15 +506,10 @@ $(function () {
 
                     });
 
-                    if(opcion == 1){
-
-                        $('#DistritoOld').html(options);
-
-                    }else{
-
+                  
                         $('#Distrito').html(options);
 
-                    }
+                    
 
                     
 
@@ -571,15 +561,11 @@ $(function () {
 
                     });
 
-                    if(opcion == 1){
-
-
-                        $('#calleOld').html(options);
-                    }else{
+                
 
                         $('#calle').html(options);
 
-                    }
+                    
 
                     
 
@@ -602,7 +588,7 @@ $(function () {
 
     }
 
-    function EditarReporte(Reporte_ID){
+     window.EditarReporte = function(Reporte_ID){
 
         $.ajax({
 
@@ -614,29 +600,258 @@ $(function () {
 
                 if(response.status == 'success'){
 
+                    console.log('Datos del reporte:', response.data);
+
                     let reporte = response.data;
 
                     let tipodano = reporte.NOMBRE_DANO;
                     let categoria = reporte.NOMBRE_CATEGORIA;
-                    let provincia = reporte.NOMBRE_PROVINCIA;
-                    let canton = reporte.NOMBRE_CANTON;
-                    let distrito = reporte.NOMBRE_DISTRITO;
+                    let provincia = reporte.PROVINCIA_NOM;
+                    let canton = reporte.CANTON_NOM;
+                    let distrito = reporte.DISTRITO_NOM;
                     let calle = reporte.NOMBRE_CALLE;
+                    let tipodano_id = reporte.DANO_ID;
+                    let categoriaId = reporte.CATEGORIA_ID;
+                    let reporteid = reporte.REPORTE_ID;
+                    let calleid = reporte.CALLE_FK;
 
-                    cargarProvincias(1);
-                    cargarCantones(1);
-                    cargarDistritos(1);
-                    cargarCalles(1);
+                    $('#idreporte').attr('value', reporteid);
 
-
-
-
-
+                   
 
 
-                    $('#EditarReporte').modal('show');
+                    $('#EditarReporte').appendTo('body').modal('show');
+
+                     $.ajax({
+            url: '../router/rutas.php?action=obtenerTipoDanos',
+            method: 'GET',
+            dataType: 'json',
+            success: function (response) {
+
+                if (response.status == 'success') {
+                    
+                    let options = '';
+
+                    options =  `<option value='${tipodano_id}' >${tipodano}</option> `;
+                    response.data.forEach(data => {
+
+                        if(tipodano_id !== data.DANO_ID){
+
+                        options += `<option value="${data.DANO_ID}">${data.NOMBRE_DANO}</option>`;
+
+                        }
+
+                    });
 
 
+                    $('#tipodanoOld').html(options);
+
+                } else {
+
+                    console.log('ocurrio un error en la obtencion de los datos');
+
+
+                }
+            }, error: function (xhr, status, error) {
+
+                console.log('error:', xhr);
+                console.log('error como tal:', xhr.responseText);
+                console.log('status', status);
+
+
+            }
+
+
+        });
+
+         $.ajax({
+
+            url: '../router/rutas.php?action=obtenerCategorias',
+            method: 'GET',
+            dataType: 'json',
+            success: function (response) {
+
+                if (response.status == 'success') {
+
+                    let options = '';
+                    options = `<option value='${categoriaId}'>${categoria}</option>`;
+
+                    response.data.forEach(item => {
+
+                        if(categoriaId !== item.CATEGORIA_ID){
+
+
+                        options += `<option value="${item.CATEGORIA_ID}">${item.NOMBRE_CATEGORIA} (${item.DESCRIPCION})</option>`;
+
+                        }
+
+                    });
+
+                    $('#CategoriaOld').html(options);
+
+
+
+
+
+                }
+            }, error: function (xhr, status, error) {
+
+                console.log('ERROR:', xhr.responseText);
+                console.log('status:', status);
+
+            }
+
+
+        });
+        
+         $.ajax({
+
+            url: '../router/rutas.php?action=obtenerProvincias',
+            method: 'GET',
+            dataType: 'json',
+            success: function (response) {
+
+                console.log('Se ejecuta la funcion obtener provincias en editar reporte');
+                if (response.status == 'success') {
+
+                    console.log('exitoso la obtencion de provincias en editar reporte y el resultado fue:', response.data, 'y la provincia del reporte es:', provincia)
+                    let options = '';
+                    options = `<option value='${provincia}' >${provincia}</option>`;
+                    response.data.forEach(item => {
+
+                        if(provincia !== item.NOMBRE_PROVINCIA){
+
+                        options += `<option value="${item.NOMBRE_PROVINCIA}">${item.NOMBRE_PROVINCIA}</option>`;
+
+                        }
+
+                    });
+
+                 
+
+                        $('#ProvinciaOld').html(options);
+
+                }
+            }, error: function (xhr, status, error) {
+
+                console.log('ERROR:', xhr.responseText);
+                console.log('status:', status);
+
+            }
+
+
+        });
+
+         $.ajax({
+
+            url: `../router/rutas.php?action=obtenerCantones&provincia=${provincia}`,
+            method: 'GET',
+            dataType: 'json',
+            success: function (response) {
+
+                if (response.status == 'success') {
+
+                    let options = '';
+                    options = `<option value='${canton}' >${canton}</option>`;
+
+                    response.data.forEach(item => {
+
+                        if(canton !== item.NOMBRE_CANTON){
+
+                        options += `<option value="${item.NOMBRE_CANTON}">${item.NOMBRE_CANTON}</option>`;
+
+                        }
+
+                    });
+
+                 
+
+                        $('#CantonOld').html(options);
+
+                }
+            }, error: function (xhr, status, error) {
+
+                console.log('ERROR:', xhr.responseText);
+                console.log('status:', status);
+
+            }
+
+
+        });
+
+          $.ajax({
+
+            url: `../router/rutas.php?action=obtenerDistritos&canton=${canton}`,
+            method: 'GET',
+            dataType: 'json',
+            success: function (response) {
+                console.log('Entro en function la recoleccion de distritos');
+
+                if (response.status == 'success') {
+                    console.log('respondio la funcion de distritos success');
+
+                    let options = '';
+                    options = `<option value='${distrito}' >${distrito}</option>`;
+                    response.data.forEach(item => {
+
+
+                        if(distrito !== item.NOMBRE_DISTRITO){
+
+                        options += `<option value="${item.NOMBRE_DISTRITO}">${item.NOMBRE_DISTRITO}</option>`;
+
+                        }
+
+                    });
+
+                  
+                        $('#DistritoOld').html(options);
+
+                }
+            }, error: function (xhr, status, error) {
+
+                console.log('ERROR:', xhr.responseText);
+                console.log('status:', status);
+
+            }
+
+
+        });
+
+            $.ajax({
+
+            url: `../router/rutas.php?action=obtenerCalles&distrito=${distrito}`,
+            method: 'GET',
+            dataType: 'json',
+            success: function (response) {
+
+                if (response.status == 'success') {
+
+                     console.log('Los valores de las calles obtenidas son:', response.data);
+                    let options = '';
+                    options = `<option value='${calleid}' >${calle}</option>`;
+                    response.data.forEach(item => {
+
+                        if(calle !== item.NOMBRE_CALLE)
+
+                        options += `<option value="${item.CALLE_ID}">${item.NOMBRE_CALLE}</option>`;
+
+
+                    });
+
+                
+
+                        $('#calleOld').html(options);
+
+                }
+            }, error: function (xhr, status, error) {
+
+                console.log('ERROR:', xhr.responseText);
+                console.log('status:', status);
+
+            }
+
+
+        });
 
                 }else{
 
@@ -659,6 +874,252 @@ $(function () {
 
     
 
+    $('#formularioEditarReporte').submit(function (e){
+
+        e.preventDefault();
+        
+        console.log('Los datos enviados en editar reporte son:', $(this).serialize());
+        $.ajax({
+
+            url: '../router/rutas.php?action=editarReporte',
+            method: 'POST',
+            dataType: 'json',
+            data: $(this).serialize(),
+
+            
+            success: function(response){
+               
+
+                console.log('status de editar reporte:', response.status)
+                if(response.status == 'success'){
+
+                    Swal.fire('! Reporte perfectamente editado ¡', '', 'success');
+                    setTimeout(function(){
+
+                        window.location.reload();
+
+                    }, 1000);
+
+                }else{
+
+                    Swal.fire('Error en editar el reporte', '', 'error');
+                }
+            }, error: function(xhr, status){
+
+                console.log('ERROR:', xhr.responseText);
+                console.log('STATUS:', status)
+            }
+
+        });
+
+
+    });
+
+    window.EliminarReporte = function(idreporte){
+
+        Swal.fire({
+
+            title:'¿ Seguro que quieres eliminar este reporte ?',
+            text: 'Una vez que se elimine no se puede recuperar el reporte',
+            icon: 'warning',
+            showCancelButton: true,
+            confirmButtonColor: '#3085d6',
+            cancelButtonColor: '#d33',
+            confirmButtonText: 'Borrar',
+        }).then((result)=>{
+
+            if(result.isConfirmed){
+
+                 $.ajax({
+
+            url: '../router/rutas.php?action=eliminarReporte',
+            method: 'POST',
+            dataType: 'json',
+            data: { idreporte : idreporte },
+
+            success: function(response){
+
+                if(response.status == 'success'){
+
+                    Swal.fire('Reporte perfetamente eliminado', '', 'success');
+                    setTimeout(function(){
+
+                        window.location.reload();
+
+                    }, 1000);
+
+
+                }else{
+
+                    Swal.fire('Error en eliminar el reporte', '', 'error');
+                }
+            }, error: function(xhr, status){
+
+                console.log('ERROR:', xhr.responseText);
+                console.log('status del error:', status)
+            }
+
+
+        });
+
+
+            }
+
+
+        });
+
+
+    }
+
+    $("#ProvinciaOld").change(function(){
+
+    let provincia = $("#ProvinciaOld").val();
+
+    $.ajax({
+
+            url: `../router/rutas.php?action=obtenerCantones&provincia=${provincia}`,
+            method: 'GET',
+            dataType: 'json',
+            success: function (response) {
+
+                if (response.status == 'success') {
+
+                    let options = '';
+                    
+
+                    response.data.forEach(item => {
+
+                        options += `<option value="${item.NOMBRE_CANTON}">${item.NOMBRE_CANTON}</option>`;
+
+
+                    });
+
+                 
+
+                        $('#CantonOld').html(options);
+
+                    
+
+                    
+
+
+
+
+
+                }
+            }, error: function (xhr, status, error) {
+
+                console.log('ERROR:', xhr.responseText);
+                console.log('status:', status);
+
+            }
+
+
+        });
+    
+    
+    
+    });
+
+    $("#CantonOld").change(function(){
+
+    let canton = $("#CantonOld").val();
+
+      $.ajax({
+
+            url: `../router/rutas.php?action=obtenerDistritos&canton=${canton}`,
+            method: 'GET',
+            dataType: 'json',
+            success: function (response) {
+                console.log('Entro en function la recoleccion de distritos');
+
+                if (response.status == 'success') {
+                    console.log('respondio la funcion de distritos success');
+
+                    let options = '';
+                    
+                    response.data.forEach(item => {
+
+                        options += `<option value="${item.NOMBRE_DISTRITO}">${item.NOMBRE_DISTRITO}</option>`;
+
+
+                    });
+
+                  
+                        $('#DistritoOld').html(options);
+
+                    
+
+                    
+
+
+
+
+
+                }
+            }, error: function (xhr, status, error) {
+
+                console.log('ERROR:', xhr.responseText);
+                console.log('status:', status);
+
+            }
+
+
+        });
+
+
+    
+    
+    
+    });
+
+    $('#DistritoOld').change(function(){
+
+    let distrito = $('#DistritoOld').val();
+
+    $.ajax({
+
+            url: `../router/rutas.php?action=obtenerCalles&distrito=${distrito}`,
+            method: 'GET',
+            dataType: 'json',
+            success: function (response) {
+
+                if (response.status == 'success') {
+
+                    let options = '';
+                    
+                    response.data.forEach(item => {
+
+                        options += `<option value="${item.CALLE_ID}">${item.NOMBRE_CALLE}</option>`;
+
+
+                    });
+
+                
+
+                        $('#calleOld').html(options);
+
+                    
+
+                    
+
+
+
+
+
+                }
+            }, error: function (xhr, status, error) {
+
+                console.log('ERROR:', xhr.responseText);
+                console.log('status:', status);
+
+            }
+
+
+        });
+    
+    
+    });
     
 
    

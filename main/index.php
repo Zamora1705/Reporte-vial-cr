@@ -225,7 +225,7 @@ if(isset($_SESSION['Usuario'])){
             <div class='modal-content'>
                 <div class='modal-header'>
                     <h5 class='modal-title'>Editar reportar</h5>
-                    <button type='button' id="botonCerrarModel" class='btn-close' data-bs-dismiss='modal' aria-label='Close'></button>
+                    <button type='button' class='btn-close' data-bs-dismiss='modal' aria-label='Close'></button>
                 </div>
                 <form id='formularioEditarReporte'>
                     <div class='modal-body'>
@@ -247,26 +247,26 @@ if(isset($_SESSION['Usuario'])){
                                 
                             </select>
                         </div>
-                        <div id="bloqueCanton" class="select mt-3">
+                        <div id="bloqueCantonOld" class="select mt-3">
                             <label for="Canton" class="form-label">Cantón</label>
                             <select name="Canton" class="form-control" id="CantonOld">
                               
                             </select>
                         </div>
-                        <div id="bloqueDistrito" class="select mt-3">
+                        <div id="bloqueDistritoOld" class="select mt-3">
                             <label for="Distrito" class="form-label">Distrito (opcional)</label>
                             <select name="Distrito" class="form-control" id="DistritoOld">
                               
                             </select>
                         </div>
-                        <div id="bloqueCalle" class="select mt-3 mb-3">
+                        <div id="bloqueCalleOld" class="select mt-3 mb-3">
                             <label for="calle" class="form-label">Nombre de la calle (opcional)</label>
                             <select name="calle" class="form-control" id="calleOld">
                 
                             </select>
             
-                            <input style="display:none;" type="text" name="Longitud" id="Longitud" >
-                            <input style="display:none;" type="text" name="Latitud" id="Latitud" >
+                            
+                            <input style="display:none;" type="text" name="idreporte" id="idreporte">
                            
                         </div>
                     <div class='modal-footer'>
