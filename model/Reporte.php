@@ -132,6 +132,277 @@ class Reporte{
     return $result;
 
     }
+
+    public function filtrarReporte($Tipodano){
+
+        $query = "SELECT t.Nombre_dano, c.Nombre_categoria, r.Fecha, r.Reporte_ID, r.Usuario_FK, r.Longitud, r.Latitud, r.Provincia_nom, r.Canton_nom, r.Distrito_nom
+        FROM Reporte r INNER JOIN Categoria c ON r.Categoria_FK = c.Categoria_ID INNER JOIN Tipo_dano t ON r.Tipo_Dano_FK = t.Dano_ID WHERE r.Tipo_Dano_FK = :Tipodano";
+
+        $smtp = oci_parse($this->DB, $query);
+
+        oci_bind_by_name($smtp, ':Tipodano', $Tipodano);
+
+        oci_execute($smtp);
+
+        $listado = [];
+
+        while($row = oci_fetch_assoc($smtp)){
+
+           $filaLimpia = [];
+
+           foreach($row as $key => $value){
+
+               $filaLimpia[$key] = mb_convert_encoding($value, 'UTF-8', 'Windows-1252');
+
+           }
+
+           $listado[] = $filaLimpia;
+
+
+        }
+
+        return $listado;
+
+    }
+
+     public function filtrarReporteCategoria($categoria){
+
+        $query = "SELECT t.Nombre_dano, c.Nombre_categoria, r.Fecha, r.Reporte_ID, r.Usuario_FK, r.Longitud, r.Latitud, r.Provincia_nom, r.Canton_nom, r.Distrito_nom
+        FROM Reporte r INNER JOIN Categoria c ON r.Categoria_FK = c.Categoria_ID INNER JOIN Tipo_dano t ON r.Tipo_Dano_FK = t.Dano_ID WHERE r.Categoria_FK = :Categoria";
+
+        $smtp = oci_parse($this->DB, $query);
+
+        oci_bind_by_name($smtp, ':Categoria', $categoria);
+
+        oci_execute($smtp);
+
+        $listado = [];
+
+        while($row = oci_fetch_assoc($smtp)){
+
+           $filaLimpia = [];
+
+           foreach($row as $key => $value){
+
+               $filaLimpia[$key] = mb_convert_encoding($value, 'UTF-8', 'Windows-1252');
+
+           }
+
+           $listado[] = $filaLimpia;
+
+
+        }
+
+        return $listado;
+
+    }
+
+    public function filtrarReporteProvincia($provincia){
+        
+        $query = "SELECT t.Nombre_dano, c.Nombre_categoria, r.Fecha, r.Reporte_ID, r.Usuario_FK, r.Longitud, r.Latitud, r.Provincia_nom, r.Canton_nom, r.Distrito_nom
+        FROM Reporte r INNER JOIN Categoria c ON r.Categoria_FK = c.Categoria_ID INNER JOIN Tipo_dano t ON r.Tipo_Dano_FK = t.Dano_ID WHERE r.Provincia_nom = :Provincia";
+
+        $smtp = oci_parse($this->DB, $query);
+
+        oci_bind_by_name($smtp, ':Provincia', $provincia);
+
+        oci_execute($smtp);
+
+        $listado = [];
+
+        while($row = oci_fetch_assoc($smtp)){
+
+           $filaLimpia = [];
+
+           foreach($row as $key => $value){
+
+               $filaLimpia[$key] = mb_convert_encoding($value, 'UTF-8', 'Windows-1252');
+
+           }
+
+           $listado[] = $filaLimpia;
+
+
+        }
+
+        return $listado;
+
+    }
+
+    public function filtrarReporteTipoDanoXCategoria($tipodano, $categoria){
+
+        $query = "SELECT t.Nombre_dano, c.Nombre_categoria, r.Fecha, r.Reporte_ID, r.Usuario_FK, r.Longitud, r.Latitud, r.Provincia_nom, r.Canton_nom, r.Distrito_nom
+        FROM Reporte r INNER JOIN Categoria c ON r.Categoria_FK = c.Categoria_ID INNER JOIN Tipo_dano t ON r.Tipo_Dano_FK = t.Dano_ID 
+        WHERE r.Tipo_Dano_FK = :tipodano and r.Categoria_FK = :categoria";
+
+        $smtp = oci_parse($this->DB, $query);
+
+        oci_bind_by_name($smtp, ':tipodano', $tipodano);
+        oci_bind_by_name($smtp, ':categoria', $categoria);
+
+        oci_execute($smtp);
+
+        $listado = [];
+
+        while($row = oci_fetch_assoc($smtp)){
+
+           $filaLimpia = [];
+
+           foreach($row as $key => $value){
+
+               $filaLimpia[$key] = mb_convert_encoding($value, 'UTF-8', 'Windows-1252');
+
+           }
+
+           $listado[] = $filaLimpia;
+
+
+        }
+
+        return $listado;
+
+    }
+
+    public function filtrarReporteTipoDanoXprovincia($tipodano, $provincia){
+
+        $query = "SELECT t.Nombre_dano, c.Nombre_categoria, r.Fecha, r.Reporte_ID, r.Usuario_FK, r.Longitud, r.Latitud, r.Provincia_nom, r.Canton_nom, r.Distrito_nom
+        FROM Reporte r INNER JOIN Categoria c ON r.Categoria_FK = c.Categoria_ID INNER JOIN Tipo_dano t ON r.Tipo_Dano_FK = t.Dano_ID 
+        WHERE r.Tipo_Dano_FK = :tipodano and r.Provincia_nom = :provincia";
+
+        $smtp = oci_parse($this->DB, $query);
+
+        oci_bind_by_name($smtp, ':tipodano', $tipodano);
+        oci_bind_by_name($smtp, ':provincia', $provincia);
+
+        oci_execute($smtp);
+
+        $listado = [];
+
+        while($row = oci_fetch_assoc($smtp)){
+
+           $filaLimpia = [];
+
+           foreach($row as $key => $value){
+
+               $filaLimpia[$key] = mb_convert_encoding($value, 'UTF-8', 'Windows-1252');
+
+           }
+
+           $listado[] = $filaLimpia;
+
+
+        }
+
+        return $listado;
+
+    }
+
+    public function filtrarReporteCategoriaXprovincia($categoria, $provincia){
+
+        $query = "SELECT t.Nombre_dano, c.Nombre_categoria, r.Fecha, r.Reporte_ID, r.Usuario_FK, r.Longitud, r.Latitud, r.Provincia_nom, r.Canton_nom, r.Distrito_nom
+        FROM Reporte r INNER JOIN Categoria c ON r.Categoria_FK = c.Categoria_ID INNER JOIN Tipo_dano t ON r.Tipo_Dano_FK = t.Dano_ID 
+        WHERE r.Categoria_FK = :categoria and r.Provincia_nom = :provincia";
+
+        $smtp = oci_parse($this->DB, $query);
+
+        oci_bind_by_name($smtp, ':categoria', $categoria);
+        oci_bind_by_name($smtp, ':provincia', $provincia);
+
+        oci_execute($smtp);
+
+        $listado = [];
+
+        while($row = oci_fetch_assoc($smtp)){
+
+           $filaLimpia = [];
+
+           foreach($row as $key => $value){
+
+               $filaLimpia[$key] = mb_convert_encoding($value, 'UTF-8', 'Windows-1252');
+
+           }
+
+           $listado[] = $filaLimpia;
+
+
+        }
+
+        return $listado;
+
+
+    }
+
+    public function filtrarReporteCategoriaXprovinciaXtipodano($tipodano, $categoria, $provincia){
+
+       $query = "SELECT t.Nombre_dano, c.Nombre_categoria, r.Fecha, r.Reporte_ID, r.Usuario_FK, r.Longitud, r.Latitud, r.Provincia_nom, r.Canton_nom, r.Distrito_nom
+        FROM Reporte r INNER JOIN Categoria c ON r.Categoria_FK = c.Categoria_ID INNER JOIN Tipo_dano t ON r.Tipo_Dano_FK = t.Dano_ID 
+        WHERE r.Categoria_FK = :categoria and r.Provincia_nom = :provincia and r.Tipo_Dano_FK = :tipodano";
+
+        $smtp = oci_parse($this->DB, $query);
+
+        oci_bind_by_name($smtp, ':categoria', $categoria);
+        oci_bind_by_name($smtp, ':provincia', $provincia);
+        oci_bind_by_name($smtp, ':tipodano', $tipodano);
+
+        oci_execute($smtp);
+
+        $listado = [];
+
+        while($row = oci_fetch_assoc($smtp)){
+
+           $filaLimpia = [];
+
+           foreach($row as $key => $value){
+
+               $filaLimpia[$key] = mb_convert_encoding($value, 'UTF-8', 'Windows-1252');
+
+           }
+
+           $listado[] = $filaLimpia;
+
+
+        }
+
+        return $listado;
+
+
+    }
+
+    public function filtrarReporteUsuario($usuario){
+
+        $query = "SELECT t.Nombre_dano, c.Nombre_categoria, r.Fecha, r.Reporte_ID, r.Usuario_FK, r.Longitud, r.Latitud, r.Provincia_nom, r.Canton_nom, r.Distrito_nom
+        FROM Reporte r INNER JOIN Categoria c ON r.Categoria_FK = c.Categoria_ID INNER JOIN Tipo_dano t ON r.Tipo_Dano_FK = t.Dano_ID 
+        WHERE r.Usuario_FK = :usuario ";
+
+        $smtp = oci_parse($this->DB, $query);
+
+        oci_bind_by_name($smtp, ':usuario', $usuario);
+
+
+        oci_execute($smtp);
+
+        $listado = [];
+
+        while($row = oci_fetch_assoc($smtp)){
+
+           $filaLimpia = [];
+
+           foreach($row as $key => $value){
+
+               $filaLimpia[$key] = mb_convert_encoding($value, 'UTF-8', 'Windows-1252');
+
+           }
+
+           $listado[] = $filaLimpia;
+
+
+        }
+
+        return $listado;
+
+
+
+    }
 }
 
 

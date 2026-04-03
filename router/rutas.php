@@ -100,6 +100,38 @@ switch ($action){
       $Reporte->eliminarReporte();
       break;
 
+   case 'filtrarReporte':
+      $Reporte->filtrarReporte();
+      break;
+      
+   case 'filtrarReporteCategoria':
+      $Reporte->filtrarReporteCategoria();
+      break;  
+      
+   case 'filtrarReporteProvincia':
+      $Reporte->filtrarReporteProvincia();
+      break;  
+      
+   case 'filtrarReporteTipoDanoXCategoria':
+      $Reporte->filtrarReporteTipoDanoXCategoria();
+      break;
+
+   case 'filtrarReporteTipoDanoXprovincia':
+      $Reporte->filtrarReporteTipoDanoXprovincia();
+      break;      
+
+   case 'filtrarReporteCategoriaXprovincia':
+      $Reporte->filtrarReporteCategoriaXprovincia();
+      break;   
+
+   case 'filtrarReporteCategoriaXprovinciaXtipodano':
+      $Reporte->filtrarReporteCategoriaXprovinciaXtipodano();
+      break;
+      
+   case 'filtrarReporteUsuario':
+      $Reporte->filtrarReporteUsuario();
+      break;   
+
 
  
 

@@ -4,6 +4,7 @@ $(function () {
     var lon;
     var map;
     var puntero;
+    var markersLayer;
     navigator.geolocation.getCurrentPosition(
 
         (position) => {
@@ -13,6 +14,8 @@ $(function () {
             const longitude = position.coords.longitude;
 
             map = L.map('map').setView([latitude, longitude], 25);
+
+           
 
             map.on('click', function (e) {
 
@@ -82,9 +85,9 @@ $(function () {
                 attribution: '&copy; OpenStreetMap contributors'
             }).addTo(map);
 
-            var marker = L.marker([latitude, longitude]).addTo(map);
+            var markerUser = L.marker([latitude, longitude]).addTo(map);
 
-            marker.bindPopup(
+            markerUser.bindPopup(
                 "<h4>Estas aquí</h4>"
             ).openPopup();
 
@@ -102,6 +105,7 @@ $(function () {
                         console.log('Los datos son:', response.data);
                       
 
+                        markersLayer = L.layerGroup().addTo(map);
                         
 
                         response.data.forEach(reporte=> {
@@ -182,7 +186,8 @@ $(function () {
 
 
 
-                           let marker = L.marker([(reporte.LATITUD), (reporte.LONGITUD)], {icon: puntero}).addTo(map);
+                            let marker = L.marker([(reporte.LATITUD), (reporte.LONGITUD)], {icon: puntero});
+                            markersLayer.addLayer(marker);
 
                            if (reporte.USUARIO_FK == sessionUsuario){
 
@@ -207,6 +212,8 @@ $(function () {
 
 
                         });
+
+                         
 
                         
 
@@ -261,7 +268,7 @@ $(function () {
                     console.log('datos obtenidos !');
                     let options = '';
 
-                    options = ' <option>Seleccione el tipo de daño</option>';
+                    options = " <option value='97' >Seleccione el tipo de daño</option>";
                     response.data.forEach(data => {
 
                         options += `<option value="${data.DANO_ID}">${data.NOMBRE_DANO}</option>`;
@@ -270,6 +277,7 @@ $(function () {
 
 
                     $('#tipodano').html(options);
+                    $('#tipodanoFiltro').html(options);
 
                 } else {
 
@@ -305,7 +313,7 @@ $(function () {
                 if (response.status == 'success') {
 
                     let options = '';
-                    options = ' <option>Seleccione la categoria del daño</option>';
+                    options = " <option value='98' >Seleccione la categoria del daño</option>";
 
                     response.data.forEach(item => {
 
@@ -315,6 +323,7 @@ $(function () {
                     });
 
                     $('#Categoria').html(options);
+                    $('#CategoriaFiltro').html(options);
 
 
 
@@ -349,7 +358,7 @@ $(function () {
                 if (response.status == 'success') {
 
                     let options = '';
-                    options = ' <option>Seleccione la provincia del suceso</option>';
+                    options = " <option value='99' >Seleccione la provincia del suceso</option>";
                     response.data.forEach(item => {
 
                         options += `<option value="${item.NOMBRE_PROVINCIA}">${item.NOMBRE_PROVINCIA}</option>`;
@@ -360,6 +369,7 @@ $(function () {
                  
 
                         $('#Provincia').html(options);
+                        $('#ProvinciaFiltro').html(options);
 
                     
 
@@ -1120,6 +1130,1260 @@ $(function () {
     
     
     });
+
+    $('#botonFiltro').click(function () {
+
+        markersLayer.clearLayers();
+
+        let tipodano = $('#tipodanoFiltro').val();
+        let categoria = $('#CategoriaFiltro').val();
+        let provincia = $('#ProvinciaFiltro').val();
+
+        if(tipodano != 97 && categoria == 98 && provincia == 99){
+
+            console.log('se ejecuto el filtro por tipo dano y el id del tipod ano es:', tipodano);
+       
+
+        $.ajax({
+
+            url: '../router/rutas.php?action=filtrarReporte',
+            method: 'POST',
+            dataType: 'json',
+            data: {tipodano : tipodano},
+            success: function(response){
+
+                if(response.status == 'success'){
+                     console.log('Funcion de filtro perfecta. los datos son:', response.data);
+
+                    markersLayer = L.layerGroup().addTo(map);
+
+                    response.data.forEach(reporte =>{
+
+                         let image = '';
+
+                            if(reporte.NOMBRE_DANO == 'Hueco' ){
+
+                                image = '../image/hueco.png';
+
+                            }else if(reporte.NOMBRE_DANO == 'Daño en desague'){
+
+                                image = '../image/desague.png';
+
+                            }else if (reporte.NOMBRE_DANO == 'Semaforo dañado'){
+
+                                image = '../image/semaforo.png';
+
+                            }else if (reporte.NOMBRE_DANO == 'Grieta'){
+
+                                image = '../image/Grieta.png';
+
+                            }else if(reporte.NOMBRE_DANO == 'Señal caida'){
+
+                                image = '../image/SenalCaida.png';
+                            }
+
+                            if(reporte.NOMBRE_CATEGORIA == 'Leve'){
+
+                                  puntero = L.divIcon({
+
+                                  className: 'custom-marker-leve',
+                                  html: '<div class="pin-leve"></div>',
+                                  iconSize: [32, 32],
+                         
+                                 });
+
+                            }else if (reporte.NOMBRE_CATEGORIA == 'Medio'){
+
+                                 puntero = L.divIcon({
+
+                                  className: 'custom-marker-medio',
+                                  html: '<div class="pin-medio"></div>',
+                                  iconSize: [32, 32],
+                         
+                                 });
+                                
+                            }else{
+
+                                 puntero = L.divIcon({
+
+                                  className: 'custom-marker',
+                                  html: '<div class="pin"></div>',
+                                  iconSize: [32, 32],
+                         
+                                 });
+
+
+                            }
+
+                            let sessionUsuario = $("#Identidad").val();
+                            console.log('La cedula de session es:', sessionUsuario, 'y el id del usuario recojido del listado es:', reporte.USUARIO_FK);
+
+                          
+
+
+                            if(reporte.USUARIO_FK == sessionUsuario){
+
+                                  puntero = L.divIcon({
+
+                                  className: 'custom-marker-user',
+                                  html: '<div class="pin-user"></div>',
+                                  iconSize: [32, 32],
+                         
+                                 });
+
+                            }                          
+
+
+
+                            let marker = L.marker([(reporte.LATITUD), (reporte.LONGITUD)], {icon: puntero});
+                            markersLayer.addLayer(marker);
+
+                           if (reporte.USUARIO_FK == sessionUsuario){
+
+
+                             marker.bindPopup(
+
+                                `<div style='border:3px solid #2E6DA4;height:auto;background-color:#1A3A5C;color:#F4F6F8' ><img style='width:100%;height:100%;object-fit:contain;' src='${image}' ><div style='padding:20px;' ><p>Daño: ${reporte.NOMBRE_DANO}</p><p class='categoriaDano' >Categoria: ${reporte.NOMBRE_CATEGORIA}</p><p>Provincia: ${reporte.PROVINCIA_NOM}</p><p>Cantó: ${reporte.CANTON_NOM}</p><p>Distrito: ${reporte.DISTRITO_NOM}</p><p>Fecha: ${reporte.FECHA}</p><button class='btn btn-success w-100' >Asignar responsable <i class="fa-solid fa-hammer"></i></button><div style='display:flex;gap:10px;padding-top:10px;' ><button onclick='EditarReporte(${reporte.REPORTE_ID})' class='btn btn-primary w-100' >Editar Reporte</button><button onclick='EliminarReporte(${reporte.REPORTE_ID})' class='btn btn-danger w-100' >Eliminar Reporte</button></div></div></div>`
+                                
+                            ).openPopup();
+
+
+
+                           }else{
+
+                            marker.bindPopup(
+
+                                `<div style='border:3px solid #2E6DA4;height:auto;witdh:400px;background-color:#1A3A5C;color:#F4F6F8' ><img style='width:100%;height:100%;object-fit:contain;' src='${image}' ><div style='padding:20px;' ><p>Daño: ${reporte.NOMBRE_DANO}</p><p class='categoriaDano' >Categoria: ${reporte.NOMBRE_CATEGORIA}</p><p>Provincia: ${reporte.PROVINCIA_NOM}</p><p>Cantó: ${reporte.CANTON_NOM}</p><p>Distrito: ${reporte.DISTRITO_NOM}</p><p>Fecha: ${reporte.FECHA}</p><button class='btn btn-success w-100' >Asignar responsable <i class="fa-solid fa-hammer"></i></button></div></div>`
+                                
+                            ).openPopup();
+
+                            }
+
+
+                    });
+
+
+                }else{
+
+                    Swal.fire('No existen reportes según tu busqueda', '', 'warning');
+                    listadoReportes();
+                }
+            }, error: function(xhr, status){
+
+                console.log('ERROR:', xhr.responseText);
+                console.log('STATUS:', status)
+            }
+
+
+        });
+
+    }else if(tipodano == 97 && categoria != 98 && provincia == 99){
+
+            $.ajax({
+
+            url: '../router/rutas.php?action=filtrarReporteCategoria',
+            method: 'POST',
+            dataType: 'json',
+            data: {categoria : categoria},
+            success: function(response){
+
+                if(response.status == 'success'){
+
+                    markersLayer = L.layerGroup().addTo(map);
+
+                    response.data.forEach(reporte =>{
+
+                         let image = '';
+
+                            if(reporte.NOMBRE_DANO == 'Hueco' ){
+
+                                image = '../image/hueco.png';
+
+                            }else if(reporte.NOMBRE_DANO == 'Daño en desague'){
+
+                                image = '../image/desague.png';
+
+                            }else if (reporte.NOMBRE_DANO == 'Semaforo dañado'){
+
+                                image = '../image/semaforo.png';
+
+                            }else if (reporte.NOMBRE_DANO == 'Grieta'){
+
+                                image = '../image/Grieta.png';
+
+                            }else if(reporte.NOMBRE_DANO == 'Señal caida'){
+
+                                image = '../image/SenalCaida.png';
+                            }
+
+                            if(reporte.NOMBRE_CATEGORIA == 'Leve'){
+
+                                  puntero = L.divIcon({
+
+                                  className: 'custom-marker-leve',
+                                  html: '<div class="pin-leve"></div>',
+                                  iconSize: [32, 32],
+                         
+                                 });
+
+                            }else if (reporte.NOMBRE_CATEGORIA == 'Medio'){
+
+                                 puntero = L.divIcon({
+
+                                  className: 'custom-marker-medio',
+                                  html: '<div class="pin-medio"></div>',
+                                  iconSize: [32, 32],
+                         
+                                 });
+                                
+                            }else{
+
+                                 puntero = L.divIcon({
+
+                                  className: 'custom-marker',
+                                  html: '<div class="pin"></div>',
+                                  iconSize: [32, 32],
+                         
+                                 });
+
+
+                            }
+
+                            let sessionUsuario = $("#Identidad").val();
+                            console.log('La cedula de session es:', sessionUsuario, 'y el id del usuario recojido del listado es:', reporte.USUARIO_FK);
+
+                          
+
+
+                            if(reporte.USUARIO_FK == sessionUsuario){
+
+                                  puntero = L.divIcon({
+
+                                  className: 'custom-marker-user',
+                                  html: '<div class="pin-user"></div>',
+                                  iconSize: [32, 32],
+                         
+                                 });
+
+                            }                          
+
+
+
+                           let marker = L.marker([(reporte.LATITUD), (reporte.LONGITUD)], {icon: puntero});
+                           markersLayer.addLayer(marker);
+
+                           if (reporte.USUARIO_FK == sessionUsuario){
+
+
+                             marker.bindPopup(
+
+                                `<div style='border:3px solid #2E6DA4;height:auto;background-color:#1A3A5C;color:#F4F6F8' ><img style='width:100%;height:100%;object-fit:contain;' src='${image}' ><div style='padding:20px;' ><p>Daño: ${reporte.NOMBRE_DANO}</p><p class='categoriaDano' >Categoria: ${reporte.NOMBRE_CATEGORIA}</p><p>Provincia: ${reporte.PROVINCIA_NOM}</p><p>Cantó: ${reporte.CANTON_NOM}</p><p>Distrito: ${reporte.DISTRITO_NOM}</p><p>Fecha: ${reporte.FECHA}</p><button class='btn btn-success w-100' >Asignar responsable <i class="fa-solid fa-hammer"></i></button><div style='display:flex;gap:10px;padding-top:10px;' ><button onclick='EditarReporte(${reporte.REPORTE_ID})' class='btn btn-primary w-100' >Editar Reporte</button><button onclick='EliminarReporte(${reporte.REPORTE_ID})' class='btn btn-danger w-100' >Eliminar Reporte</button></div></div></div>`
+                                
+                            ).openPopup();
+
+
+
+                           }else{
+
+                            marker.bindPopup(
+
+                                `<div style='border:3px solid #2E6DA4;height:auto;witdh:400px;background-color:#1A3A5C;color:#F4F6F8' ><img style='width:100%;height:100%;object-fit:contain;' src='${image}' ><div style='padding:20px;' ><p>Daño: ${reporte.NOMBRE_DANO}</p><p class='categoriaDano' >Categoria: ${reporte.NOMBRE_CATEGORIA}</p><p>Provincia: ${reporte.PROVINCIA_NOM}</p><p>Cantó: ${reporte.CANTON_NOM}</p><p>Distrito: ${reporte.DISTRITO_NOM}</p><p>Fecha: ${reporte.FECHA}</p><button class='btn btn-success w-100' >Asignar responsable <i class="fa-solid fa-hammer"></i></button></div></div>`
+                                
+                            ).openPopup();
+
+                            }
+
+
+                    });
+
+
+                }else{
+
+                    Swal.fire('No existen reportes según tu busqueda', '', 'warning');
+                    listadoReportes();
+                }
+            }, error: function(xhr, status){
+
+                console.log('ERROR:', xhr.responseText);
+                console.log('STATUS:', status)
+            }
+
+
+        });
+
+
+    }else if(tipodano == 97 && categoria == 98 && provincia != 99){
+
+         $.ajax({
+
+            url: '../router/rutas.php?action=filtrarReporteProvincia',
+            method: 'POST',
+            dataType: 'json',
+            data: {provincia : provincia},
+            success: function(response){
+
+                if(response.status == 'success'){
+
+                    markersLayer = L.layerGroup().addTo(map);
+
+                    response.data.forEach(reporte =>{
+
+                         let image = '';
+
+                            if(reporte.NOMBRE_DANO == 'Hueco' ){
+
+                                image = '../image/hueco.png';
+
+                            }else if(reporte.NOMBRE_DANO == 'Daño en desague'){
+
+                                image = '../image/desague.png';
+
+                            }else if (reporte.NOMBRE_DANO == 'Semaforo dañado'){
+
+                                image = '../image/semaforo.png';
+
+                            }else if (reporte.NOMBRE_DANO == 'Grieta'){
+
+                                image = '../image/Grieta.png';
+
+                            }else if(reporte.NOMBRE_DANO == 'Señal caida'){
+
+                                image = '../image/SenalCaida.png';
+                            }
+
+                            if(reporte.NOMBRE_CATEGORIA == 'Leve'){
+
+                                  puntero = L.divIcon({
+
+                                  className: 'custom-marker-leve',
+                                  html: '<div class="pin-leve"></div>',
+                                  iconSize: [32, 32],
+                         
+                                 });
+
+                            }else if (reporte.NOMBRE_CATEGORIA == 'Medio'){
+
+                                 puntero = L.divIcon({
+
+                                  className: 'custom-marker-medio',
+                                  html: '<div class="pin-medio"></div>',
+                                  iconSize: [32, 32],
+                         
+                                 });
+                                
+                            }else{
+
+                                 puntero = L.divIcon({
+
+                                  className: 'custom-marker',
+                                  html: '<div class="pin"></div>',
+                                  iconSize: [32, 32],
+                         
+                                 });
+
+
+                            }
+
+                            let sessionUsuario = $("#Identidad").val();
+                            console.log('La cedula de session es:', sessionUsuario, 'y el id del usuario recojido del listado es:', reporte.USUARIO_FK);
+
+                          
+
+
+                            if(reporte.USUARIO_FK == sessionUsuario){
+
+                                  puntero = L.divIcon({
+
+                                  className: 'custom-marker-user',
+                                  html: '<div class="pin-user"></div>',
+                                  iconSize: [32, 32],
+                         
+                                 });
+
+                            }                          
+
+
+
+                           let marker = L.marker([(reporte.LATITUD), (reporte.LONGITUD)], {icon: puntero});
+                           markersLayer.addLayer(marker);
+
+                           if (reporte.USUARIO_FK == sessionUsuario){
+
+
+                             marker.bindPopup(
+
+                                `<div style='border:3px solid #2E6DA4;height:auto;background-color:#1A3A5C;color:#F4F6F8' ><img style='width:100%;height:100%;object-fit:contain;' src='${image}' ><div style='padding:20px;' ><p>Daño: ${reporte.NOMBRE_DANO}</p><p class='categoriaDano' >Categoria: ${reporte.NOMBRE_CATEGORIA}</p><p>Provincia: ${reporte.PROVINCIA_NOM}</p><p>Cantó: ${reporte.CANTON_NOM}</p><p>Distrito: ${reporte.DISTRITO_NOM}</p><p>Fecha: ${reporte.FECHA}</p><button class='btn btn-success w-100' >Asignar responsable <i class="fa-solid fa-hammer"></i></button><div style='display:flex;gap:10px;padding-top:10px;' ><button onclick='EditarReporte(${reporte.REPORTE_ID})' class='btn btn-primary w-100' >Editar Reporte</button><button onclick='EliminarReporte(${reporte.REPORTE_ID})' class='btn btn-danger w-100' >Eliminar Reporte</button></div></div></div>`
+                                
+                            ).openPopup();
+
+
+
+                           }else{
+
+                            marker.bindPopup(
+
+                                `<div style='border:3px solid #2E6DA4;height:auto;witdh:400px;background-color:#1A3A5C;color:#F4F6F8' ><img style='width:100%;height:100%;object-fit:contain;' src='${image}' ><div style='padding:20px;' ><p>Daño: ${reporte.NOMBRE_DANO}</p><p class='categoriaDano' >Categoria: ${reporte.NOMBRE_CATEGORIA}</p><p>Provincia: ${reporte.PROVINCIA_NOM}</p><p>Cantó: ${reporte.CANTON_NOM}</p><p>Distrito: ${reporte.DISTRITO_NOM}</p><p>Fecha: ${reporte.FECHA}</p><button class='btn btn-success w-100' >Asignar responsable <i class="fa-solid fa-hammer"></i></button></div></div>`
+                                
+                            ).openPopup();
+
+                            }
+
+
+                    });
+
+
+                }else{
+
+                    Swal.fire('No existen reportes según tu busqueda', '', 'warning');
+                    listadoReportes();
+                }
+            }, error: function(xhr, status){
+
+                console.log('ERROR:', xhr.responseText);
+                console.log('STATUS:', status)
+            }
+
+
+        });
+
+
+    }else if (tipodano != 97 && categoria != 98 && provincia == 99){
+
+         $.ajax({
+
+            url: '../router/rutas.php?action=filtrarReporteTipoDanoXCategoria',
+            method: 'POST',
+            dataType: 'json',
+            data: {tipodano : tipodano, categoria : categoria},
+            success: function(response){
+
+                if(response.status == 'success'){
+
+                    markersLayer = L.layerGroup().addTo(map);
+
+                    response.data.forEach(reporte =>{
+
+                         let image = '';
+
+                            if(reporte.NOMBRE_DANO == 'Hueco' ){
+
+                                image = '../image/hueco.png';
+
+                            }else if(reporte.NOMBRE_DANO == 'Daño en desague'){
+
+                                image = '../image/desague.png';
+
+                            }else if (reporte.NOMBRE_DANO == 'Semaforo dañado'){
+
+                                image = '../image/semaforo.png';
+
+                            }else if (reporte.NOMBRE_DANO == 'Grieta'){
+
+                                image = '../image/Grieta.png';
+
+                            }else if(reporte.NOMBRE_DANO == 'Señal caida'){
+
+                                image = '../image/SenalCaida.png';
+                            }
+
+                            if(reporte.NOMBRE_CATEGORIA == 'Leve'){
+
+                                  puntero = L.divIcon({
+
+                                  className: 'custom-marker-leve',
+                                  html: '<div class="pin-leve"></div>',
+                                  iconSize: [32, 32],
+                         
+                                 });
+
+                            }else if (reporte.NOMBRE_CATEGORIA == 'Medio'){
+
+                                 puntero = L.divIcon({
+
+                                  className: 'custom-marker-medio',
+                                  html: '<div class="pin-medio"></div>',
+                                  iconSize: [32, 32],
+                         
+                                 });
+                                
+                            }else{
+
+                                 puntero = L.divIcon({
+
+                                  className: 'custom-marker',
+                                  html: '<div class="pin"></div>',
+                                  iconSize: [32, 32],
+                         
+                                 });
+
+
+                            }
+
+                            let sessionUsuario = $("#Identidad").val();
+                            console.log('La cedula de session es:', sessionUsuario, 'y el id del usuario recojido del listado es:', reporte.USUARIO_FK);
+
+                          
+
+
+                            if(reporte.USUARIO_FK == sessionUsuario){
+
+                                  puntero = L.divIcon({
+
+                                  className: 'custom-marker-user',
+                                  html: '<div class="pin-user"></div>',
+                                  iconSize: [32, 32],
+                         
+                                 });
+
+                            }                          
+
+
+
+                           let marker = L.marker([(reporte.LATITUD), (reporte.LONGITUD)], {icon: puntero});
+                           markersLayer.addLayer(marker);
+
+                           if (reporte.USUARIO_FK == sessionUsuario){
+
+
+                             marker.bindPopup(
+
+                                `<div style='border:3px solid #2E6DA4;height:auto;background-color:#1A3A5C;color:#F4F6F8' ><img style='width:100%;height:100%;object-fit:contain;' src='${image}' ><div style='padding:20px;' ><p>Daño: ${reporte.NOMBRE_DANO}</p><p class='categoriaDano' >Categoria: ${reporte.NOMBRE_CATEGORIA}</p><p>Provincia: ${reporte.PROVINCIA_NOM}</p><p>Cantó: ${reporte.CANTON_NOM}</p><p>Distrito: ${reporte.DISTRITO_NOM}</p><p>Fecha: ${reporte.FECHA}</p><button class='btn btn-success w-100' >Asignar responsable <i class="fa-solid fa-hammer"></i></button><div style='display:flex;gap:10px;padding-top:10px;' ><button onclick='EditarReporte(${reporte.REPORTE_ID})' class='btn btn-primary w-100' >Editar Reporte</button><button onclick='EliminarReporte(${reporte.REPORTE_ID})' class='btn btn-danger w-100' >Eliminar Reporte</button></div></div></div>`
+                                
+                            ).openPopup();
+
+
+
+                           }else{
+
+                            marker.bindPopup(
+
+                                `<div style='border:3px solid #2E6DA4;height:auto;witdh:400px;background-color:#1A3A5C;color:#F4F6F8' ><img style='width:100%;height:100%;object-fit:contain;' src='${image}' ><div style='padding:20px;' ><p>Daño: ${reporte.NOMBRE_DANO}</p><p class='categoriaDano' >Categoria: ${reporte.NOMBRE_CATEGORIA}</p><p>Provincia: ${reporte.PROVINCIA_NOM}</p><p>Cantó: ${reporte.CANTON_NOM}</p><p>Distrito: ${reporte.DISTRITO_NOM}</p><p>Fecha: ${reporte.FECHA}</p><button class='btn btn-success w-100' >Asignar responsable <i class="fa-solid fa-hammer"></i></button></div></div>`
+                                
+                            ).openPopup();
+
+                            }
+
+
+                    });
+
+
+                }else{
+
+                    Swal.fire('No existen reportes según tu busqueda', '', 'warning');
+                    listadoReportes();
+                }
+            }, error: function(xhr, status){
+
+                console.log('ERROR:', xhr.responseText);
+                console.log('STATUS:', status)
+            }
+
+
+        });
+
+    }else if( tipodano != 97 && categoria == 98 && provincia != 99){
+
+         $.ajax({
+
+            url: '../router/rutas.php?action=filtrarReporteTipoDanoXprovincia',
+            method: 'POST',
+            dataType: 'json',
+            data: {tipodano : tipodano, provincia : provincia},
+            success: function(response){
+
+                if(response.status == 'success'){
+
+                    markersLayer = L.layerGroup().addTo(map);
+
+                    response.data.forEach(reporte =>{
+
+                         let image = '';
+
+                            if(reporte.NOMBRE_DANO == 'Hueco' ){
+
+                                image = '../image/hueco.png';
+
+                            }else if(reporte.NOMBRE_DANO == 'Daño en desague'){
+
+                                image = '../image/desague.png';
+
+                            }else if (reporte.NOMBRE_DANO == 'Semaforo dañado'){
+
+                                image = '../image/semaforo.png';
+
+                            }else if (reporte.NOMBRE_DANO == 'Grieta'){
+
+                                image = '../image/Grieta.png';
+
+                            }else if(reporte.NOMBRE_DANO == 'Señal caida'){
+
+                                image = '../image/SenalCaida.png';
+                            }
+
+                            if(reporte.NOMBRE_CATEGORIA == 'Leve'){
+
+                                  puntero = L.divIcon({
+
+                                  className: 'custom-marker-leve',
+                                  html: '<div class="pin-leve"></div>',
+                                  iconSize: [32, 32],
+                         
+                                 });
+
+                            }else if (reporte.NOMBRE_CATEGORIA == 'Medio'){
+
+                                 puntero = L.divIcon({
+
+                                  className: 'custom-marker-medio',
+                                  html: '<div class="pin-medio"></div>',
+                                  iconSize: [32, 32],
+                         
+                                 });
+                                
+                            }else{
+
+                                 puntero = L.divIcon({
+
+                                  className: 'custom-marker',
+                                  html: '<div class="pin"></div>',
+                                  iconSize: [32, 32],
+                         
+                                 });
+
+
+                            }
+
+                            let sessionUsuario = $("#Identidad").val();
+                            console.log('La cedula de session es:', sessionUsuario, 'y el id del usuario recojido del listado es:', reporte.USUARIO_FK);
+
+                          
+
+
+                            if(reporte.USUARIO_FK == sessionUsuario){
+
+                                  puntero = L.divIcon({
+
+                                  className: 'custom-marker-user',
+                                  html: '<div class="pin-user"></div>',
+                                  iconSize: [32, 32],
+                         
+                                 });
+
+                            }                          
+
+
+
+                           let marker = L.marker([(reporte.LATITUD), (reporte.LONGITUD)], {icon: puntero});
+                           markersLayer.addLayer(marker);
+
+                           if (reporte.USUARIO_FK == sessionUsuario){
+
+
+                             marker.bindPopup(
+
+                                `<div style='border:3px solid #2E6DA4;height:auto;background-color:#1A3A5C;color:#F4F6F8' ><img style='width:100%;height:100%;object-fit:contain;' src='${image}' ><div style='padding:20px;' ><p>Daño: ${reporte.NOMBRE_DANO}</p><p class='categoriaDano' >Categoria: ${reporte.NOMBRE_CATEGORIA}</p><p>Provincia: ${reporte.PROVINCIA_NOM}</p><p>Cantó: ${reporte.CANTON_NOM}</p><p>Distrito: ${reporte.DISTRITO_NOM}</p><p>Fecha: ${reporte.FECHA}</p><button class='btn btn-success w-100' >Asignar responsable <i class="fa-solid fa-hammer"></i></button><div style='display:flex;gap:10px;padding-top:10px;' ><button onclick='EditarReporte(${reporte.REPORTE_ID})' class='btn btn-primary w-100' >Editar Reporte</button><button onclick='EliminarReporte(${reporte.REPORTE_ID})' class='btn btn-danger w-100' >Eliminar Reporte</button></div></div></div>`
+                                
+                            ).openPopup();
+
+
+
+                           }else{
+
+                            marker.bindPopup(
+
+                                `<div style='border:3px solid #2E6DA4;height:auto;witdh:400px;background-color:#1A3A5C;color:#F4F6F8' ><img style='width:100%;height:100%;object-fit:contain;' src='${image}' ><div style='padding:20px;' ><p>Daño: ${reporte.NOMBRE_DANO}</p><p class='categoriaDano' >Categoria: ${reporte.NOMBRE_CATEGORIA}</p><p>Provincia: ${reporte.PROVINCIA_NOM}</p><p>Cantó: ${reporte.CANTON_NOM}</p><p>Distrito: ${reporte.DISTRITO_NOM}</p><p>Fecha: ${reporte.FECHA}</p><button class='btn btn-success w-100' >Asignar responsable <i class="fa-solid fa-hammer"></i></button></div></div>`
+                                
+                            ).openPopup();
+
+                            }
+
+
+                    });
+
+
+                }else{
+
+                    Swal.fire('No existen reportes según tu busqueda', '', 'warning');
+                    listadoReportes();
+                }
+            }, error: function(xhr, status){
+
+                console.log('ERROR:', xhr.responseText);
+                console.log('STATUS:', status)
+            }
+
+
+        });
+
+
+
+    }else if(tipodano == 97 && categoria != 98 && provincia != 99){
+
+
+         $.ajax({
+
+            url: '../router/rutas.php?action=filtrarReporteCategoriaXprovincia',
+            method: 'POST',
+            dataType: 'json',
+            data: {categoria : categoria, provincia : provincia},
+            success: function(response){
+
+                if(response.status == 'success'){
+
+                    markersLayer = L.layerGroup().addTo(map);
+
+                    response.data.forEach(reporte =>{
+
+                         let image = '';
+
+                            if(reporte.NOMBRE_DANO == 'Hueco' ){
+
+                                image = '../image/hueco.png';
+
+                            }else if(reporte.NOMBRE_DANO == 'Daño en desague'){
+
+                                image = '../image/desague.png';
+
+                            }else if (reporte.NOMBRE_DANO == 'Semaforo dañado'){
+
+                                image = '../image/semaforo.png';
+
+                            }else if (reporte.NOMBRE_DANO == 'Grieta'){
+
+                                image = '../image/Grieta.png';
+
+                            }else if(reporte.NOMBRE_DANO == 'Señal caida'){
+
+                                image = '../image/SenalCaida.png';
+                            }
+
+                            if(reporte.NOMBRE_CATEGORIA == 'Leve'){
+
+                                  puntero = L.divIcon({
+
+                                  className: 'custom-marker-leve',
+                                  html: '<div class="pin-leve"></div>',
+                                  iconSize: [32, 32],
+                         
+                                 });
+
+                            }else if (reporte.NOMBRE_CATEGORIA == 'Medio'){
+
+                                 puntero = L.divIcon({
+
+                                  className: 'custom-marker-medio',
+                                  html: '<div class="pin-medio"></div>',
+                                  iconSize: [32, 32],
+                         
+                                 });
+                                
+                            }else{
+
+                                 puntero = L.divIcon({
+
+                                  className: 'custom-marker',
+                                  html: '<div class="pin"></div>',
+                                  iconSize: [32, 32],
+                         
+                                 });
+
+
+                            }
+
+                            let sessionUsuario = $("#Identidad").val();
+                            console.log('La cedula de session es:', sessionUsuario, 'y el id del usuario recojido del listado es:', reporte.USUARIO_FK);
+
+                          
+
+
+                            if(reporte.USUARIO_FK == sessionUsuario){
+
+                                  puntero = L.divIcon({
+
+                                  className: 'custom-marker-user',
+                                  html: '<div class="pin-user"></div>',
+                                  iconSize: [32, 32],
+                         
+                                 });
+
+                            }                          
+
+
+
+                           let marker = L.marker([(reporte.LATITUD), (reporte.LONGITUD)], {icon: puntero});
+                           markersLayer.addLayer(marker);
+
+                           if (reporte.USUARIO_FK == sessionUsuario){
+
+
+                             marker.bindPopup(
+
+                                `<div style='border:3px solid #2E6DA4;height:auto;background-color:#1A3A5C;color:#F4F6F8' ><img style='width:100%;height:100%;object-fit:contain;' src='${image}' ><div style='padding:20px;' ><p>Daño: ${reporte.NOMBRE_DANO}</p><p class='categoriaDano' >Categoria: ${reporte.NOMBRE_CATEGORIA}</p><p>Provincia: ${reporte.PROVINCIA_NOM}</p><p>Cantó: ${reporte.CANTON_NOM}</p><p>Distrito: ${reporte.DISTRITO_NOM}</p><p>Fecha: ${reporte.FECHA}</p><button class='btn btn-success w-100' >Asignar responsable <i class="fa-solid fa-hammer"></i></button><div style='display:flex;gap:10px;padding-top:10px;' ><button onclick='EditarReporte(${reporte.REPORTE_ID})' class='btn btn-primary w-100' >Editar Reporte</button><button onclick='EliminarReporte(${reporte.REPORTE_ID})' class='btn btn-danger w-100' >Eliminar Reporte</button></div></div></div>`
+                                
+                            ).openPopup();
+
+
+
+                           }else{
+
+                            marker.bindPopup(
+
+                                `<div style='border:3px solid #2E6DA4;height:auto;witdh:400px;background-color:#1A3A5C;color:#F4F6F8' ><img style='width:100%;height:100%;object-fit:contain;' src='${image}' ><div style='padding:20px;' ><p>Daño: ${reporte.NOMBRE_DANO}</p><p class='categoriaDano' >Categoria: ${reporte.NOMBRE_CATEGORIA}</p><p>Provincia: ${reporte.PROVINCIA_NOM}</p><p>Cantó: ${reporte.CANTON_NOM}</p><p>Distrito: ${reporte.DISTRITO_NOM}</p><p>Fecha: ${reporte.FECHA}</p><button class='btn btn-success w-100' >Asignar responsable <i class="fa-solid fa-hammer"></i></button></div></div>`
+                                
+                            ).openPopup();
+
+                            }
+
+
+                    });
+
+
+                }else{
+
+                    Swal.fire('No existen reportes según tu busqueda', '', 'warning');
+                    listadoReportes();
+                }
+            }, error: function(xhr, status){
+
+                console.log('ERROR:', xhr.responseText);
+                console.log('STATUS:', status)
+            }
+
+
+        });
+
+
+    }else if(tipodano != 97 && categoria != 98 && provincia != 99) {
+
+         $.ajax({
+
+            url: '../router/rutas.php?action=filtrarReporteCategoriaXprovinciaXtipodano',
+            method: 'POST',
+            dataType: 'json',
+            data: {tipodano : tipodano, categoria : categoria, provincia : provincia},
+            success: function(response){
+
+                if(response.status == 'success'){
+
+                    markersLayer = L.layerGroup().addTo(map);
+
+                    response.data.forEach(reporte =>{
+
+                         let image = '';
+
+                            if(reporte.NOMBRE_DANO == 'Hueco' ){
+
+                                image = '../image/hueco.png';
+
+                            }else if(reporte.NOMBRE_DANO == 'Daño en desague'){
+
+                                image = '../image/desague.png';
+
+                            }else if (reporte.NOMBRE_DANO == 'Semaforo dañado'){
+
+                                image = '../image/semaforo.png';
+
+                            }else if (reporte.NOMBRE_DANO == 'Grieta'){
+
+                                image = '../image/Grieta.png';
+
+                            }else if(reporte.NOMBRE_DANO == 'Señal caida'){
+
+                                image = '../image/SenalCaida.png';
+                            }
+
+                            if(reporte.NOMBRE_CATEGORIA == 'Leve'){
+
+                                  puntero = L.divIcon({
+
+                                  className: 'custom-marker-leve',
+                                  html: '<div class="pin-leve"></div>',
+                                  iconSize: [32, 32],
+                         
+                                 });
+
+                            }else if (reporte.NOMBRE_CATEGORIA == 'Medio'){
+
+                                 puntero = L.divIcon({
+
+                                  className: 'custom-marker-medio',
+                                  html: '<div class="pin-medio"></div>',
+                                  iconSize: [32, 32],
+                         
+                                 });
+                                
+                            }else{
+
+                                 puntero = L.divIcon({
+
+                                  className: 'custom-marker',
+                                  html: '<div class="pin"></div>',
+                                  iconSize: [32, 32],
+                         
+                                 });
+
+
+                            }
+
+                            let sessionUsuario = $("#Identidad").val();
+                            console.log('La cedula de session es:', sessionUsuario, 'y el id del usuario recojido del listado es:', reporte.USUARIO_FK);
+
+                          
+
+
+                            if(reporte.USUARIO_FK == sessionUsuario){
+
+                                  puntero = L.divIcon({
+
+                                  className: 'custom-marker-user',
+                                  html: '<div class="pin-user"></div>',
+                                  iconSize: [32, 32],
+                         
+                                 });
+
+                            }                          
+
+
+
+                           let marker = L.marker([(reporte.LATITUD), (reporte.LONGITUD)], {icon: puntero});
+                           markersLayer.addLayer(marker);
+
+                           if (reporte.USUARIO_FK == sessionUsuario){
+
+
+                             marker.bindPopup(
+
+                                `<div style='border:3px solid #2E6DA4;height:auto;background-color:#1A3A5C;color:#F4F6F8' ><img style='width:100%;height:100%;object-fit:contain;' src='${image}' ><div style='padding:20px;' ><p>Daño: ${reporte.NOMBRE_DANO}</p><p class='categoriaDano' >Categoria: ${reporte.NOMBRE_CATEGORIA}</p><p>Provincia: ${reporte.PROVINCIA_NOM}</p><p>Cantó: ${reporte.CANTON_NOM}</p><p>Distrito: ${reporte.DISTRITO_NOM}</p><p>Fecha: ${reporte.FECHA}</p><button class='btn btn-success w-100' >Asignar responsable <i class="fa-solid fa-hammer"></i></button><div style='display:flex;gap:10px;padding-top:10px;' ><button onclick='EditarReporte(${reporte.REPORTE_ID})' class='btn btn-primary w-100' >Editar Reporte</button><button onclick='EliminarReporte(${reporte.REPORTE_ID})' class='btn btn-danger w-100' >Eliminar Reporte</button></div></div></div>`
+                                
+                            ).openPopup();
+
+
+
+                           }else{
+
+                            marker.bindPopup(
+
+                                `<div style='border:3px solid #2E6DA4;height:auto;witdh:400px;background-color:#1A3A5C;color:#F4F6F8' ><img style='width:100%;height:100%;object-fit:contain;' src='${image}' ><div style='padding:20px;' ><p>Daño: ${reporte.NOMBRE_DANO}</p><p class='categoriaDano' >Categoria: ${reporte.NOMBRE_CATEGORIA}</p><p>Provincia: ${reporte.PROVINCIA_NOM}</p><p>Cantó: ${reporte.CANTON_NOM}</p><p>Distrito: ${reporte.DISTRITO_NOM}</p><p>Fecha: ${reporte.FECHA}</p><button class='btn btn-success w-100' >Asignar responsable <i class="fa-solid fa-hammer"></i></button></div></div>`
+                                
+                            ).openPopup();
+
+                            }
+
+
+                    });
+
+
+                }else{
+
+                    Swal.fire('No existen reportes según su busqueda', '', 'warning');
+                    listadoReportes();
+                }
+            }, error: function(xhr, status){
+
+                console.log('ERROR:', xhr.responseText);
+                console.log('STATUS:', status)
+            }
+
+
+        });
+
+    }else{
+
+        Swal.fire('No existen reportes según tu busqueda', '', 'warning');
+        listadoReportes();
+    }
+        
+    });
+
+    $('#botonFiltroMisReportes').click(function(){
+
+        markersLayer.clearLayers();
+
+        let usuario = $('#Identidad').val();
+
+         $.ajax({
+
+            url: '../router/rutas.php?action=filtrarReporteUsuario',
+            method: 'POST',
+            dataType: 'json',
+            data: {usuario : usuario},
+            success: function(response){
+
+                if(response.status == 'success'){
+
+                    markersLayer = L.layerGroup().addTo(map);
+
+                    response.data.forEach(reporte =>{
+
+                         let image = '';
+
+                            if(reporte.NOMBRE_DANO == 'Hueco' ){
+
+                                image = '../image/hueco.png';
+
+                            }else if(reporte.NOMBRE_DANO == 'Daño en desague'){
+
+                                image = '../image/desague.png';
+
+                            }else if (reporte.NOMBRE_DANO == 'Semaforo dañado'){
+
+                                image = '../image/semaforo.png';
+
+                            }else if (reporte.NOMBRE_DANO == 'Grieta'){
+
+                                image = '../image/Grieta.png';
+
+                            }else if(reporte.NOMBRE_DANO == 'Señal caida'){
+
+                                image = '../image/SenalCaida.png';
+                            }
+
+                            if(reporte.NOMBRE_CATEGORIA == 'Leve'){
+
+                                  puntero = L.divIcon({
+
+                                  className: 'custom-marker-leve',
+                                  html: '<div class="pin-leve"></div>',
+                                  iconSize: [32, 32],
+                         
+                                 });
+
+                            }else if (reporte.NOMBRE_CATEGORIA == 'Medio'){
+
+                                 puntero = L.divIcon({
+
+                                  className: 'custom-marker-medio',
+                                  html: '<div class="pin-medio"></div>',
+                                  iconSize: [32, 32],
+                         
+                                 });
+                                
+                            }else{
+
+                                 puntero = L.divIcon({
+
+                                  className: 'custom-marker',
+                                  html: '<div class="pin"></div>',
+                                  iconSize: [32, 32],
+                         
+                                 });
+
+
+                            }
+
+                            let sessionUsuario = $("#Identidad").val();
+                            console.log('La cedula de session es:', sessionUsuario, 'y el id del usuario recojido del listado es:', reporte.USUARIO_FK);
+
+                          
+
+
+                            if(reporte.USUARIO_FK == sessionUsuario){
+
+                                  puntero = L.divIcon({
+
+                                  className: 'custom-marker-user',
+                                  html: '<div class="pin-user"></div>',
+                                  iconSize: [32, 32],
+                         
+                                 });
+
+                            }                          
+
+
+
+                           let marker = L.marker([(reporte.LATITUD), (reporte.LONGITUD)], {icon: puntero});
+                           markersLayer.addLayer(marker);
+
+                           if (reporte.USUARIO_FK == sessionUsuario){
+
+
+                             marker.bindPopup(
+
+                                `<div style='border:3px solid #2E6DA4;height:auto;background-color:#1A3A5C;color:#F4F6F8' ><img style='width:100%;height:100%;object-fit:contain;' src='${image}' ><div style='padding:20px;' ><p>Daño: ${reporte.NOMBRE_DANO}</p><p class='categoriaDano' >Categoria: ${reporte.NOMBRE_CATEGORIA}</p><p>Provincia: ${reporte.PROVINCIA_NOM}</p><p>Cantó: ${reporte.CANTON_NOM}</p><p>Distrito: ${reporte.DISTRITO_NOM}</p><p>Fecha: ${reporte.FECHA}</p><button class='btn btn-success w-100' >Asignar responsable <i class="fa-solid fa-hammer"></i></button><div style='display:flex;gap:10px;padding-top:10px;' ><button onclick='EditarReporte(${reporte.REPORTE_ID})' class='btn btn-primary w-100' >Editar Reporte</button><button onclick='EliminarReporte(${reporte.REPORTE_ID})' class='btn btn-danger w-100' >Eliminar Reporte</button></div></div></div>`
+                                
+                            ).openPopup();
+
+
+
+                           }else{
+
+                            marker.bindPopup(
+
+                                `<div style='border:3px solid #2E6DA4;height:auto;witdh:400px;background-color:#1A3A5C;color:#F4F6F8' ><img style='width:100%;height:100%;object-fit:contain;' src='${image}' ><div style='padding:20px;' ><p>Daño: ${reporte.NOMBRE_DANO}</p><p class='categoriaDano' >Categoria: ${reporte.NOMBRE_CATEGORIA}</p><p>Provincia: ${reporte.PROVINCIA_NOM}</p><p>Cantó: ${reporte.CANTON_NOM}</p><p>Distrito: ${reporte.DISTRITO_NOM}</p><p>Fecha: ${reporte.FECHA}</p><button class='btn btn-success w-100' >Asignar responsable <i class="fa-solid fa-hammer"></i></button></div></div>`
+                                
+                            ).openPopup();
+
+                            }
+
+
+                    });
+
+
+                }else{
+
+                    Swal.fire('No existen reportes según tu busqueda', '', 'warning');
+                    listadoReportes();
+                }
+            }, error: function(xhr, status){
+
+                console.log('ERROR:', xhr.responseText);
+                console.log('STATUS:', status)
+            }
+
+
+        });
+
+
+
+    });
+
+    $('#botonFiltroAll').click(function(){
+
+
+        listadoReportes();
+
+    });
+
+        
+    function listadoReportes(){
+
+        markersLayer.clearLayers();
+
+
+         $.ajax({
+
+            url: '../router/rutas.php?action=obtenerReportes',
+            method: 'GET',
+            dataType: 'json',
+            success: function(response){
+
+                if(response.status == 'success'){
+
+                    markersLayer = L.layerGroup().addTo(map);
+
+                    response.data.forEach(reporte =>{
+
+                         let image = '';
+
+                            if(reporte.NOMBRE_DANO == 'Hueco' ){
+
+                                image = '../image/hueco.png';
+
+                            }else if(reporte.NOMBRE_DANO == 'Daño en desague'){
+
+                                image = '../image/desague.png';
+
+                            }else if (reporte.NOMBRE_DANO == 'Semaforo dañado'){
+
+                                image = '../image/semaforo.png';
+
+                            }else if (reporte.NOMBRE_DANO == 'Grieta'){
+
+                                image = '../image/Grieta.png';
+
+                            }else if(reporte.NOMBRE_DANO == 'Señal caida'){
+
+                                image = '../image/SenalCaida.png';
+                            }
+
+                            if(reporte.NOMBRE_CATEGORIA == 'Leve'){
+
+                                  puntero = L.divIcon({
+
+                                  className: 'custom-marker-leve',
+                                  html: '<div class="pin-leve"></div>',
+                                  iconSize: [32, 32],
+                         
+                                 });
+
+                            }else if (reporte.NOMBRE_CATEGORIA == 'Medio'){
+
+                                 puntero = L.divIcon({
+
+                                  className: 'custom-marker-medio',
+                                  html: '<div class="pin-medio"></div>',
+                                  iconSize: [32, 32],
+                         
+                                 });
+                                
+                            }else{
+
+                                 puntero = L.divIcon({
+
+                                  className: 'custom-marker',
+                                  html: '<div class="pin"></div>',
+                                  iconSize: [32, 32],
+                         
+                                 });
+
+
+                            }
+
+                            let sessionUsuario = $("#Identidad").val();
+                            console.log('La cedula de session es:', sessionUsuario, 'y el id del usuario recojido del listado es:', reporte.USUARIO_FK);
+
+                          
+
+
+                            if(reporte.USUARIO_FK == sessionUsuario){
+
+                                  puntero = L.divIcon({
+
+                                  className: 'custom-marker-user',
+                                  html: '<div class="pin-user"></div>',
+                                  iconSize: [32, 32],
+                         
+                                 });
+
+                            }                          
+
+
+
+                           let marker = L.marker([(reporte.LATITUD), (reporte.LONGITUD)], {icon: puntero});
+                           markersLayer.addLayer(marker);
+
+                           if (reporte.USUARIO_FK == sessionUsuario){
+
+
+                             marker.bindPopup(
+
+                                `<div style='border:3px solid #2E6DA4;height:auto;background-color:#1A3A5C;color:#F4F6F8' ><img style='width:100%;height:100%;object-fit:contain;' src='${image}' ><div style='padding:20px;' ><p>Daño: ${reporte.NOMBRE_DANO}</p><p class='categoriaDano' >Categoria: ${reporte.NOMBRE_CATEGORIA}</p><p>Provincia: ${reporte.PROVINCIA_NOM}</p><p>Cantó: ${reporte.CANTON_NOM}</p><p>Distrito: ${reporte.DISTRITO_NOM}</p><p>Fecha: ${reporte.FECHA}</p><button class='btn btn-success w-100' >Asignar responsable <i class="fa-solid fa-hammer"></i></button><div style='display:flex;gap:10px;padding-top:10px;' ><button onclick='EditarReporte(${reporte.REPORTE_ID})' class='btn btn-primary w-100' >Editar Reporte</button><button onclick='EliminarReporte(${reporte.REPORTE_ID})' class='btn btn-danger w-100' >Eliminar Reporte</button></div></div></div>`
+                                
+                            ).openPopup();
+
+
+
+                           }else{
+
+                            marker.bindPopup(
+
+                                `<div style='border:3px solid #2E6DA4;height:auto;witdh:400px;background-color:#1A3A5C;color:#F4F6F8' ><img style='width:100%;height:100%;object-fit:contain;' src='${image}' ><div style='padding:20px;' ><p>Daño: ${reporte.NOMBRE_DANO}</p><p class='categoriaDano' >Categoria: ${reporte.NOMBRE_CATEGORIA}</p><p>Provincia: ${reporte.PROVINCIA_NOM}</p><p>Cantó: ${reporte.CANTON_NOM}</p><p>Distrito: ${reporte.DISTRITO_NOM}</p><p>Fecha: ${reporte.FECHA}</p><button class='btn btn-success w-100' >Asignar responsable <i class="fa-solid fa-hammer"></i></button></div></div>`
+                                
+                            ).openPopup();
+
+                            }
+
+
+                    });
+
+
+                }else{
+
+                    Swal.fire('No existen reportes según tu busqueda', '', 'warning');
+                }
+            }, error: function(xhr, status){
+
+                console.log('ERROR:', xhr.responseText);
+                console.log('STATUS:', status)
+            }
+
+
+        });
+
+
+
+    };
+    
     
 
    

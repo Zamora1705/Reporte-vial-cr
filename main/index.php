@@ -85,15 +85,31 @@ if(isset($_SESSION['Usuario'])){
                         <li>
                             <div class="busqueda">
                                 <h2>Busqueda de reportes</h2>
-                                <input type="text" class="form-control" placeholder="Buscar reporte">
-                                <select name="" class="filtro1_dano" placeholder="Tipo de daño" id="">
+                                
+                                <select name="tipodano" class="filtro1_dano"  id="tipodanoFiltro">
                                     <option value="">Tipo de daño</option>
                                 </select>
-                                <select name="" class="filtro2_dano" id="">
+                                <select name="categoria" class="filtro2_dano" id="CategoriaFiltro">
                                     <option value="">Categoria de daño</option>
                                 </select>
-                                <button class="button-busqueda">Realizar busqueda <i
+                                 <select name="provincia" class="filtro2_dano" id="ProvinciaFiltro">
+                                    <option value="">Provincia</option>
+                                </select>
+                                <button type='button' id='botonFiltro' class="button-busqueda">Realizar busqueda <i
                                         class='fa-solid fa-magnifying-glass'></i></button>
+                                <button type='button' id='botonFiltroAll' class='button-busqueda'>Todos los reportes <i
+                                        class='fa-solid fa-magnifying-glass'></i></button>          
+                                        
+                                <?php
+                                
+                                if(isset($_SESSION['Usuario'])){
+                                
+                               echo "<button type='button' id='botonFiltroMisReportes' class='button-busqueda'>Mis reportes <i
+                                        class='fa-solid fa-magnifying-glass'></i></button> ";
+
+                                }        
+
+                                ?>        
                             </div>
                         </li>
                     </ul>
@@ -197,13 +213,13 @@ if(isset($_SESSION['Usuario'])){
                             </select>
                         </div>
                         <div id="bloqueDistrito" class="select mt-3">
-                            <label for="Distrito" class="form-label">Distrito (opcional)</label>
+                            <label for="Distrito" class="form-label">Distrito </label>
                             <select name="Distrito" class="form-control" id="Distrito">
                               
                             </select>
                         </div>
                         <div id="bloqueCalle" class="select mt-3 mb-3">
-                            <label for="calle" class="form-label">Nombre de la calle (opcional)</label>
+                            <label for="calle" class="form-label">Nombre de la calle </label>
                             <select name="calle" class="form-control" id="calle">
                 
                             </select>
@@ -254,13 +270,13 @@ if(isset($_SESSION['Usuario'])){
                             </select>
                         </div>
                         <div id="bloqueDistritoOld" class="select mt-3">
-                            <label for="Distrito" class="form-label">Distrito (opcional)</label>
+                            <label for="Distrito" class="form-label">Distrito</label>
                             <select name="Distrito" class="form-control" id="DistritoOld">
                               
                             </select>
                         </div>
                         <div id="bloqueCalleOld" class="select mt-3 mb-3">
-                            <label for="calle" class="form-label">Nombre de la calle (opcional)</label>
+                            <label for="calle" class="form-label">Nombre de la calle</label>
                             <select name="calle" class="form-control" id="calleOld">
                 
                             </select>

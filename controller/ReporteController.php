@@ -101,6 +101,183 @@ class ReporteController{
 
     }
 
+    public function filtrarReporte(){
+
+        $Reporte = new Reporte();
+
+        $tipodano = $_POST['tipodano'] ?? '';
+
+        $resultado = $Reporte->filtrarReporte($tipodano);
+
+        if($resultado){
+
+           echo json_encode(['status'=>'success', 'data'=>$resultado]);
+
+        }else{
+
+           echo json_encode(['status'=>'error']);
+
+        }
+
+
+    }
+
+    public function filtrarReporteCategoria(){
+
+        $Reporte = new Reporte();
+
+        $categoria = $_POST['categoria'] ?? '';
+
+        $resultado = $Reporte->filtrarReporteCategoria($categoria);
+
+        if($resultado){
+
+           echo json_encode(['status'=>'success', 'data'=>$resultado]);
+
+        }else{
+
+           echo json_encode(['status'=>'error']);
+
+        }
+
+
+    }
+
+    public function filtrarReporteProvincia(){
+
+        $Reporte = new Reporte();
+
+        $provincia = $_POST['provincia'] ?? '';
+
+        $resultado = $Reporte->filtrarReporteProvincia($provincia);
+
+        if($resultado){
+
+           echo json_encode(['status'=>'success', 'data'=>$resultado]);
+
+        }else{
+
+           echo json_encode(['status'=>'error']);
+
+        }
+
+    }
+
+    public function filtrarReporteTipoDanoXCategoria(){
+
+        $Reporte = new Reporte();
+
+        $tipodano = $_POST['tipodano'] ?? '';
+        $categoria = $_POST['categoria'] ?? '';
+
+        $resultado = $Reporte->filtrarReporteTipoDanoXCategoria($tipodano, $categoria);
+
+        if($resultado){
+
+           echo json_encode(['status'=>'success', 'data'=>$resultado]);
+
+        }else{
+
+           echo json_encode(['status'=>'error']);
+
+        }
+
+    }
+
+    public function filtrarReporteTipoDanoXprovincia(){
+
+        $Reporte = new Reporte();
+
+        $tipodano = $_POST['tipodano'] ?? '';
+        $provincia = $_POST['provincia'] ?? '';
+
+        $resultado = $Reporte->filtrarReporteTipoDanoXprovincia($tipodano, $provincia);
+
+        if($resultado){
+
+           echo json_encode(['status'=>'success', 'data'=>$resultado]);
+
+        }else{
+
+           echo json_encode(['status'=>'error']);
+
+        }
+
+
+    }
+
+    public function filtrarReporteCategoriaXprovincia(){
+
+        $Reporte = new Reporte();
+
+        $categoria = $_POST['categoria'] ?? '';
+        $provincia = $_POST['provincia'] ?? '';
+
+        $resultado = $Reporte->filtrarReporteCategoriaXprovincia($categoria, $provincia);
+
+        if($resultado){
+
+           echo json_encode(['status'=>'success', 'data'=>$resultado]);
+
+        }else{
+
+           echo json_encode(['status'=>'error']);
+
+        }
+
+
+    }
+
+    public function filtrarReporteCategoriaXprovinciaXtipodano(){
+
+          $Reporte = new Reporte();
+
+        $tipodano = $_POST['tipodano'] ?? '';  
+        $categoria = $_POST['categoria'] ?? '';
+        $provincia = $_POST['provincia'] ?? '';
+
+        $resultado = $Reporte->filtrarReporteCategoriaXprovinciaXtipodano($tipodano, $categoria, $provincia);
+
+        if($resultado){
+
+           echo json_encode(['status'=>'success', 'data'=>$resultado]);
+
+        }else{
+
+           echo json_encode(['status'=>'error']);
+
+        }
+
+
+    }
+
+    public function filtrarReporteUsuario(){
+
+    $Reporte = new Reporte();
+
+        $usuario = $_POST['usuario'] ?? '';  
+
+        $resultado = $Reporte->filtrarReporteUsuario($usuario);
+
+        if($resultado){
+
+           echo json_encode(['status'=>'success', 'data'=>$resultado]);
+
+        }else{
+
+           echo json_encode(['status'=>'error']);
+
+        }
+
+
+    }
+
+
+
+
+
+    
+
 
 }
 
