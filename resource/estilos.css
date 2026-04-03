@@ -632,3 +632,58 @@ footer .content-socialmedia ul li a p{
     
 
 }
+
+.bloqueInformativoReportes{
+
+    background-color: #F4F6F8;
+    height: auto;
+    width: 100%;
+    border-radius: 16px;
+    margin-top: 20px;
+    padding: 20px;
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+
+.bloqueInformativoReportes .reporteLeve{
+
+    display: flex;
+    gap: 10px;
+}
+
+.bloqueInformativoReportes .reporteLeve #iconoReporte-leve{
+
+    width: 30px;
+    height: 30px;
+    border-radius: 30px;
+    background-color: green;
+   
+}
+
+.bloqueInformativoReportes .reporteLeve #iconoReporte-medio{
+
+    width: 30px;
+    height: 30px;
+    border-radius: 30px;
+    background-color: orange;
+   
+}
+
+.bloqueInformativoReportes .reporteLeve #iconoReporte-alto{
+
+    width: 30px;
+    height: 30px;
+    border-radius: 30px;
+    background-color: red;
+   
+}
+
+.bloqueInformativoReportes .reporteLeve #iconoReporte-personal{
+
+    width: 30px;
+    height: 30px;
+    border-radius: 30px;
+    background-color: blue;
+   
+}

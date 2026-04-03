@@ -15,7 +15,7 @@ $(function () {
 
             map = L.map('map').setView([latitude, longitude], 25);
 
-           
+
 
             map.on('click', function (e) {
 
@@ -32,54 +32,54 @@ $(function () {
                 $('#Longitud').attr('value', lon);
                 $('#Latitud').attr('value', lat);
 
-               });  
+            });
 
-                $('#formularioNuevoReporte').submit(function (e){
-
-                    
-                     console.log('Se ejecuto el formulario');
-                     console.log(lon);
-                     console.log(lat);
-                    e.preventDefault();
-
-                    $.ajax({
-
-                        url: '../router/rutas.php?action=crearReporte',
-                        method: 'POST',
-                        dataType: 'json',
-                        data: $(this).serialize(),
-
-                        success: function(response){
-                          
-
-                            if(response.status == 'success'){
-                                console.log('Se ejecuto el formulario y entro en funcion success');
-                                Swal.fire('! Reporte perfectamente generado ¡', '', 'success');
-                                setTimeout(function (){
-
-                                    window.location.reload();
-
-                                }, 1000);
-                            }else{
-
-                                Swal.fire('Error en generar el reporte', '', 'error');
-                            }
+            $('#formularioNuevoReporte').submit(function (e) {
 
 
-                        }, error: function(xhr, status){
+                console.log('Se ejecuto el formulario');
+                console.log(lon);
+                console.log(lat);
+                e.preventDefault();
 
-                            console.log('Error: ', xhr.responseText);
-                            console.log('status:', status);
+                $.ajax({
+
+                    url: '../router/rutas.php?action=crearReporte',
+                    method: 'POST',
+                    dataType: 'json',
+                    data: $(this).serialize(),
+
+                    success: function (response) {
+
+
+                        if (response.status == 'success') {
+                            console.log('Se ejecuto el formulario y entro en funcion success');
+                            Swal.fire('! Reporte perfectamente generado ¡', '', 'success');
+                            setTimeout(function () {
+
+                                window.location.reload();
+
+                            }, 1000);
+                        } else {
+
+                            Swal.fire('Error en generar el reporte', '', 'error');
                         }
 
 
-                    });
+                    }, error: function (xhr, status) {
+
+                        console.log('Error: ', xhr.responseText);
+                        console.log('status:', status);
+                    }
 
 
                 });
 
 
-           
+            });
+
+
+
 
             L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
                 attribution: '&copy; OpenStreetMap contributors'
@@ -91,77 +91,77 @@ $(function () {
                 "<h4>Estas aquí</h4>"
             ).openPopup();
 
-    
+
             $.ajax({
 
                 url: '../router/rutas.php?action=obtenerReportes',
                 method: 'GET',
                 dataType: 'json',
-                success: function(response){
+                success: function (response) {
 
-                    if(response.status == 'success'){
+                    if (response.status == 'success') {
 
                         console.log('obtencion satisfactoria de los reportes');
                         console.log('Los datos son:', response.data);
-                      
+
 
                         markersLayer = L.layerGroup().addTo(map);
-                        
 
-                        response.data.forEach(reporte=> {
+
+                        response.data.forEach(reporte => {
 
                             let image = '';
 
-                            if(reporte.NOMBRE_DANO == 'Hueco' ){
+                            if (reporte.NOMBRE_DANO == 'Hueco') {
 
                                 image = '../image/hueco.png';
 
-                            }else if(reporte.NOMBRE_DANO == 'Daño en desague'){
+                            } else if (reporte.NOMBRE_DANO == 'Daño en desague') {
 
                                 image = '../image/desague.png';
 
-                            }else if (reporte.NOMBRE_DANO == 'Semaforo dañado'){
+                            } else if (reporte.NOMBRE_DANO == 'Semaforo dañado') {
 
                                 image = '../image/semaforo.png';
 
-                            }else if (reporte.NOMBRE_DANO == 'Grieta'){
+                            } else if (reporte.NOMBRE_DANO == 'Grieta') {
 
                                 image = '../image/Grieta.png';
 
-                            }else if(reporte.NOMBRE_DANO == 'Señal caida'){
+                            } else if (reporte.NOMBRE_DANO == 'Señal caida') {
 
                                 image = '../image/SenalCaida.png';
                             }
 
-                            if(reporte.NOMBRE_CATEGORIA == 'Leve'){
+                            if (reporte.NOMBRE_CATEGORIA == 'Leve') {
 
-                                  puntero = L.divIcon({
+                                puntero = L.divIcon({
 
-                                  className: 'custom-marker-leve',
-                                  html: '<div class="pin-leve"></div>',
-                                  iconSize: [32, 32],
-                         
-                                 });
+                                    className: 'custom-marker-leve',
+                                    html: '<div class="pin-leve"></div>',
+                                    iconSize: [32, 32],
 
-                            }else if (reporte.NOMBRE_CATEGORIA == 'Medio'){
+                                });
 
-                                 puntero = L.divIcon({
+                            } else if (reporte.NOMBRE_CATEGORIA == 'Medio') {
 
-                                  className: 'custom-marker-medio',
-                                  html: '<div class="pin-medio"></div>',
-                                  iconSize: [32, 32],
-                         
-                                 });
-                                
-                            }else{
+                                puntero = L.divIcon({
 
-                                 puntero = L.divIcon({
+                                    className: 'custom-marker-medio',
+                                    html: '<div class="pin-medio"></div>',
+                                    iconSize: [32, 32],
 
-                                  className: 'custom-marker',
-                                  html: '<div class="pin"></div>',
-                                  iconSize: [32, 32],
-                         
-                                 });
+                                });
+
+                            } else {
+
+                                puntero = L.divIcon({
+
+                                    className: 'custom-marker',
+                                    html: '<div class="pin"></div>',
+                                    iconSize: [32, 32],
+
+                                });
 
 
                             }
@@ -169,60 +169,60 @@ $(function () {
                             let sessionUsuario = $("#Identidad").val();
                             console.log('La cedula de session es:', sessionUsuario, 'y el id del usuario recojido del listado es:', reporte.USUARIO_FK);
 
-                          
-
-
-                            if(reporte.USUARIO_FK == sessionUsuario){
-
-                                  puntero = L.divIcon({
-
-                                  className: 'custom-marker-user',
-                                  html: '<div class="pin-user"></div>',
-                                  iconSize: [32, 32],
-                         
-                                 });
-
-                            }                          
 
 
 
-                            let marker = L.marker([(reporte.LATITUD), (reporte.LONGITUD)], {icon: puntero});
+                            if (reporte.USUARIO_FK == sessionUsuario) {
+
+                                puntero = L.divIcon({
+
+                                    className: 'custom-marker-user',
+                                    html: '<div class="pin-user"></div>',
+                                    iconSize: [32, 32],
+
+                                });
+
+                            }
+
+
+
+                            let marker = L.marker([(reporte.LATITUD), (reporte.LONGITUD)], { icon: puntero });
                             markersLayer.addLayer(marker);
 
-                           if (reporte.USUARIO_FK == sessionUsuario){
+                            if (reporte.USUARIO_FK == sessionUsuario) {
 
 
-                             marker.bindPopup(
+                                marker.bindPopup(
 
-                                `<div style='border:3px solid #2E6DA4;height:auto;background-color:#1A3A5C;color:#F4F6F8' ><img style='width:100%;height:100%;object-fit:contain;' src='${image}' ><div style='padding:20px;' ><p>Daño: ${reporte.NOMBRE_DANO}</p><p class='categoriaDano' >Categoria: ${reporte.NOMBRE_CATEGORIA}</p><p>Provincia: ${reporte.PROVINCIA_NOM}</p><p>Cantó: ${reporte.CANTON_NOM}</p><p>Distrito: ${reporte.DISTRITO_NOM}</p><p>Fecha: ${reporte.FECHA}</p><button class='btn btn-success w-100' >Asignar responsable <i class="fa-solid fa-hammer"></i></button><div style='display:flex;gap:10px;padding-top:10px;' ><button onclick='EditarReporte(${reporte.REPORTE_ID})' class='btn btn-primary w-100' >Editar Reporte</button><button onclick='EliminarReporte(${reporte.REPORTE_ID})' class='btn btn-danger w-100' >Eliminar Reporte</button></div></div></div>`
-                                
-                            ).openPopup();
+                                    `<div style='border:3px solid #2E6DA4;height:auto;background-color:#1A3A5C;color:#F4F6F8' ><img style='width:100%;height:100%;object-fit:contain;' src='${image}' ><div style='padding:20px;' ><p>Daño: ${reporte.NOMBRE_DANO}</p><p class='categoriaDano' >Categoria: ${reporte.NOMBRE_CATEGORIA}</p><p>Provincia: ${reporte.PROVINCIA_NOM}</p><p>Cantó: ${reporte.CANTON_NOM}</p><p>Distrito: ${reporte.DISTRITO_NOM}</p><p>Fecha: ${reporte.FECHA}</p><button class='btn btn-success w-100' >Asignar responsable <i class="fa-solid fa-hammer"></i></button><div style='display:flex;gap:10px;padding-top:10px;' ><button onclick='EditarReporte(${reporte.REPORTE_ID})' class='btn btn-primary w-100' >Editar Reporte</button><button onclick='EliminarReporte(${reporte.REPORTE_ID})' class='btn btn-danger w-100' >Eliminar Reporte</button></div></div></div>`
+
+                                ).openPopup();
 
 
 
-                           }else{
+                            } else {
 
-                            marker.bindPopup(
+                                marker.bindPopup(
 
-                                `<div style='border:3px solid #2E6DA4;height:auto;witdh:400px;background-color:#1A3A5C;color:#F4F6F8' ><img style='width:100%;height:100%;object-fit:contain;' src='${image}' ><div style='padding:20px;' ><p>Daño: ${reporte.NOMBRE_DANO}</p><p class='categoriaDano' >Categoria: ${reporte.NOMBRE_CATEGORIA}</p><p>Provincia: ${reporte.PROVINCIA_NOM}</p><p>Cantó: ${reporte.CANTON_NOM}</p><p>Distrito: ${reporte.DISTRITO_NOM}</p><p>Fecha: ${reporte.FECHA}</p><button class='btn btn-success w-100' >Asignar responsable <i class="fa-solid fa-hammer"></i></button></div></div>`
-                                
-                            ).openPopup();
+                                    `<div style='border:3px solid #2E6DA4;height:auto;witdh:400px;background-color:#1A3A5C;color:#F4F6F8' ><img style='width:100%;height:100%;object-fit:contain;' src='${image}' ><div style='padding:20px;' ><p>Daño: ${reporte.NOMBRE_DANO}</p><p class='categoriaDano' >Categoria: ${reporte.NOMBRE_CATEGORIA}</p><p>Provincia: ${reporte.PROVINCIA_NOM}</p><p>Cantó: ${reporte.CANTON_NOM}</p><p>Distrito: ${reporte.DISTRITO_NOM}</p><p>Fecha: ${reporte.FECHA}</p><button class='btn btn-success w-100' >Asignar responsable <i class="fa-solid fa-hammer"></i></button></div></div>`
+
+                                ).openPopup();
 
                             }
 
 
                         });
 
-                         
 
-                        
 
-                    }else{
+
+
+                    } else {
 
                         Swal.fire('Error en cargar los reportes', '', 'error');
 
                     }
-                }, error: function(xhr, status){
+                }, error: function (xhr, status) {
 
                     console.log("ERROR:", xhr.responseText);
                     console.log('status:', status);
@@ -230,7 +230,7 @@ $(function () {
 
 
             });
-            
+
 
 
 
@@ -366,14 +366,14 @@ $(function () {
 
                     });
 
-                 
 
-                        $('#Provincia').html(options);
-                        $('#ProvinciaFiltro').html(options);
 
-                    
+                    $('#Provincia').html(options);
+                    $('#ProvinciaFiltro').html(options);
 
-                   
+
+
+
 
 
 
@@ -423,7 +423,7 @@ $(function () {
 
     });
 
-    $('#Provincia').change(function(){
+    $('#Provincia').change(function () {
 
         cargarCantones();
 
@@ -455,13 +455,13 @@ $(function () {
 
                     });
 
-                 
 
-                        $('#Canton').html(options);
 
-                    
+                    $('#Canton').html(options);
 
-                    
+
+
+
 
 
 
@@ -482,14 +482,14 @@ $(function () {
 
     }
 
-    $('#Canton').change(function() {
+    $('#Canton').change(function () {
 
         cargarDistritos();
 
     });
 
 
-    
+
 
     function cargarDistritos(opcion) {
 
@@ -516,12 +516,12 @@ $(function () {
 
                     });
 
-                  
-                        $('#Distrito').html(options);
 
-                    
+                    $('#Distrito').html(options);
 
-                    
+
+
+
 
 
 
@@ -542,12 +542,12 @@ $(function () {
 
     }
 
-    $('#Distrito').change(function() {
+    $('#Distrito').change(function () {
 
-         cargarCalles();
+        cargarCalles();
     });
 
-   
+
 
     function cargarCalles(opcion) {
 
@@ -571,13 +571,13 @@ $(function () {
 
                     });
 
-                
 
-                        $('#calle').html(options);
 
-                    
+                    $('#calle').html(options);
 
-                    
+
+
+
 
 
 
@@ -598,17 +598,17 @@ $(function () {
 
     }
 
-     window.EditarReporte = function(Reporte_ID){
+    window.EditarReporte = function (Reporte_ID) {
 
         $.ajax({
 
             url: '../router/rutas.php?action=obtenerReporteByID',
             method: 'GET',
             dataType: 'json',
-            data: {reporte_id : Reporte_ID},
-            success: function(response){
+            data: { reporte_id: Reporte_ID },
+            success: function (response) {
 
-                if(response.status == 'success'){
+                if (response.status == 'success') {
 
                     console.log('Datos del reporte:', response.data);
 
@@ -627,249 +627,249 @@ $(function () {
 
                     $('#idreporte').attr('value', reporteid);
 
-                   
+
 
 
                     $('#EditarReporte').appendTo('body').modal('show');
 
-                     $.ajax({
-            url: '../router/rutas.php?action=obtenerTipoDanos',
-            method: 'GET',
-            dataType: 'json',
-            success: function (response) {
+                    $.ajax({
+                        url: '../router/rutas.php?action=obtenerTipoDanos',
+                        method: 'GET',
+                        dataType: 'json',
+                        success: function (response) {
 
-                if (response.status == 'success') {
-                    
-                    let options = '';
+                            if (response.status == 'success') {
 
-                    options =  `<option value='${tipodano_id}' >${tipodano}</option> `;
-                    response.data.forEach(data => {
+                                let options = '';
 
-                        if(tipodano_id !== data.DANO_ID){
+                                options = `<option value='${tipodano_id}' >${tipodano}</option> `;
+                                response.data.forEach(data => {
 
-                        options += `<option value="${data.DANO_ID}">${data.NOMBRE_DANO}</option>`;
+                                    if (tipodano_id !== data.DANO_ID) {
+
+                                        options += `<option value="${data.DANO_ID}">${data.NOMBRE_DANO}</option>`;
+
+                                    }
+
+                                });
+
+
+                                $('#tipodanoOld').html(options);
+
+                            } else {
+
+                                console.log('ocurrio un error en la obtencion de los datos');
+
+
+                            }
+                        }, error: function (xhr, status, error) {
+
+                            console.log('error:', xhr);
+                            console.log('error como tal:', xhr.responseText);
+                            console.log('status', status);
+
 
                         }
 
+
                     });
 
+                    $.ajax({
 
-                    $('#tipodanoOld').html(options);
+                        url: '../router/rutas.php?action=obtenerCategorias',
+                        method: 'GET',
+                        dataType: 'json',
+                        success: function (response) {
+
+                            if (response.status == 'success') {
+
+                                let options = '';
+                                options = `<option value='${categoriaId}'>${categoria}</option>`;
+
+                                response.data.forEach(item => {
+
+                                    if (categoriaId !== item.CATEGORIA_ID) {
+
+
+                                        options += `<option value="${item.CATEGORIA_ID}">${item.NOMBRE_CATEGORIA} (${item.DESCRIPCION})</option>`;
+
+                                    }
+
+                                });
+
+                                $('#CategoriaOld').html(options);
+
+
+
+
+
+                            }
+                        }, error: function (xhr, status, error) {
+
+                            console.log('ERROR:', xhr.responseText);
+                            console.log('status:', status);
+
+                        }
+
+
+                    });
+
+                    $.ajax({
+
+                        url: '../router/rutas.php?action=obtenerProvincias',
+                        method: 'GET',
+                        dataType: 'json',
+                        success: function (response) {
+
+                            console.log('Se ejecuta la funcion obtener provincias en editar reporte');
+                            if (response.status == 'success') {
+
+                                console.log('exitoso la obtencion de provincias en editar reporte y el resultado fue:', response.data, 'y la provincia del reporte es:', provincia)
+                                let options = '';
+                                options = `<option value='${provincia}' >${provincia}</option>`;
+                                response.data.forEach(item => {
+
+                                    if (provincia !== item.NOMBRE_PROVINCIA) {
+
+                                        options += `<option value="${item.NOMBRE_PROVINCIA}">${item.NOMBRE_PROVINCIA}</option>`;
+
+                                    }
+
+                                });
+
+
+
+                                $('#ProvinciaOld').html(options);
+
+                            }
+                        }, error: function (xhr, status, error) {
+
+                            console.log('ERROR:', xhr.responseText);
+                            console.log('status:', status);
+
+                        }
+
+
+                    });
+
+                    $.ajax({
+
+                        url: `../router/rutas.php?action=obtenerCantones&provincia=${provincia}`,
+                        method: 'GET',
+                        dataType: 'json',
+                        success: function (response) {
+
+                            if (response.status == 'success') {
+
+                                let options = '';
+                                options = `<option value='${canton}' >${canton}</option>`;
+
+                                response.data.forEach(item => {
+
+                                    if (canton !== item.NOMBRE_CANTON) {
+
+                                        options += `<option value="${item.NOMBRE_CANTON}">${item.NOMBRE_CANTON}</option>`;
+
+                                    }
+
+                                });
+
+
+
+                                $('#CantonOld').html(options);
+
+                            }
+                        }, error: function (xhr, status, error) {
+
+                            console.log('ERROR:', xhr.responseText);
+                            console.log('status:', status);
+
+                        }
+
+
+                    });
+
+                    $.ajax({
+
+                        url: `../router/rutas.php?action=obtenerDistritos&canton=${canton}`,
+                        method: 'GET',
+                        dataType: 'json',
+                        success: function (response) {
+                            console.log('Entro en function la recoleccion de distritos');
+
+                            if (response.status == 'success') {
+                                console.log('respondio la funcion de distritos success');
+
+                                let options = '';
+                                options = `<option value='${distrito}' >${distrito}</option>`;
+                                response.data.forEach(item => {
+
+
+                                    if (distrito !== item.NOMBRE_DISTRITO) {
+
+                                        options += `<option value="${item.NOMBRE_DISTRITO}">${item.NOMBRE_DISTRITO}</option>`;
+
+                                    }
+
+                                });
+
+
+                                $('#DistritoOld').html(options);
+
+                            }
+                        }, error: function (xhr, status, error) {
+
+                            console.log('ERROR:', xhr.responseText);
+                            console.log('status:', status);
+
+                        }
+
+
+                    });
+
+                    $.ajax({
+
+                        url: `../router/rutas.php?action=obtenerCalles&distrito=${distrito}`,
+                        method: 'GET',
+                        dataType: 'json',
+                        success: function (response) {
+
+                            if (response.status == 'success') {
+
+                                console.log('Los valores de las calles obtenidas son:', response.data);
+                                let options = '';
+                                options = `<option value='${calleid}' >${calle}</option>`;
+                                response.data.forEach(item => {
+
+                                    if (calle !== item.NOMBRE_CALLE)
+
+                                        options += `<option value="${item.CALLE_ID}">${item.NOMBRE_CALLE}</option>`;
+
+
+                                });
+
+
+
+                                $('#calleOld').html(options);
+
+                            }
+                        }, error: function (xhr, status, error) {
+
+                            console.log('ERROR:', xhr.responseText);
+                            console.log('status:', status);
+
+                        }
+
+
+                    });
 
                 } else {
-
-                    console.log('ocurrio un error en la obtencion de los datos');
-
-
-                }
-            }, error: function (xhr, status, error) {
-
-                console.log('error:', xhr);
-                console.log('error como tal:', xhr.responseText);
-                console.log('status', status);
-
-
-            }
-
-
-        });
-
-         $.ajax({
-
-            url: '../router/rutas.php?action=obtenerCategorias',
-            method: 'GET',
-            dataType: 'json',
-            success: function (response) {
-
-                if (response.status == 'success') {
-
-                    let options = '';
-                    options = `<option value='${categoriaId}'>${categoria}</option>`;
-
-                    response.data.forEach(item => {
-
-                        if(categoriaId !== item.CATEGORIA_ID){
-
-
-                        options += `<option value="${item.CATEGORIA_ID}">${item.NOMBRE_CATEGORIA} (${item.DESCRIPCION})</option>`;
-
-                        }
-
-                    });
-
-                    $('#CategoriaOld').html(options);
-
-
-
-
-
-                }
-            }, error: function (xhr, status, error) {
-
-                console.log('ERROR:', xhr.responseText);
-                console.log('status:', status);
-
-            }
-
-
-        });
-        
-         $.ajax({
-
-            url: '../router/rutas.php?action=obtenerProvincias',
-            method: 'GET',
-            dataType: 'json',
-            success: function (response) {
-
-                console.log('Se ejecuta la funcion obtener provincias en editar reporte');
-                if (response.status == 'success') {
-
-                    console.log('exitoso la obtencion de provincias en editar reporte y el resultado fue:', response.data, 'y la provincia del reporte es:', provincia)
-                    let options = '';
-                    options = `<option value='${provincia}' >${provincia}</option>`;
-                    response.data.forEach(item => {
-
-                        if(provincia !== item.NOMBRE_PROVINCIA){
-
-                        options += `<option value="${item.NOMBRE_PROVINCIA}">${item.NOMBRE_PROVINCIA}</option>`;
-
-                        }
-
-                    });
-
-                 
-
-                        $('#ProvinciaOld').html(options);
-
-                }
-            }, error: function (xhr, status, error) {
-
-                console.log('ERROR:', xhr.responseText);
-                console.log('status:', status);
-
-            }
-
-
-        });
-
-         $.ajax({
-
-            url: `../router/rutas.php?action=obtenerCantones&provincia=${provincia}`,
-            method: 'GET',
-            dataType: 'json',
-            success: function (response) {
-
-                if (response.status == 'success') {
-
-                    let options = '';
-                    options = `<option value='${canton}' >${canton}</option>`;
-
-                    response.data.forEach(item => {
-
-                        if(canton !== item.NOMBRE_CANTON){
-
-                        options += `<option value="${item.NOMBRE_CANTON}">${item.NOMBRE_CANTON}</option>`;
-
-                        }
-
-                    });
-
-                 
-
-                        $('#CantonOld').html(options);
-
-                }
-            }, error: function (xhr, status, error) {
-
-                console.log('ERROR:', xhr.responseText);
-                console.log('status:', status);
-
-            }
-
-
-        });
-
-          $.ajax({
-
-            url: `../router/rutas.php?action=obtenerDistritos&canton=${canton}`,
-            method: 'GET',
-            dataType: 'json',
-            success: function (response) {
-                console.log('Entro en function la recoleccion de distritos');
-
-                if (response.status == 'success') {
-                    console.log('respondio la funcion de distritos success');
-
-                    let options = '';
-                    options = `<option value='${distrito}' >${distrito}</option>`;
-                    response.data.forEach(item => {
-
-
-                        if(distrito !== item.NOMBRE_DISTRITO){
-
-                        options += `<option value="${item.NOMBRE_DISTRITO}">${item.NOMBRE_DISTRITO}</option>`;
-
-                        }
-
-                    });
-
-                  
-                        $('#DistritoOld').html(options);
-
-                }
-            }, error: function (xhr, status, error) {
-
-                console.log('ERROR:', xhr.responseText);
-                console.log('status:', status);
-
-            }
-
-
-        });
-
-            $.ajax({
-
-            url: `../router/rutas.php?action=obtenerCalles&distrito=${distrito}`,
-            method: 'GET',
-            dataType: 'json',
-            success: function (response) {
-
-                if (response.status == 'success') {
-
-                     console.log('Los valores de las calles obtenidas son:', response.data);
-                    let options = '';
-                    options = `<option value='${calleid}' >${calle}</option>`;
-                    response.data.forEach(item => {
-
-                        if(calle !== item.NOMBRE_CALLE)
-
-                        options += `<option value="${item.CALLE_ID}">${item.NOMBRE_CALLE}</option>`;
-
-
-                    });
-
-                
-
-                        $('#calleOld').html(options);
-
-                }
-            }, error: function (xhr, status, error) {
-
-                console.log('ERROR:', xhr.responseText);
-                console.log('status:', status);
-
-            }
-
-
-        });
-
-                }else{
 
                     Swal.fire('Error en editar reporte', '', 'error');
                 }
 
 
-            }, error: function(xhr, status){
+            }, error: function (xhr, status) {
 
                 console.log('ERROR:', xhr.responseText);
                 console.log('Status:', status);
@@ -882,12 +882,12 @@ $(function () {
 
     }
 
-    
 
-    $('#formularioEditarReporte').submit(function (e){
+
+    $('#formularioEditarReporte').submit(function (e) {
 
         e.preventDefault();
-        
+
         console.log('Los datos enviados en editar reporte son:', $(this).serialize());
         $.ajax({
 
@@ -896,25 +896,25 @@ $(function () {
             dataType: 'json',
             data: $(this).serialize(),
 
-            
-            success: function(response){
-               
+
+            success: function (response) {
+
 
                 console.log('status de editar reporte:', response.status)
-                if(response.status == 'success'){
+                if (response.status == 'success') {
 
                     Swal.fire('! Reporte perfectamente editado ¡', '', 'success');
-                    setTimeout(function(){
+                    setTimeout(function () {
 
                         window.location.reload();
 
                     }, 1000);
 
-                }else{
+                } else {
 
                     Swal.fire('Error en editar el reporte', '', 'error');
                 }
-            }, error: function(xhr, status){
+            }, error: function (xhr, status) {
 
                 console.log('ERROR:', xhr.responseText);
                 console.log('STATUS:', status)
@@ -925,52 +925,52 @@ $(function () {
 
     });
 
-    window.EliminarReporte = function(idreporte){
+    window.EliminarReporte = function (idreporte) {
 
         Swal.fire({
 
-            title:'¿ Seguro que quieres eliminar este reporte ?',
+            title: '¿ Seguro que quieres eliminar este reporte ?',
             text: 'Una vez que se elimine no se puede recuperar el reporte',
             icon: 'warning',
             showCancelButton: true,
             confirmButtonColor: '#3085d6',
             cancelButtonColor: '#d33',
             confirmButtonText: 'Borrar',
-        }).then((result)=>{
+        }).then((result) => {
 
-            if(result.isConfirmed){
+            if (result.isConfirmed) {
 
-                 $.ajax({
+                $.ajax({
 
-            url: '../router/rutas.php?action=eliminarReporte',
-            method: 'POST',
-            dataType: 'json',
-            data: { idreporte : idreporte },
+                    url: '../router/rutas.php?action=eliminarReporte',
+                    method: 'POST',
+                    dataType: 'json',
+                    data: { idreporte: idreporte },
 
-            success: function(response){
+                    success: function (response) {
 
-                if(response.status == 'success'){
+                        if (response.status == 'success') {
 
-                    Swal.fire('Reporte perfetamente eliminado', '', 'success');
-                    setTimeout(function(){
+                            Swal.fire('Reporte perfetamente eliminado', '', 'success');
+                            setTimeout(function () {
 
-                        window.location.reload();
+                                window.location.reload();
 
-                    }, 1000);
-
-
-                }else{
-
-                    Swal.fire('Error en eliminar el reporte', '', 'error');
-                }
-            }, error: function(xhr, status){
-
-                console.log('ERROR:', xhr.responseText);
-                console.log('status del error:', status)
-            }
+                            }, 1000);
 
 
-        });
+                        } else {
+
+                            Swal.fire('Error en eliminar el reporte', '', 'error');
+                        }
+                    }, error: function (xhr, status) {
+
+                        console.log('ERROR:', xhr.responseText);
+                        console.log('status del error:', status)
+                    }
+
+
+                });
 
 
             }
@@ -981,11 +981,11 @@ $(function () {
 
     }
 
-    $("#ProvinciaOld").change(function(){
+    $("#ProvinciaOld").change(function () {
 
-    let provincia = $("#ProvinciaOld").val();
+        let provincia = $("#ProvinciaOld").val();
 
-    $.ajax({
+        $.ajax({
 
             url: `../router/rutas.php?action=obtenerCantones&provincia=${provincia}`,
             method: 'GET',
@@ -995,7 +995,7 @@ $(function () {
                 if (response.status == 'success') {
 
                     let options = '';
-                    
+
 
                     response.data.forEach(item => {
 
@@ -1004,13 +1004,13 @@ $(function () {
 
                     });
 
-                 
 
-                        $('#CantonOld').html(options);
 
-                    
+                    $('#CantonOld').html(options);
 
-                    
+
+
+
 
 
 
@@ -1026,16 +1026,16 @@ $(function () {
 
 
         });
-    
-    
-    
+
+
+
     });
 
-    $("#CantonOld").change(function(){
+    $("#CantonOld").change(function () {
 
-    let canton = $("#CantonOld").val();
+        let canton = $("#CantonOld").val();
 
-      $.ajax({
+        $.ajax({
 
             url: `../router/rutas.php?action=obtenerDistritos&canton=${canton}`,
             method: 'GET',
@@ -1047,7 +1047,7 @@ $(function () {
                     console.log('respondio la funcion de distritos success');
 
                     let options = '';
-                    
+
                     response.data.forEach(item => {
 
                         options += `<option value="${item.NOMBRE_DISTRITO}">${item.NOMBRE_DISTRITO}</option>`;
@@ -1055,12 +1055,12 @@ $(function () {
 
                     });
 
-                  
-                        $('#DistritoOld').html(options);
 
-                    
+                    $('#DistritoOld').html(options);
 
-                    
+
+
+
 
 
 
@@ -1078,16 +1078,16 @@ $(function () {
         });
 
 
-    
-    
-    
+
+
+
     });
 
-    $('#DistritoOld').change(function(){
+    $('#DistritoOld').change(function () {
 
-    let distrito = $('#DistritoOld').val();
+        let distrito = $('#DistritoOld').val();
 
-    $.ajax({
+        $.ajax({
 
             url: `../router/rutas.php?action=obtenerCalles&distrito=${distrito}`,
             method: 'GET',
@@ -1097,7 +1097,7 @@ $(function () {
                 if (response.status == 'success') {
 
                     let options = '';
-                    
+
                     response.data.forEach(item => {
 
                         options += `<option value="${item.CALLE_ID}">${item.NOMBRE_CALLE}</option>`;
@@ -1105,13 +1105,13 @@ $(function () {
 
                     });
 
-                
 
-                        $('#calleOld').html(options);
 
-                    
+                    $('#calleOld').html(options);
 
-                    
+
+
+
 
 
 
@@ -1127,8 +1127,8 @@ $(function () {
 
 
         });
-    
-    
+
+
     });
 
     $('#botonFiltro').click(function () {
@@ -1139,212 +1139,78 @@ $(function () {
         let categoria = $('#CategoriaFiltro').val();
         let provincia = $('#ProvinciaFiltro').val();
 
-        if(tipodano != 97 && categoria == 98 && provincia == 99){
+        if (tipodano != 97 && categoria == 98 && provincia == 99) {
 
             console.log('se ejecuto el filtro por tipo dano y el id del tipod ano es:', tipodano);
-       
 
-        $.ajax({
-
-            url: '../router/rutas.php?action=filtrarReporte',
-            method: 'POST',
-            dataType: 'json',
-            data: {tipodano : tipodano},
-            success: function(response){
-
-                if(response.status == 'success'){
-                     console.log('Funcion de filtro perfecta. los datos son:', response.data);
-
-                    markersLayer = L.layerGroup().addTo(map);
-
-                    response.data.forEach(reporte =>{
-
-                         let image = '';
-
-                            if(reporte.NOMBRE_DANO == 'Hueco' ){
-
-                                image = '../image/hueco.png';
-
-                            }else if(reporte.NOMBRE_DANO == 'Daño en desague'){
-
-                                image = '../image/desague.png';
-
-                            }else if (reporte.NOMBRE_DANO == 'Semaforo dañado'){
-
-                                image = '../image/semaforo.png';
-
-                            }else if (reporte.NOMBRE_DANO == 'Grieta'){
-
-                                image = '../image/Grieta.png';
-
-                            }else if(reporte.NOMBRE_DANO == 'Señal caida'){
-
-                                image = '../image/SenalCaida.png';
-                            }
-
-                            if(reporte.NOMBRE_CATEGORIA == 'Leve'){
-
-                                  puntero = L.divIcon({
-
-                                  className: 'custom-marker-leve',
-                                  html: '<div class="pin-leve"></div>',
-                                  iconSize: [32, 32],
-                         
-                                 });
-
-                            }else if (reporte.NOMBRE_CATEGORIA == 'Medio'){
-
-                                 puntero = L.divIcon({
-
-                                  className: 'custom-marker-medio',
-                                  html: '<div class="pin-medio"></div>',
-                                  iconSize: [32, 32],
-                         
-                                 });
-                                
-                            }else{
-
-                                 puntero = L.divIcon({
-
-                                  className: 'custom-marker',
-                                  html: '<div class="pin"></div>',
-                                  iconSize: [32, 32],
-                         
-                                 });
-
-
-                            }
-
-                            let sessionUsuario = $("#Identidad").val();
-                            console.log('La cedula de session es:', sessionUsuario, 'y el id del usuario recojido del listado es:', reporte.USUARIO_FK);
-
-                          
-
-
-                            if(reporte.USUARIO_FK == sessionUsuario){
-
-                                  puntero = L.divIcon({
-
-                                  className: 'custom-marker-user',
-                                  html: '<div class="pin-user"></div>',
-                                  iconSize: [32, 32],
-                         
-                                 });
-
-                            }                          
-
-
-
-                            let marker = L.marker([(reporte.LATITUD), (reporte.LONGITUD)], {icon: puntero});
-                            markersLayer.addLayer(marker);
-
-                           if (reporte.USUARIO_FK == sessionUsuario){
-
-
-                             marker.bindPopup(
-
-                                `<div style='border:3px solid #2E6DA4;height:auto;background-color:#1A3A5C;color:#F4F6F8' ><img style='width:100%;height:100%;object-fit:contain;' src='${image}' ><div style='padding:20px;' ><p>Daño: ${reporte.NOMBRE_DANO}</p><p class='categoriaDano' >Categoria: ${reporte.NOMBRE_CATEGORIA}</p><p>Provincia: ${reporte.PROVINCIA_NOM}</p><p>Cantó: ${reporte.CANTON_NOM}</p><p>Distrito: ${reporte.DISTRITO_NOM}</p><p>Fecha: ${reporte.FECHA}</p><button class='btn btn-success w-100' >Asignar responsable <i class="fa-solid fa-hammer"></i></button><div style='display:flex;gap:10px;padding-top:10px;' ><button onclick='EditarReporte(${reporte.REPORTE_ID})' class='btn btn-primary w-100' >Editar Reporte</button><button onclick='EliminarReporte(${reporte.REPORTE_ID})' class='btn btn-danger w-100' >Eliminar Reporte</button></div></div></div>`
-                                
-                            ).openPopup();
-
-
-
-                           }else{
-
-                            marker.bindPopup(
-
-                                `<div style='border:3px solid #2E6DA4;height:auto;witdh:400px;background-color:#1A3A5C;color:#F4F6F8' ><img style='width:100%;height:100%;object-fit:contain;' src='${image}' ><div style='padding:20px;' ><p>Daño: ${reporte.NOMBRE_DANO}</p><p class='categoriaDano' >Categoria: ${reporte.NOMBRE_CATEGORIA}</p><p>Provincia: ${reporte.PROVINCIA_NOM}</p><p>Cantó: ${reporte.CANTON_NOM}</p><p>Distrito: ${reporte.DISTRITO_NOM}</p><p>Fecha: ${reporte.FECHA}</p><button class='btn btn-success w-100' >Asignar responsable <i class="fa-solid fa-hammer"></i></button></div></div>`
-                                
-                            ).openPopup();
-
-                            }
-
-
-                    });
-
-
-                }else{
-
-                    Swal.fire('No existen reportes según tu busqueda', '', 'warning');
-                    listadoReportes();
-                }
-            }, error: function(xhr, status){
-
-                console.log('ERROR:', xhr.responseText);
-                console.log('STATUS:', status)
-            }
-
-
-        });
-
-    }else if(tipodano == 97 && categoria != 98 && provincia == 99){
 
             $.ajax({
 
-            url: '../router/rutas.php?action=filtrarReporteCategoria',
-            method: 'POST',
-            dataType: 'json',
-            data: {categoria : categoria},
-            success: function(response){
+                url: '../router/rutas.php?action=filtrarReporte',
+                method: 'POST',
+                dataType: 'json',
+                data: { tipodano: tipodano },
+                success: function (response) {
 
-                if(response.status == 'success'){
+                    if (response.status == 'success') {
+                        console.log('Funcion de filtro perfecta. los datos son:', response.data);
 
-                    markersLayer = L.layerGroup().addTo(map);
+                        markersLayer = L.layerGroup().addTo(map);
 
-                    response.data.forEach(reporte =>{
+                        response.data.forEach(reporte => {
 
-                         let image = '';
+                            let image = '';
 
-                            if(reporte.NOMBRE_DANO == 'Hueco' ){
+                            if (reporte.NOMBRE_DANO == 'Hueco') {
 
                                 image = '../image/hueco.png';
 
-                            }else if(reporte.NOMBRE_DANO == 'Daño en desague'){
+                            } else if (reporte.NOMBRE_DANO == 'Daño en desague') {
 
                                 image = '../image/desague.png';
 
-                            }else if (reporte.NOMBRE_DANO == 'Semaforo dañado'){
+                            } else if (reporte.NOMBRE_DANO == 'Semaforo dañado') {
 
                                 image = '../image/semaforo.png';
 
-                            }else if (reporte.NOMBRE_DANO == 'Grieta'){
+                            } else if (reporte.NOMBRE_DANO == 'Grieta') {
 
                                 image = '../image/Grieta.png';
 
-                            }else if(reporte.NOMBRE_DANO == 'Señal caida'){
+                            } else if (reporte.NOMBRE_DANO == 'Señal caida') {
 
                                 image = '../image/SenalCaida.png';
                             }
 
-                            if(reporte.NOMBRE_CATEGORIA == 'Leve'){
+                            if (reporte.NOMBRE_CATEGORIA == 'Leve') {
 
-                                  puntero = L.divIcon({
+                                puntero = L.divIcon({
 
-                                  className: 'custom-marker-leve',
-                                  html: '<div class="pin-leve"></div>',
-                                  iconSize: [32, 32],
-                         
-                                 });
+                                    className: 'custom-marker-leve',
+                                    html: '<div class="pin-leve"></div>',
+                                    iconSize: [32, 32],
 
-                            }else if (reporte.NOMBRE_CATEGORIA == 'Medio'){
+                                });
 
-                                 puntero = L.divIcon({
+                            } else if (reporte.NOMBRE_CATEGORIA == 'Medio') {
 
-                                  className: 'custom-marker-medio',
-                                  html: '<div class="pin-medio"></div>',
-                                  iconSize: [32, 32],
-                         
-                                 });
-                                
-                            }else{
+                                puntero = L.divIcon({
 
-                                 puntero = L.divIcon({
+                                    className: 'custom-marker-medio',
+                                    html: '<div class="pin-medio"></div>',
+                                    iconSize: [32, 32],
 
-                                  className: 'custom-marker',
-                                  html: '<div class="pin"></div>',
-                                  iconSize: [32, 32],
-                         
-                                 });
+                                });
+
+                            } else {
+
+                                puntero = L.divIcon({
+
+                                    className: 'custom-marker',
+                                    html: '<div class="pin"></div>',
+                                    iconSize: [32, 32],
+
+                                });
 
 
                             }
@@ -1352,134 +1218,133 @@ $(function () {
                             let sessionUsuario = $("#Identidad").val();
                             console.log('La cedula de session es:', sessionUsuario, 'y el id del usuario recojido del listado es:', reporte.USUARIO_FK);
 
-                          
-
-
-                            if(reporte.USUARIO_FK == sessionUsuario){
-
-                                  puntero = L.divIcon({
-
-                                  className: 'custom-marker-user',
-                                  html: '<div class="pin-user"></div>',
-                                  iconSize: [32, 32],
-                         
-                                 });
-
-                            }                          
 
 
 
-                           let marker = L.marker([(reporte.LATITUD), (reporte.LONGITUD)], {icon: puntero});
-                           markersLayer.addLayer(marker);
+                            if (reporte.USUARIO_FK == sessionUsuario) {
 
-                           if (reporte.USUARIO_FK == sessionUsuario){
+                                puntero = L.divIcon({
 
+                                    className: 'custom-marker-user',
+                                    html: '<div class="pin-user"></div>',
+                                    iconSize: [32, 32],
 
-                             marker.bindPopup(
-
-                                `<div style='border:3px solid #2E6DA4;height:auto;background-color:#1A3A5C;color:#F4F6F8' ><img style='width:100%;height:100%;object-fit:contain;' src='${image}' ><div style='padding:20px;' ><p>Daño: ${reporte.NOMBRE_DANO}</p><p class='categoriaDano' >Categoria: ${reporte.NOMBRE_CATEGORIA}</p><p>Provincia: ${reporte.PROVINCIA_NOM}</p><p>Cantó: ${reporte.CANTON_NOM}</p><p>Distrito: ${reporte.DISTRITO_NOM}</p><p>Fecha: ${reporte.FECHA}</p><button class='btn btn-success w-100' >Asignar responsable <i class="fa-solid fa-hammer"></i></button><div style='display:flex;gap:10px;padding-top:10px;' ><button onclick='EditarReporte(${reporte.REPORTE_ID})' class='btn btn-primary w-100' >Editar Reporte</button><button onclick='EliminarReporte(${reporte.REPORTE_ID})' class='btn btn-danger w-100' >Eliminar Reporte</button></div></div></div>`
-                                
-                            ).openPopup();
-
-
-
-                           }else{
-
-                            marker.bindPopup(
-
-                                `<div style='border:3px solid #2E6DA4;height:auto;witdh:400px;background-color:#1A3A5C;color:#F4F6F8' ><img style='width:100%;height:100%;object-fit:contain;' src='${image}' ><div style='padding:20px;' ><p>Daño: ${reporte.NOMBRE_DANO}</p><p class='categoriaDano' >Categoria: ${reporte.NOMBRE_CATEGORIA}</p><p>Provincia: ${reporte.PROVINCIA_NOM}</p><p>Cantó: ${reporte.CANTON_NOM}</p><p>Distrito: ${reporte.DISTRITO_NOM}</p><p>Fecha: ${reporte.FECHA}</p><button class='btn btn-success w-100' >Asignar responsable <i class="fa-solid fa-hammer"></i></button></div></div>`
-                                
-                            ).openPopup();
+                                });
 
                             }
 
 
-                    });
+
+                            let marker = L.marker([(reporte.LATITUD), (reporte.LONGITUD)], { icon: puntero });
+                            markersLayer.addLayer(marker);
+
+                            if (reporte.USUARIO_FK == sessionUsuario) {
 
 
-                }else{
+                                marker.bindPopup(
 
-                    Swal.fire('No existen reportes según tu busqueda', '', 'warning');
-                    listadoReportes();
+                                    `<div style='border:3px solid #2E6DA4;height:auto;background-color:#1A3A5C;color:#F4F6F8' ><img style='width:100%;height:100%;object-fit:contain;' src='${image}' ><div style='padding:20px;' ><p>Daño: ${reporte.NOMBRE_DANO}</p><p class='categoriaDano' >Categoria: ${reporte.NOMBRE_CATEGORIA}</p><p>Provincia: ${reporte.PROVINCIA_NOM}</p><p>Cantó: ${reporte.CANTON_NOM}</p><p>Distrito: ${reporte.DISTRITO_NOM}</p><p>Fecha: ${reporte.FECHA}</p><button class='btn btn-success w-100' >Asignar responsable <i class="fa-solid fa-hammer"></i></button><div style='display:flex;gap:10px;padding-top:10px;' ><button onclick='EditarReporte(${reporte.REPORTE_ID})' class='btn btn-primary w-100' >Editar Reporte</button><button onclick='EliminarReporte(${reporte.REPORTE_ID})' class='btn btn-danger w-100' >Eliminar Reporte</button></div></div></div>`
+
+                                ).openPopup();
+
+
+
+                            } else {
+
+                                marker.bindPopup(
+
+                                    `<div style='border:3px solid #2E6DA4;height:auto;witdh:400px;background-color:#1A3A5C;color:#F4F6F8' ><img style='width:100%;height:100%;object-fit:contain;' src='${image}' ><div style='padding:20px;' ><p>Daño: ${reporte.NOMBRE_DANO}</p><p class='categoriaDano' >Categoria: ${reporte.NOMBRE_CATEGORIA}</p><p>Provincia: ${reporte.PROVINCIA_NOM}</p><p>Cantó: ${reporte.CANTON_NOM}</p><p>Distrito: ${reporte.DISTRITO_NOM}</p><p>Fecha: ${reporte.FECHA}</p><button class='btn btn-success w-100' >Asignar responsable <i class="fa-solid fa-hammer"></i></button></div></div>`
+
+                                ).openPopup();
+
+                            }
+
+
+                        });
+
+
+                    } else {
+
+                        Swal.fire('No existen reportes según tu busqueda', '', 'warning');
+                        listadoReportes();
+                    }
+                }, error: function (xhr, status) {
+
+                    console.log('ERROR:', xhr.responseText);
+                    console.log('STATUS:', status)
                 }
-            }, error: function(xhr, status){
-
-                console.log('ERROR:', xhr.responseText);
-                console.log('STATUS:', status)
-            }
 
 
-        });
+            });
 
+        } else if (tipodano == 97 && categoria != 98 && provincia == 99) {
 
-    }else if(tipodano == 97 && categoria == 98 && provincia != 99){
+            $.ajax({
 
-         $.ajax({
+                url: '../router/rutas.php?action=filtrarReporteCategoria',
+                method: 'POST',
+                dataType: 'json',
+                data: { categoria: categoria },
+                success: function (response) {
 
-            url: '../router/rutas.php?action=filtrarReporteProvincia',
-            method: 'POST',
-            dataType: 'json',
-            data: {provincia : provincia},
-            success: function(response){
+                    if (response.status == 'success') {
 
-                if(response.status == 'success'){
+                        markersLayer = L.layerGroup().addTo(map);
 
-                    markersLayer = L.layerGroup().addTo(map);
+                        response.data.forEach(reporte => {
 
-                    response.data.forEach(reporte =>{
+                            let image = '';
 
-                         let image = '';
-
-                            if(reporte.NOMBRE_DANO == 'Hueco' ){
+                            if (reporte.NOMBRE_DANO == 'Hueco') {
 
                                 image = '../image/hueco.png';
 
-                            }else if(reporte.NOMBRE_DANO == 'Daño en desague'){
+                            } else if (reporte.NOMBRE_DANO == 'Daño en desague') {
 
                                 image = '../image/desague.png';
 
-                            }else if (reporte.NOMBRE_DANO == 'Semaforo dañado'){
+                            } else if (reporte.NOMBRE_DANO == 'Semaforo dañado') {
 
                                 image = '../image/semaforo.png';
 
-                            }else if (reporte.NOMBRE_DANO == 'Grieta'){
+                            } else if (reporte.NOMBRE_DANO == 'Grieta') {
 
                                 image = '../image/Grieta.png';
 
-                            }else if(reporte.NOMBRE_DANO == 'Señal caida'){
+                            } else if (reporte.NOMBRE_DANO == 'Señal caida') {
 
                                 image = '../image/SenalCaida.png';
                             }
 
-                            if(reporte.NOMBRE_CATEGORIA == 'Leve'){
+                            if (reporte.NOMBRE_CATEGORIA == 'Leve') {
 
-                                  puntero = L.divIcon({
+                                puntero = L.divIcon({
 
-                                  className: 'custom-marker-leve',
-                                  html: '<div class="pin-leve"></div>',
-                                  iconSize: [32, 32],
-                         
-                                 });
+                                    className: 'custom-marker-leve',
+                                    html: '<div class="pin-leve"></div>',
+                                    iconSize: [32, 32],
 
-                            }else if (reporte.NOMBRE_CATEGORIA == 'Medio'){
+                                });
 
-                                 puntero = L.divIcon({
+                            } else if (reporte.NOMBRE_CATEGORIA == 'Medio') {
 
-                                  className: 'custom-marker-medio',
-                                  html: '<div class="pin-medio"></div>',
-                                  iconSize: [32, 32],
-                         
-                                 });
-                                
-                            }else{
+                                puntero = L.divIcon({
 
-                                 puntero = L.divIcon({
+                                    className: 'custom-marker-medio',
+                                    html: '<div class="pin-medio"></div>',
+                                    iconSize: [32, 32],
 
-                                  className: 'custom-marker',
-                                  html: '<div class="pin"></div>',
-                                  iconSize: [32, 32],
-                         
-                                 });
+                                });
+
+                            } else {
+
+                                puntero = L.divIcon({
+
+                                    className: 'custom-marker',
+                                    html: '<div class="pin"></div>',
+                                    iconSize: [32, 32],
+
+                                });
 
 
                             }
@@ -1487,134 +1352,134 @@ $(function () {
                             let sessionUsuario = $("#Identidad").val();
                             console.log('La cedula de session es:', sessionUsuario, 'y el id del usuario recojido del listado es:', reporte.USUARIO_FK);
 
-                          
-
-
-                            if(reporte.USUARIO_FK == sessionUsuario){
-
-                                  puntero = L.divIcon({
-
-                                  className: 'custom-marker-user',
-                                  html: '<div class="pin-user"></div>',
-                                  iconSize: [32, 32],
-                         
-                                 });
-
-                            }                          
 
 
 
-                           let marker = L.marker([(reporte.LATITUD), (reporte.LONGITUD)], {icon: puntero});
-                           markersLayer.addLayer(marker);
+                            if (reporte.USUARIO_FK == sessionUsuario) {
 
-                           if (reporte.USUARIO_FK == sessionUsuario){
+                                puntero = L.divIcon({
 
+                                    className: 'custom-marker-user',
+                                    html: '<div class="pin-user"></div>',
+                                    iconSize: [32, 32],
 
-                             marker.bindPopup(
-
-                                `<div style='border:3px solid #2E6DA4;height:auto;background-color:#1A3A5C;color:#F4F6F8' ><img style='width:100%;height:100%;object-fit:contain;' src='${image}' ><div style='padding:20px;' ><p>Daño: ${reporte.NOMBRE_DANO}</p><p class='categoriaDano' >Categoria: ${reporte.NOMBRE_CATEGORIA}</p><p>Provincia: ${reporte.PROVINCIA_NOM}</p><p>Cantó: ${reporte.CANTON_NOM}</p><p>Distrito: ${reporte.DISTRITO_NOM}</p><p>Fecha: ${reporte.FECHA}</p><button class='btn btn-success w-100' >Asignar responsable <i class="fa-solid fa-hammer"></i></button><div style='display:flex;gap:10px;padding-top:10px;' ><button onclick='EditarReporte(${reporte.REPORTE_ID})' class='btn btn-primary w-100' >Editar Reporte</button><button onclick='EliminarReporte(${reporte.REPORTE_ID})' class='btn btn-danger w-100' >Eliminar Reporte</button></div></div></div>`
-                                
-                            ).openPopup();
-
-
-
-                           }else{
-
-                            marker.bindPopup(
-
-                                `<div style='border:3px solid #2E6DA4;height:auto;witdh:400px;background-color:#1A3A5C;color:#F4F6F8' ><img style='width:100%;height:100%;object-fit:contain;' src='${image}' ><div style='padding:20px;' ><p>Daño: ${reporte.NOMBRE_DANO}</p><p class='categoriaDano' >Categoria: ${reporte.NOMBRE_CATEGORIA}</p><p>Provincia: ${reporte.PROVINCIA_NOM}</p><p>Cantó: ${reporte.CANTON_NOM}</p><p>Distrito: ${reporte.DISTRITO_NOM}</p><p>Fecha: ${reporte.FECHA}</p><button class='btn btn-success w-100' >Asignar responsable <i class="fa-solid fa-hammer"></i></button></div></div>`
-                                
-                            ).openPopup();
+                                });
 
                             }
 
 
-                    });
+
+                            let marker = L.marker([(reporte.LATITUD), (reporte.LONGITUD)], { icon: puntero });
+                            markersLayer.addLayer(marker);
+
+                            if (reporte.USUARIO_FK == sessionUsuario) {
 
 
-                }else{
+                                marker.bindPopup(
 
-                    Swal.fire('No existen reportes según tu busqueda', '', 'warning');
-                    listadoReportes();
+                                    `<div style='border:3px solid #2E6DA4;height:auto;background-color:#1A3A5C;color:#F4F6F8' ><img style='width:100%;height:100%;object-fit:contain;' src='${image}' ><div style='padding:20px;' ><p>Daño: ${reporte.NOMBRE_DANO}</p><p class='categoriaDano' >Categoria: ${reporte.NOMBRE_CATEGORIA}</p><p>Provincia: ${reporte.PROVINCIA_NOM}</p><p>Cantó: ${reporte.CANTON_NOM}</p><p>Distrito: ${reporte.DISTRITO_NOM}</p><p>Fecha: ${reporte.FECHA}</p><button class='btn btn-success w-100' >Asignar responsable <i class="fa-solid fa-hammer"></i></button><div style='display:flex;gap:10px;padding-top:10px;' ><button onclick='EditarReporte(${reporte.REPORTE_ID})' class='btn btn-primary w-100' >Editar Reporte</button><button onclick='EliminarReporte(${reporte.REPORTE_ID})' class='btn btn-danger w-100' >Eliminar Reporte</button></div></div></div>`
+
+                                ).openPopup();
+
+
+
+                            } else {
+
+                                marker.bindPopup(
+
+                                    `<div style='border:3px solid #2E6DA4;height:auto;witdh:400px;background-color:#1A3A5C;color:#F4F6F8' ><img style='width:100%;height:100%;object-fit:contain;' src='${image}' ><div style='padding:20px;' ><p>Daño: ${reporte.NOMBRE_DANO}</p><p class='categoriaDano' >Categoria: ${reporte.NOMBRE_CATEGORIA}</p><p>Provincia: ${reporte.PROVINCIA_NOM}</p><p>Cantó: ${reporte.CANTON_NOM}</p><p>Distrito: ${reporte.DISTRITO_NOM}</p><p>Fecha: ${reporte.FECHA}</p><button class='btn btn-success w-100' >Asignar responsable <i class="fa-solid fa-hammer"></i></button></div></div>`
+
+                                ).openPopup();
+
+                            }
+
+
+                        });
+
+
+                    } else {
+
+                        Swal.fire('No existen reportes según tu busqueda', '', 'warning');
+                        listadoReportes();
+                    }
+                }, error: function (xhr, status) {
+
+                    console.log('ERROR:', xhr.responseText);
+                    console.log('STATUS:', status)
                 }
-            }, error: function(xhr, status){
-
-                console.log('ERROR:', xhr.responseText);
-                console.log('STATUS:', status)
-            }
 
 
-        });
+            });
 
 
-    }else if (tipodano != 97 && categoria != 98 && provincia == 99){
+        } else if (tipodano == 97 && categoria == 98 && provincia != 99) {
 
-         $.ajax({
+            $.ajax({
 
-            url: '../router/rutas.php?action=filtrarReporteTipoDanoXCategoria',
-            method: 'POST',
-            dataType: 'json',
-            data: {tipodano : tipodano, categoria : categoria},
-            success: function(response){
+                url: '../router/rutas.php?action=filtrarReporteProvincia',
+                method: 'POST',
+                dataType: 'json',
+                data: { provincia: provincia },
+                success: function (response) {
 
-                if(response.status == 'success'){
+                    if (response.status == 'success') {
 
-                    markersLayer = L.layerGroup().addTo(map);
+                        markersLayer = L.layerGroup().addTo(map);
 
-                    response.data.forEach(reporte =>{
+                        response.data.forEach(reporte => {
 
-                         let image = '';
+                            let image = '';
 
-                            if(reporte.NOMBRE_DANO == 'Hueco' ){
+                            if (reporte.NOMBRE_DANO == 'Hueco') {
 
                                 image = '../image/hueco.png';
 
-                            }else if(reporte.NOMBRE_DANO == 'Daño en desague'){
+                            } else if (reporte.NOMBRE_DANO == 'Daño en desague') {
 
                                 image = '../image/desague.png';
 
-                            }else if (reporte.NOMBRE_DANO == 'Semaforo dañado'){
+                            } else if (reporte.NOMBRE_DANO == 'Semaforo dañado') {
 
                                 image = '../image/semaforo.png';
 
-                            }else if (reporte.NOMBRE_DANO == 'Grieta'){
+                            } else if (reporte.NOMBRE_DANO == 'Grieta') {
 
                                 image = '../image/Grieta.png';
 
-                            }else if(reporte.NOMBRE_DANO == 'Señal caida'){
+                            } else if (reporte.NOMBRE_DANO == 'Señal caida') {
 
                                 image = '../image/SenalCaida.png';
                             }
 
-                            if(reporte.NOMBRE_CATEGORIA == 'Leve'){
+                            if (reporte.NOMBRE_CATEGORIA == 'Leve') {
 
-                                  puntero = L.divIcon({
+                                puntero = L.divIcon({
 
-                                  className: 'custom-marker-leve',
-                                  html: '<div class="pin-leve"></div>',
-                                  iconSize: [32, 32],
-                         
-                                 });
+                                    className: 'custom-marker-leve',
+                                    html: '<div class="pin-leve"></div>',
+                                    iconSize: [32, 32],
 
-                            }else if (reporte.NOMBRE_CATEGORIA == 'Medio'){
+                                });
 
-                                 puntero = L.divIcon({
+                            } else if (reporte.NOMBRE_CATEGORIA == 'Medio') {
 
-                                  className: 'custom-marker-medio',
-                                  html: '<div class="pin-medio"></div>',
-                                  iconSize: [32, 32],
-                         
-                                 });
-                                
-                            }else{
+                                puntero = L.divIcon({
 
-                                 puntero = L.divIcon({
+                                    className: 'custom-marker-medio',
+                                    html: '<div class="pin-medio"></div>',
+                                    iconSize: [32, 32],
 
-                                  className: 'custom-marker',
-                                  html: '<div class="pin"></div>',
-                                  iconSize: [32, 32],
-                         
-                                 });
+                                });
+
+                            } else {
+
+                                puntero = L.divIcon({
+
+                                    className: 'custom-marker',
+                                    html: '<div class="pin"></div>',
+                                    iconSize: [32, 32],
+
+                                });
 
 
                             }
@@ -1622,133 +1487,134 @@ $(function () {
                             let sessionUsuario = $("#Identidad").val();
                             console.log('La cedula de session es:', sessionUsuario, 'y el id del usuario recojido del listado es:', reporte.USUARIO_FK);
 
-                          
-
-
-                            if(reporte.USUARIO_FK == sessionUsuario){
-
-                                  puntero = L.divIcon({
-
-                                  className: 'custom-marker-user',
-                                  html: '<div class="pin-user"></div>',
-                                  iconSize: [32, 32],
-                         
-                                 });
-
-                            }                          
 
 
 
-                           let marker = L.marker([(reporte.LATITUD), (reporte.LONGITUD)], {icon: puntero});
-                           markersLayer.addLayer(marker);
+                            if (reporte.USUARIO_FK == sessionUsuario) {
 
-                           if (reporte.USUARIO_FK == sessionUsuario){
+                                puntero = L.divIcon({
 
+                                    className: 'custom-marker-user',
+                                    html: '<div class="pin-user"></div>',
+                                    iconSize: [32, 32],
 
-                             marker.bindPopup(
-
-                                `<div style='border:3px solid #2E6DA4;height:auto;background-color:#1A3A5C;color:#F4F6F8' ><img style='width:100%;height:100%;object-fit:contain;' src='${image}' ><div style='padding:20px;' ><p>Daño: ${reporte.NOMBRE_DANO}</p><p class='categoriaDano' >Categoria: ${reporte.NOMBRE_CATEGORIA}</p><p>Provincia: ${reporte.PROVINCIA_NOM}</p><p>Cantó: ${reporte.CANTON_NOM}</p><p>Distrito: ${reporte.DISTRITO_NOM}</p><p>Fecha: ${reporte.FECHA}</p><button class='btn btn-success w-100' >Asignar responsable <i class="fa-solid fa-hammer"></i></button><div style='display:flex;gap:10px;padding-top:10px;' ><button onclick='EditarReporte(${reporte.REPORTE_ID})' class='btn btn-primary w-100' >Editar Reporte</button><button onclick='EliminarReporte(${reporte.REPORTE_ID})' class='btn btn-danger w-100' >Eliminar Reporte</button></div></div></div>`
-                                
-                            ).openPopup();
-
-
-
-                           }else{
-
-                            marker.bindPopup(
-
-                                `<div style='border:3px solid #2E6DA4;height:auto;witdh:400px;background-color:#1A3A5C;color:#F4F6F8' ><img style='width:100%;height:100%;object-fit:contain;' src='${image}' ><div style='padding:20px;' ><p>Daño: ${reporte.NOMBRE_DANO}</p><p class='categoriaDano' >Categoria: ${reporte.NOMBRE_CATEGORIA}</p><p>Provincia: ${reporte.PROVINCIA_NOM}</p><p>Cantó: ${reporte.CANTON_NOM}</p><p>Distrito: ${reporte.DISTRITO_NOM}</p><p>Fecha: ${reporte.FECHA}</p><button class='btn btn-success w-100' >Asignar responsable <i class="fa-solid fa-hammer"></i></button></div></div>`
-                                
-                            ).openPopup();
+                                });
 
                             }
 
 
-                    });
+
+                            let marker = L.marker([(reporte.LATITUD), (reporte.LONGITUD)], { icon: puntero });
+                            markersLayer.addLayer(marker);
+
+                            if (reporte.USUARIO_FK == sessionUsuario) {
 
 
-                }else{
+                                marker.bindPopup(
 
-                    Swal.fire('No existen reportes según tu busqueda', '', 'warning');
-                    listadoReportes();
+                                    `<div style='border:3px solid #2E6DA4;height:auto;background-color:#1A3A5C;color:#F4F6F8' ><img style='width:100%;height:100%;object-fit:contain;' src='${image}' ><div style='padding:20px;' ><p>Daño: ${reporte.NOMBRE_DANO}</p><p class='categoriaDano' >Categoria: ${reporte.NOMBRE_CATEGORIA}</p><p>Provincia: ${reporte.PROVINCIA_NOM}</p><p>Cantó: ${reporte.CANTON_NOM}</p><p>Distrito: ${reporte.DISTRITO_NOM}</p><p>Fecha: ${reporte.FECHA}</p><button class='btn btn-success w-100' >Asignar responsable <i class="fa-solid fa-hammer"></i></button><div style='display:flex;gap:10px;padding-top:10px;' ><button onclick='EditarReporte(${reporte.REPORTE_ID})' class='btn btn-primary w-100' >Editar Reporte</button><button onclick='EliminarReporte(${reporte.REPORTE_ID})' class='btn btn-danger w-100' >Eliminar Reporte</button></div></div></div>`
+
+                                ).openPopup();
+
+
+
+                            } else {
+
+                                marker.bindPopup(
+
+                                    `<div style='border:3px solid #2E6DA4;height:auto;witdh:400px;background-color:#1A3A5C;color:#F4F6F8' ><img style='width:100%;height:100%;object-fit:contain;' src='${image}' ><div style='padding:20px;' ><p>Daño: ${reporte.NOMBRE_DANO}</p><p class='categoriaDano' >Categoria: ${reporte.NOMBRE_CATEGORIA}</p><p>Provincia: ${reporte.PROVINCIA_NOM}</p><p>Cantó: ${reporte.CANTON_NOM}</p><p>Distrito: ${reporte.DISTRITO_NOM}</p><p>Fecha: ${reporte.FECHA}</p><button class='btn btn-success w-100' >Asignar responsable <i class="fa-solid fa-hammer"></i></button></div></div>`
+
+                                ).openPopup();
+
+                            }
+
+
+                        });
+
+
+                    } else {
+
+                        Swal.fire('No existen reportes según tu busqueda', '', 'warning');
+                        listadoReportes();
+                    }
+                }, error: function (xhr, status) {
+
+                    console.log('ERROR:', xhr.responseText);
+                    console.log('STATUS:', status)
                 }
-            }, error: function(xhr, status){
-
-                console.log('ERROR:', xhr.responseText);
-                console.log('STATUS:', status)
-            }
 
 
-        });
+            });
 
-    }else if( tipodano != 97 && categoria == 98 && provincia != 99){
 
-         $.ajax({
+        } else if (tipodano != 97 && categoria != 98 && provincia == 99) {
 
-            url: '../router/rutas.php?action=filtrarReporteTipoDanoXprovincia',
-            method: 'POST',
-            dataType: 'json',
-            data: {tipodano : tipodano, provincia : provincia},
-            success: function(response){
+            $.ajax({
 
-                if(response.status == 'success'){
+                url: '../router/rutas.php?action=filtrarReporteTipoDanoXCategoria',
+                method: 'POST',
+                dataType: 'json',
+                data: { tipodano: tipodano, categoria: categoria },
+                success: function (response) {
 
-                    markersLayer = L.layerGroup().addTo(map);
+                    if (response.status == 'success') {
 
-                    response.data.forEach(reporte =>{
+                        markersLayer = L.layerGroup().addTo(map);
 
-                         let image = '';
+                        response.data.forEach(reporte => {
 
-                            if(reporte.NOMBRE_DANO == 'Hueco' ){
+                            let image = '';
+
+                            if (reporte.NOMBRE_DANO == 'Hueco') {
 
                                 image = '../image/hueco.png';
 
-                            }else if(reporte.NOMBRE_DANO == 'Daño en desague'){
+                            } else if (reporte.NOMBRE_DANO == 'Daño en desague') {
 
                                 image = '../image/desague.png';
 
-                            }else if (reporte.NOMBRE_DANO == 'Semaforo dañado'){
+                            } else if (reporte.NOMBRE_DANO == 'Semaforo dañado') {
 
                                 image = '../image/semaforo.png';
 
-                            }else if (reporte.NOMBRE_DANO == 'Grieta'){
+                            } else if (reporte.NOMBRE_DANO == 'Grieta') {
 
                                 image = '../image/Grieta.png';
 
-                            }else if(reporte.NOMBRE_DANO == 'Señal caida'){
+                            } else if (reporte.NOMBRE_DANO == 'Señal caida') {
 
                                 image = '../image/SenalCaida.png';
                             }
 
-                            if(reporte.NOMBRE_CATEGORIA == 'Leve'){
+                            if (reporte.NOMBRE_CATEGORIA == 'Leve') {
 
-                                  puntero = L.divIcon({
+                                puntero = L.divIcon({
 
-                                  className: 'custom-marker-leve',
-                                  html: '<div class="pin-leve"></div>',
-                                  iconSize: [32, 32],
-                         
-                                 });
+                                    className: 'custom-marker-leve',
+                                    html: '<div class="pin-leve"></div>',
+                                    iconSize: [32, 32],
 
-                            }else if (reporte.NOMBRE_CATEGORIA == 'Medio'){
+                                });
 
-                                 puntero = L.divIcon({
+                            } else if (reporte.NOMBRE_CATEGORIA == 'Medio') {
 
-                                  className: 'custom-marker-medio',
-                                  html: '<div class="pin-medio"></div>',
-                                  iconSize: [32, 32],
-                         
-                                 });
-                                
-                            }else{
+                                puntero = L.divIcon({
 
-                                 puntero = L.divIcon({
+                                    className: 'custom-marker-medio',
+                                    html: '<div class="pin-medio"></div>',
+                                    iconSize: [32, 32],
 
-                                  className: 'custom-marker',
-                                  html: '<div class="pin"></div>',
-                                  iconSize: [32, 32],
-                         
-                                 });
+                                });
+
+                            } else {
+
+                                puntero = L.divIcon({
+
+                                    className: 'custom-marker',
+                                    html: '<div class="pin"></div>',
+                                    iconSize: [32, 32],
+
+                                });
 
 
                             }
@@ -1756,136 +1622,133 @@ $(function () {
                             let sessionUsuario = $("#Identidad").val();
                             console.log('La cedula de session es:', sessionUsuario, 'y el id del usuario recojido del listado es:', reporte.USUARIO_FK);
 
-                          
-
-
-                            if(reporte.USUARIO_FK == sessionUsuario){
-
-                                  puntero = L.divIcon({
-
-                                  className: 'custom-marker-user',
-                                  html: '<div class="pin-user"></div>',
-                                  iconSize: [32, 32],
-                         
-                                 });
-
-                            }                          
 
 
 
-                           let marker = L.marker([(reporte.LATITUD), (reporte.LONGITUD)], {icon: puntero});
-                           markersLayer.addLayer(marker);
+                            if (reporte.USUARIO_FK == sessionUsuario) {
 
-                           if (reporte.USUARIO_FK == sessionUsuario){
+                                puntero = L.divIcon({
 
+                                    className: 'custom-marker-user',
+                                    html: '<div class="pin-user"></div>',
+                                    iconSize: [32, 32],
 
-                             marker.bindPopup(
-
-                                `<div style='border:3px solid #2E6DA4;height:auto;background-color:#1A3A5C;color:#F4F6F8' ><img style='width:100%;height:100%;object-fit:contain;' src='${image}' ><div style='padding:20px;' ><p>Daño: ${reporte.NOMBRE_DANO}</p><p class='categoriaDano' >Categoria: ${reporte.NOMBRE_CATEGORIA}</p><p>Provincia: ${reporte.PROVINCIA_NOM}</p><p>Cantó: ${reporte.CANTON_NOM}</p><p>Distrito: ${reporte.DISTRITO_NOM}</p><p>Fecha: ${reporte.FECHA}</p><button class='btn btn-success w-100' >Asignar responsable <i class="fa-solid fa-hammer"></i></button><div style='display:flex;gap:10px;padding-top:10px;' ><button onclick='EditarReporte(${reporte.REPORTE_ID})' class='btn btn-primary w-100' >Editar Reporte</button><button onclick='EliminarReporte(${reporte.REPORTE_ID})' class='btn btn-danger w-100' >Eliminar Reporte</button></div></div></div>`
-                                
-                            ).openPopup();
-
-
-
-                           }else{
-
-                            marker.bindPopup(
-
-                                `<div style='border:3px solid #2E6DA4;height:auto;witdh:400px;background-color:#1A3A5C;color:#F4F6F8' ><img style='width:100%;height:100%;object-fit:contain;' src='${image}' ><div style='padding:20px;' ><p>Daño: ${reporte.NOMBRE_DANO}</p><p class='categoriaDano' >Categoria: ${reporte.NOMBRE_CATEGORIA}</p><p>Provincia: ${reporte.PROVINCIA_NOM}</p><p>Cantó: ${reporte.CANTON_NOM}</p><p>Distrito: ${reporte.DISTRITO_NOM}</p><p>Fecha: ${reporte.FECHA}</p><button class='btn btn-success w-100' >Asignar responsable <i class="fa-solid fa-hammer"></i></button></div></div>`
-                                
-                            ).openPopup();
+                                });
 
                             }
 
 
-                    });
+
+                            let marker = L.marker([(reporte.LATITUD), (reporte.LONGITUD)], { icon: puntero });
+                            markersLayer.addLayer(marker);
+
+                            if (reporte.USUARIO_FK == sessionUsuario) {
 
 
-                }else{
+                                marker.bindPopup(
 
-                    Swal.fire('No existen reportes según tu busqueda', '', 'warning');
-                    listadoReportes();
+                                    `<div style='border:3px solid #2E6DA4;height:auto;background-color:#1A3A5C;color:#F4F6F8' ><img style='width:100%;height:100%;object-fit:contain;' src='${image}' ><div style='padding:20px;' ><p>Daño: ${reporte.NOMBRE_DANO}</p><p class='categoriaDano' >Categoria: ${reporte.NOMBRE_CATEGORIA}</p><p>Provincia: ${reporte.PROVINCIA_NOM}</p><p>Cantó: ${reporte.CANTON_NOM}</p><p>Distrito: ${reporte.DISTRITO_NOM}</p><p>Fecha: ${reporte.FECHA}</p><button class='btn btn-success w-100' >Asignar responsable <i class="fa-solid fa-hammer"></i></button><div style='display:flex;gap:10px;padding-top:10px;' ><button onclick='EditarReporte(${reporte.REPORTE_ID})' class='btn btn-primary w-100' >Editar Reporte</button><button onclick='EliminarReporte(${reporte.REPORTE_ID})' class='btn btn-danger w-100' >Eliminar Reporte</button></div></div></div>`
+
+                                ).openPopup();
+
+
+
+                            } else {
+
+                                marker.bindPopup(
+
+                                    `<div style='border:3px solid #2E6DA4;height:auto;witdh:400px;background-color:#1A3A5C;color:#F4F6F8' ><img style='width:100%;height:100%;object-fit:contain;' src='${image}' ><div style='padding:20px;' ><p>Daño: ${reporte.NOMBRE_DANO}</p><p class='categoriaDano' >Categoria: ${reporte.NOMBRE_CATEGORIA}</p><p>Provincia: ${reporte.PROVINCIA_NOM}</p><p>Cantó: ${reporte.CANTON_NOM}</p><p>Distrito: ${reporte.DISTRITO_NOM}</p><p>Fecha: ${reporte.FECHA}</p><button class='btn btn-success w-100' >Asignar responsable <i class="fa-solid fa-hammer"></i></button></div></div>`
+
+                                ).openPopup();
+
+                            }
+
+
+                        });
+
+
+                    } else {
+
+                        Swal.fire('No existen reportes según tu busqueda', '', 'warning');
+                        listadoReportes();
+                    }
+                }, error: function (xhr, status) {
+
+                    console.log('ERROR:', xhr.responseText);
+                    console.log('STATUS:', status)
                 }
-            }, error: function(xhr, status){
-
-                console.log('ERROR:', xhr.responseText);
-                console.log('STATUS:', status)
-            }
 
 
-        });
+            });
 
+        } else if (tipodano != 97 && categoria == 98 && provincia != 99) {
 
+            $.ajax({
 
-    }else if(tipodano == 97 && categoria != 98 && provincia != 99){
+                url: '../router/rutas.php?action=filtrarReporteTipoDanoXprovincia',
+                method: 'POST',
+                dataType: 'json',
+                data: { tipodano: tipodano, provincia: provincia },
+                success: function (response) {
 
+                    if (response.status == 'success') {
 
-         $.ajax({
+                        markersLayer = L.layerGroup().addTo(map);
 
-            url: '../router/rutas.php?action=filtrarReporteCategoriaXprovincia',
-            method: 'POST',
-            dataType: 'json',
-            data: {categoria : categoria, provincia : provincia},
-            success: function(response){
+                        response.data.forEach(reporte => {
 
-                if(response.status == 'success'){
+                            let image = '';
 
-                    markersLayer = L.layerGroup().addTo(map);
-
-                    response.data.forEach(reporte =>{
-
-                         let image = '';
-
-                            if(reporte.NOMBRE_DANO == 'Hueco' ){
+                            if (reporte.NOMBRE_DANO == 'Hueco') {
 
                                 image = '../image/hueco.png';
 
-                            }else if(reporte.NOMBRE_DANO == 'Daño en desague'){
+                            } else if (reporte.NOMBRE_DANO == 'Daño en desague') {
 
                                 image = '../image/desague.png';
 
-                            }else if (reporte.NOMBRE_DANO == 'Semaforo dañado'){
+                            } else if (reporte.NOMBRE_DANO == 'Semaforo dañado') {
 
                                 image = '../image/semaforo.png';
 
-                            }else if (reporte.NOMBRE_DANO == 'Grieta'){
+                            } else if (reporte.NOMBRE_DANO == 'Grieta') {
 
                                 image = '../image/Grieta.png';
 
-                            }else if(reporte.NOMBRE_DANO == 'Señal caida'){
+                            } else if (reporte.NOMBRE_DANO == 'Señal caida') {
 
                                 image = '../image/SenalCaida.png';
                             }
 
-                            if(reporte.NOMBRE_CATEGORIA == 'Leve'){
+                            if (reporte.NOMBRE_CATEGORIA == 'Leve') {
 
-                                  puntero = L.divIcon({
+                                puntero = L.divIcon({
 
-                                  className: 'custom-marker-leve',
-                                  html: '<div class="pin-leve"></div>',
-                                  iconSize: [32, 32],
-                         
-                                 });
+                                    className: 'custom-marker-leve',
+                                    html: '<div class="pin-leve"></div>',
+                                    iconSize: [32, 32],
 
-                            }else if (reporte.NOMBRE_CATEGORIA == 'Medio'){
+                                });
 
-                                 puntero = L.divIcon({
+                            } else if (reporte.NOMBRE_CATEGORIA == 'Medio') {
 
-                                  className: 'custom-marker-medio',
-                                  html: '<div class="pin-medio"></div>',
-                                  iconSize: [32, 32],
-                         
-                                 });
-                                
-                            }else{
+                                puntero = L.divIcon({
 
-                                 puntero = L.divIcon({
+                                    className: 'custom-marker-medio',
+                                    html: '<div class="pin-medio"></div>',
+                                    iconSize: [32, 32],
 
-                                  className: 'custom-marker',
-                                  html: '<div class="pin"></div>',
-                                  iconSize: [32, 32],
-                         
-                                 });
+                                });
+
+                            } else {
+
+                                puntero = L.divIcon({
+
+                                    className: 'custom-marker',
+                                    html: '<div class="pin"></div>',
+                                    iconSize: [32, 32],
+
+                                });
 
 
                             }
@@ -1893,134 +1756,136 @@ $(function () {
                             let sessionUsuario = $("#Identidad").val();
                             console.log('La cedula de session es:', sessionUsuario, 'y el id del usuario recojido del listado es:', reporte.USUARIO_FK);
 
-                          
-
-
-                            if(reporte.USUARIO_FK == sessionUsuario){
-
-                                  puntero = L.divIcon({
-
-                                  className: 'custom-marker-user',
-                                  html: '<div class="pin-user"></div>',
-                                  iconSize: [32, 32],
-                         
-                                 });
-
-                            }                          
 
 
 
-                           let marker = L.marker([(reporte.LATITUD), (reporte.LONGITUD)], {icon: puntero});
-                           markersLayer.addLayer(marker);
+                            if (reporte.USUARIO_FK == sessionUsuario) {
 
-                           if (reporte.USUARIO_FK == sessionUsuario){
+                                puntero = L.divIcon({
 
+                                    className: 'custom-marker-user',
+                                    html: '<div class="pin-user"></div>',
+                                    iconSize: [32, 32],
 
-                             marker.bindPopup(
-
-                                `<div style='border:3px solid #2E6DA4;height:auto;background-color:#1A3A5C;color:#F4F6F8' ><img style='width:100%;height:100%;object-fit:contain;' src='${image}' ><div style='padding:20px;' ><p>Daño: ${reporte.NOMBRE_DANO}</p><p class='categoriaDano' >Categoria: ${reporte.NOMBRE_CATEGORIA}</p><p>Provincia: ${reporte.PROVINCIA_NOM}</p><p>Cantó: ${reporte.CANTON_NOM}</p><p>Distrito: ${reporte.DISTRITO_NOM}</p><p>Fecha: ${reporte.FECHA}</p><button class='btn btn-success w-100' >Asignar responsable <i class="fa-solid fa-hammer"></i></button><div style='display:flex;gap:10px;padding-top:10px;' ><button onclick='EditarReporte(${reporte.REPORTE_ID})' class='btn btn-primary w-100' >Editar Reporte</button><button onclick='EliminarReporte(${reporte.REPORTE_ID})' class='btn btn-danger w-100' >Eliminar Reporte</button></div></div></div>`
-                                
-                            ).openPopup();
-
-
-
-                           }else{
-
-                            marker.bindPopup(
-
-                                `<div style='border:3px solid #2E6DA4;height:auto;witdh:400px;background-color:#1A3A5C;color:#F4F6F8' ><img style='width:100%;height:100%;object-fit:contain;' src='${image}' ><div style='padding:20px;' ><p>Daño: ${reporte.NOMBRE_DANO}</p><p class='categoriaDano' >Categoria: ${reporte.NOMBRE_CATEGORIA}</p><p>Provincia: ${reporte.PROVINCIA_NOM}</p><p>Cantó: ${reporte.CANTON_NOM}</p><p>Distrito: ${reporte.DISTRITO_NOM}</p><p>Fecha: ${reporte.FECHA}</p><button class='btn btn-success w-100' >Asignar responsable <i class="fa-solid fa-hammer"></i></button></div></div>`
-                                
-                            ).openPopup();
+                                });
 
                             }
 
 
-                    });
+
+                            let marker = L.marker([(reporte.LATITUD), (reporte.LONGITUD)], { icon: puntero });
+                            markersLayer.addLayer(marker);
+
+                            if (reporte.USUARIO_FK == sessionUsuario) {
 
 
-                }else{
+                                marker.bindPopup(
 
-                    Swal.fire('No existen reportes según tu busqueda', '', 'warning');
-                    listadoReportes();
+                                    `<div style='border:3px solid #2E6DA4;height:auto;background-color:#1A3A5C;color:#F4F6F8' ><img style='width:100%;height:100%;object-fit:contain;' src='${image}' ><div style='padding:20px;' ><p>Daño: ${reporte.NOMBRE_DANO}</p><p class='categoriaDano' >Categoria: ${reporte.NOMBRE_CATEGORIA}</p><p>Provincia: ${reporte.PROVINCIA_NOM}</p><p>Cantó: ${reporte.CANTON_NOM}</p><p>Distrito: ${reporte.DISTRITO_NOM}</p><p>Fecha: ${reporte.FECHA}</p><button class='btn btn-success w-100' >Asignar responsable <i class="fa-solid fa-hammer"></i></button><div style='display:flex;gap:10px;padding-top:10px;' ><button onclick='EditarReporte(${reporte.REPORTE_ID})' class='btn btn-primary w-100' >Editar Reporte</button><button onclick='EliminarReporte(${reporte.REPORTE_ID})' class='btn btn-danger w-100' >Eliminar Reporte</button></div></div></div>`
+
+                                ).openPopup();
+
+
+
+                            } else {
+
+                                marker.bindPopup(
+
+                                    `<div style='border:3px solid #2E6DA4;height:auto;witdh:400px;background-color:#1A3A5C;color:#F4F6F8' ><img style='width:100%;height:100%;object-fit:contain;' src='${image}' ><div style='padding:20px;' ><p>Daño: ${reporte.NOMBRE_DANO}</p><p class='categoriaDano' >Categoria: ${reporte.NOMBRE_CATEGORIA}</p><p>Provincia: ${reporte.PROVINCIA_NOM}</p><p>Cantó: ${reporte.CANTON_NOM}</p><p>Distrito: ${reporte.DISTRITO_NOM}</p><p>Fecha: ${reporte.FECHA}</p><button class='btn btn-success w-100' >Asignar responsable <i class="fa-solid fa-hammer"></i></button></div></div>`
+
+                                ).openPopup();
+
+                            }
+
+
+                        });
+
+
+                    } else {
+
+                        Swal.fire('No existen reportes según tu busqueda', '', 'warning');
+                        listadoReportes();
+                    }
+                }, error: function (xhr, status) {
+
+                    console.log('ERROR:', xhr.responseText);
+                    console.log('STATUS:', status)
                 }
-            }, error: function(xhr, status){
-
-                console.log('ERROR:', xhr.responseText);
-                console.log('STATUS:', status)
-            }
 
 
-        });
+            });
 
 
-    }else if(tipodano != 97 && categoria != 98 && provincia != 99) {
 
-         $.ajax({
+        } else if (tipodano == 97 && categoria != 98 && provincia != 99) {
 
-            url: '../router/rutas.php?action=filtrarReporteCategoriaXprovinciaXtipodano',
-            method: 'POST',
-            dataType: 'json',
-            data: {tipodano : tipodano, categoria : categoria, provincia : provincia},
-            success: function(response){
 
-                if(response.status == 'success'){
+            $.ajax({
 
-                    markersLayer = L.layerGroup().addTo(map);
+                url: '../router/rutas.php?action=filtrarReporteCategoriaXprovincia',
+                method: 'POST',
+                dataType: 'json',
+                data: { categoria: categoria, provincia: provincia },
+                success: function (response) {
 
-                    response.data.forEach(reporte =>{
+                    if (response.status == 'success') {
 
-                         let image = '';
+                        markersLayer = L.layerGroup().addTo(map);
 
-                            if(reporte.NOMBRE_DANO == 'Hueco' ){
+                        response.data.forEach(reporte => {
+
+                            let image = '';
+
+                            if (reporte.NOMBRE_DANO == 'Hueco') {
 
                                 image = '../image/hueco.png';
 
-                            }else if(reporte.NOMBRE_DANO == 'Daño en desague'){
+                            } else if (reporte.NOMBRE_DANO == 'Daño en desague') {
 
                                 image = '../image/desague.png';
 
-                            }else if (reporte.NOMBRE_DANO == 'Semaforo dañado'){
+                            } else if (reporte.NOMBRE_DANO == 'Semaforo dañado') {
 
                                 image = '../image/semaforo.png';
 
-                            }else if (reporte.NOMBRE_DANO == 'Grieta'){
+                            } else if (reporte.NOMBRE_DANO == 'Grieta') {
 
                                 image = '../image/Grieta.png';
 
-                            }else if(reporte.NOMBRE_DANO == 'Señal caida'){
+                            } else if (reporte.NOMBRE_DANO == 'Señal caida') {
 
                                 image = '../image/SenalCaida.png';
                             }
 
-                            if(reporte.NOMBRE_CATEGORIA == 'Leve'){
+                            if (reporte.NOMBRE_CATEGORIA == 'Leve') {
 
-                                  puntero = L.divIcon({
+                                puntero = L.divIcon({
 
-                                  className: 'custom-marker-leve',
-                                  html: '<div class="pin-leve"></div>',
-                                  iconSize: [32, 32],
-                         
-                                 });
+                                    className: 'custom-marker-leve',
+                                    html: '<div class="pin-leve"></div>',
+                                    iconSize: [32, 32],
 
-                            }else if (reporte.NOMBRE_CATEGORIA == 'Medio'){
+                                });
 
-                                 puntero = L.divIcon({
+                            } else if (reporte.NOMBRE_CATEGORIA == 'Medio') {
 
-                                  className: 'custom-marker-medio',
-                                  html: '<div class="pin-medio"></div>',
-                                  iconSize: [32, 32],
-                         
-                                 });
-                                
-                            }else{
+                                puntero = L.divIcon({
 
-                                 puntero = L.divIcon({
+                                    className: 'custom-marker-medio',
+                                    html: '<div class="pin-medio"></div>',
+                                    iconSize: [32, 32],
 
-                                  className: 'custom-marker',
-                                  html: '<div class="pin"></div>',
-                                  iconSize: [32, 32],
-                         
-                                 });
+                                });
+
+                            } else {
+
+                                puntero = L.divIcon({
+
+                                    className: 'custom-marker',
+                                    html: '<div class="pin"></div>',
+                                    iconSize: [32, 32],
+
+                                });
 
 
                             }
@@ -2028,203 +1893,338 @@ $(function () {
                             let sessionUsuario = $("#Identidad").val();
                             console.log('La cedula de session es:', sessionUsuario, 'y el id del usuario recojido del listado es:', reporte.USUARIO_FK);
 
-                          
-
-
-                            if(reporte.USUARIO_FK == sessionUsuario){
-
-                                  puntero = L.divIcon({
-
-                                  className: 'custom-marker-user',
-                                  html: '<div class="pin-user"></div>',
-                                  iconSize: [32, 32],
-                         
-                                 });
-
-                            }                          
 
 
 
-                           let marker = L.marker([(reporte.LATITUD), (reporte.LONGITUD)], {icon: puntero});
-                           markersLayer.addLayer(marker);
+                            if (reporte.USUARIO_FK == sessionUsuario) {
 
-                           if (reporte.USUARIO_FK == sessionUsuario){
+                                puntero = L.divIcon({
 
+                                    className: 'custom-marker-user',
+                                    html: '<div class="pin-user"></div>',
+                                    iconSize: [32, 32],
 
-                             marker.bindPopup(
-
-                                `<div style='border:3px solid #2E6DA4;height:auto;background-color:#1A3A5C;color:#F4F6F8' ><img style='width:100%;height:100%;object-fit:contain;' src='${image}' ><div style='padding:20px;' ><p>Daño: ${reporte.NOMBRE_DANO}</p><p class='categoriaDano' >Categoria: ${reporte.NOMBRE_CATEGORIA}</p><p>Provincia: ${reporte.PROVINCIA_NOM}</p><p>Cantó: ${reporte.CANTON_NOM}</p><p>Distrito: ${reporte.DISTRITO_NOM}</p><p>Fecha: ${reporte.FECHA}</p><button class='btn btn-success w-100' >Asignar responsable <i class="fa-solid fa-hammer"></i></button><div style='display:flex;gap:10px;padding-top:10px;' ><button onclick='EditarReporte(${reporte.REPORTE_ID})' class='btn btn-primary w-100' >Editar Reporte</button><button onclick='EliminarReporte(${reporte.REPORTE_ID})' class='btn btn-danger w-100' >Eliminar Reporte</button></div></div></div>`
-                                
-                            ).openPopup();
-
-
-
-                           }else{
-
-                            marker.bindPopup(
-
-                                `<div style='border:3px solid #2E6DA4;height:auto;witdh:400px;background-color:#1A3A5C;color:#F4F6F8' ><img style='width:100%;height:100%;object-fit:contain;' src='${image}' ><div style='padding:20px;' ><p>Daño: ${reporte.NOMBRE_DANO}</p><p class='categoriaDano' >Categoria: ${reporte.NOMBRE_CATEGORIA}</p><p>Provincia: ${reporte.PROVINCIA_NOM}</p><p>Cantó: ${reporte.CANTON_NOM}</p><p>Distrito: ${reporte.DISTRITO_NOM}</p><p>Fecha: ${reporte.FECHA}</p><button class='btn btn-success w-100' >Asignar responsable <i class="fa-solid fa-hammer"></i></button></div></div>`
-                                
-                            ).openPopup();
+                                });
 
                             }
 
 
-                    });
+
+                            let marker = L.marker([(reporte.LATITUD), (reporte.LONGITUD)], { icon: puntero });
+                            markersLayer.addLayer(marker);
+
+                            if (reporte.USUARIO_FK == sessionUsuario) {
 
 
-                }else{
+                                marker.bindPopup(
 
-                    Swal.fire('No existen reportes según su busqueda', '', 'warning');
-                    listadoReportes();
+                                    `<div style='border:3px solid #2E6DA4;height:auto;background-color:#1A3A5C;color:#F4F6F8' ><img style='width:100%;height:100%;object-fit:contain;' src='${image}' ><div style='padding:20px;' ><p>Daño: ${reporte.NOMBRE_DANO}</p><p class='categoriaDano' >Categoria: ${reporte.NOMBRE_CATEGORIA}</p><p>Provincia: ${reporte.PROVINCIA_NOM}</p><p>Cantó: ${reporte.CANTON_NOM}</p><p>Distrito: ${reporte.DISTRITO_NOM}</p><p>Fecha: ${reporte.FECHA}</p><button class='btn btn-success w-100' >Asignar responsable <i class="fa-solid fa-hammer"></i></button><div style='display:flex;gap:10px;padding-top:10px;' ><button onclick='EditarReporte(${reporte.REPORTE_ID})' class='btn btn-primary w-100' >Editar Reporte</button><button onclick='EliminarReporte(${reporte.REPORTE_ID})' class='btn btn-danger w-100' >Eliminar Reporte</button></div></div></div>`
+
+                                ).openPopup();
+
+
+
+                            } else {
+
+                                marker.bindPopup(
+
+                                    `<div style='border:3px solid #2E6DA4;height:auto;witdh:400px;background-color:#1A3A5C;color:#F4F6F8' ><img style='width:100%;height:100%;object-fit:contain;' src='${image}' ><div style='padding:20px;' ><p>Daño: ${reporte.NOMBRE_DANO}</p><p class='categoriaDano' >Categoria: ${reporte.NOMBRE_CATEGORIA}</p><p>Provincia: ${reporte.PROVINCIA_NOM}</p><p>Cantó: ${reporte.CANTON_NOM}</p><p>Distrito: ${reporte.DISTRITO_NOM}</p><p>Fecha: ${reporte.FECHA}</p><button class='btn btn-success w-100' >Asignar responsable <i class="fa-solid fa-hammer"></i></button></div></div>`
+
+                                ).openPopup();
+
+                            }
+
+
+                        });
+
+
+                    } else {
+
+                        Swal.fire('No existen reportes según tu busqueda', '', 'warning');
+                        listadoReportes();
+                    }
+                }, error: function (xhr, status) {
+
+                    console.log('ERROR:', xhr.responseText);
+                    console.log('STATUS:', status)
                 }
-            }, error: function(xhr, status){
-
-                console.log('ERROR:', xhr.responseText);
-                console.log('STATUS:', status)
-            }
 
 
-        });
+            });
 
-    }else{
 
-        Swal.fire('No existen reportes según tu busqueda', '', 'warning');
-        listadoReportes();
-    }
-        
+        } else if (tipodano != 97 && categoria != 98 && provincia != 99) {
+
+            $.ajax({
+
+                url: '../router/rutas.php?action=filtrarReporteCategoriaXprovinciaXtipodano',
+                method: 'POST',
+                dataType: 'json',
+                data: { tipodano: tipodano, categoria: categoria, provincia: provincia },
+                success: function (response) {
+
+                    if (response.status == 'success') {
+
+                        markersLayer = L.layerGroup().addTo(map);
+
+                        response.data.forEach(reporte => {
+
+                            let image = '';
+
+                            if (reporte.NOMBRE_DANO == 'Hueco') {
+
+                                image = '../image/hueco.png';
+
+                            } else if (reporte.NOMBRE_DANO == 'Daño en desague') {
+
+                                image = '../image/desague.png';
+
+                            } else if (reporte.NOMBRE_DANO == 'Semaforo dañado') {
+
+                                image = '../image/semaforo.png';
+
+                            } else if (reporte.NOMBRE_DANO == 'Grieta') {
+
+                                image = '../image/Grieta.png';
+
+                            } else if (reporte.NOMBRE_DANO == 'Señal caida') {
+
+                                image = '../image/SenalCaida.png';
+                            }
+
+                            if (reporte.NOMBRE_CATEGORIA == 'Leve') {
+
+                                puntero = L.divIcon({
+
+                                    className: 'custom-marker-leve',
+                                    html: '<div class="pin-leve"></div>',
+                                    iconSize: [32, 32],
+
+                                });
+
+                            } else if (reporte.NOMBRE_CATEGORIA == 'Medio') {
+
+                                puntero = L.divIcon({
+
+                                    className: 'custom-marker-medio',
+                                    html: '<div class="pin-medio"></div>',
+                                    iconSize: [32, 32],
+
+                                });
+
+                            } else {
+
+                                puntero = L.divIcon({
+
+                                    className: 'custom-marker',
+                                    html: '<div class="pin"></div>',
+                                    iconSize: [32, 32],
+
+                                });
+
+
+                            }
+
+                            let sessionUsuario = $("#Identidad").val();
+                            console.log('La cedula de session es:', sessionUsuario, 'y el id del usuario recojido del listado es:', reporte.USUARIO_FK);
+
+
+
+
+                            if (reporte.USUARIO_FK == sessionUsuario) {
+
+                                puntero = L.divIcon({
+
+                                    className: 'custom-marker-user',
+                                    html: '<div class="pin-user"></div>',
+                                    iconSize: [32, 32],
+
+                                });
+
+                            }
+
+
+
+                            let marker = L.marker([(reporte.LATITUD), (reporte.LONGITUD)], { icon: puntero });
+                            markersLayer.addLayer(marker);
+
+                            if (reporte.USUARIO_FK == sessionUsuario) {
+
+
+                                marker.bindPopup(
+
+                                    `<div style='border:3px solid #2E6DA4;height:auto;background-color:#1A3A5C;color:#F4F6F8' ><img style='width:100%;height:100%;object-fit:contain;' src='${image}' ><div style='padding:20px;' ><p>Daño: ${reporte.NOMBRE_DANO}</p><p class='categoriaDano' >Categoria: ${reporte.NOMBRE_CATEGORIA}</p><p>Provincia: ${reporte.PROVINCIA_NOM}</p><p>Cantó: ${reporte.CANTON_NOM}</p><p>Distrito: ${reporte.DISTRITO_NOM}</p><p>Fecha: ${reporte.FECHA}</p><button class='btn btn-success w-100' >Asignar responsable <i class="fa-solid fa-hammer"></i></button><div style='display:flex;gap:10px;padding-top:10px;' ><button onclick='EditarReporte(${reporte.REPORTE_ID})' class='btn btn-primary w-100' >Editar Reporte</button><button onclick='EliminarReporte(${reporte.REPORTE_ID})' class='btn btn-danger w-100' >Eliminar Reporte</button></div></div></div>`
+
+                                ).openPopup();
+
+
+
+                            } else {
+
+                                marker.bindPopup(
+
+                                    `<div style='border:3px solid #2E6DA4;height:auto;witdh:400px;background-color:#1A3A5C;color:#F4F6F8' ><img style='width:100%;height:100%;object-fit:contain;' src='${image}' ><div style='padding:20px;' ><p>Daño: ${reporte.NOMBRE_DANO}</p><p class='categoriaDano' >Categoria: ${reporte.NOMBRE_CATEGORIA}</p><p>Provincia: ${reporte.PROVINCIA_NOM}</p><p>Cantó: ${reporte.CANTON_NOM}</p><p>Distrito: ${reporte.DISTRITO_NOM}</p><p>Fecha: ${reporte.FECHA}</p><button class='btn btn-success w-100' >Asignar responsable <i class="fa-solid fa-hammer"></i></button></div></div>`
+
+                                ).openPopup();
+
+                            }
+
+
+                        });
+
+
+                    } else {
+
+                        Swal.fire('No existen reportes según su busqueda', '', 'warning');
+                        listadoReportes();
+                    }
+                }, error: function (xhr, status) {
+
+                    console.log('ERROR:', xhr.responseText);
+                    console.log('STATUS:', status)
+                }
+
+
+            });
+
+        } else {
+
+            Swal.fire('No existen reportes según tu busqueda', '', 'warning');
+            listadoReportes();
+        }
+
     });
 
-    $('#botonFiltroMisReportes').click(function(){
+    $('#botonFiltroMisReportes').click(function () {
 
         markersLayer.clearLayers();
 
         let usuario = $('#Identidad').val();
 
-         $.ajax({
+        $.ajax({
 
             url: '../router/rutas.php?action=filtrarReporteUsuario',
             method: 'POST',
             dataType: 'json',
-            data: {usuario : usuario},
-            success: function(response){
+            data: { usuario: usuario },
+            success: function (response) {
 
-                if(response.status == 'success'){
+                if (response.status == 'success') {
 
                     markersLayer = L.layerGroup().addTo(map);
 
-                    response.data.forEach(reporte =>{
+                    response.data.forEach(reporte => {
 
-                         let image = '';
+                        let image = '';
 
-                            if(reporte.NOMBRE_DANO == 'Hueco' ){
+                        if (reporte.NOMBRE_DANO == 'Hueco') {
 
-                                image = '../image/hueco.png';
+                            image = '../image/hueco.png';
 
-                            }else if(reporte.NOMBRE_DANO == 'Daño en desague'){
+                        } else if (reporte.NOMBRE_DANO == 'Daño en desague') {
 
-                                image = '../image/desague.png';
+                            image = '../image/desague.png';
 
-                            }else if (reporte.NOMBRE_DANO == 'Semaforo dañado'){
+                        } else if (reporte.NOMBRE_DANO == 'Semaforo dañado') {
 
-                                image = '../image/semaforo.png';
+                            image = '../image/semaforo.png';
 
-                            }else if (reporte.NOMBRE_DANO == 'Grieta'){
+                        } else if (reporte.NOMBRE_DANO == 'Grieta') {
 
-                                image = '../image/Grieta.png';
+                            image = '../image/Grieta.png';
 
-                            }else if(reporte.NOMBRE_DANO == 'Señal caida'){
+                        } else if (reporte.NOMBRE_DANO == 'Señal caida') {
 
-                                image = '../image/SenalCaida.png';
-                            }
+                            image = '../image/SenalCaida.png';
+                        }
 
-                            if(reporte.NOMBRE_CATEGORIA == 'Leve'){
+                        if (reporte.NOMBRE_CATEGORIA == 'Leve') {
 
-                                  puntero = L.divIcon({
+                            puntero = L.divIcon({
 
-                                  className: 'custom-marker-leve',
-                                  html: '<div class="pin-leve"></div>',
-                                  iconSize: [32, 32],
-                         
-                                 });
+                                className: 'custom-marker-leve',
+                                html: '<div class="pin-leve"></div>',
+                                iconSize: [32, 32],
 
-                            }else if (reporte.NOMBRE_CATEGORIA == 'Medio'){
+                            });
 
-                                 puntero = L.divIcon({
+                        } else if (reporte.NOMBRE_CATEGORIA == 'Medio') {
 
-                                  className: 'custom-marker-medio',
-                                  html: '<div class="pin-medio"></div>',
-                                  iconSize: [32, 32],
-                         
-                                 });
-                                
-                            }else{
+                            puntero = L.divIcon({
 
-                                 puntero = L.divIcon({
+                                className: 'custom-marker-medio',
+                                html: '<div class="pin-medio"></div>',
+                                iconSize: [32, 32],
 
-                                  className: 'custom-marker',
-                                  html: '<div class="pin"></div>',
-                                  iconSize: [32, 32],
-                         
-                                 });
+                            });
 
+                        } else {
 
-                            }
+                            puntero = L.divIcon({
 
-                            let sessionUsuario = $("#Identidad").val();
-                            console.log('La cedula de session es:', sessionUsuario, 'y el id del usuario recojido del listado es:', reporte.USUARIO_FK);
+                                className: 'custom-marker',
+                                html: '<div class="pin"></div>',
+                                iconSize: [32, 32],
 
-                          
+                            });
 
 
-                            if(reporte.USUARIO_FK == sessionUsuario){
+                        }
 
-                                  puntero = L.divIcon({
-
-                                  className: 'custom-marker-user',
-                                  html: '<div class="pin-user"></div>',
-                                  iconSize: [32, 32],
-                         
-                                 });
-
-                            }                          
+                        let sessionUsuario = $("#Identidad").val();
+                        console.log('La cedula de session es:', sessionUsuario, 'y el id del usuario recojido del listado es:', reporte.USUARIO_FK);
 
 
 
-                           let marker = L.marker([(reporte.LATITUD), (reporte.LONGITUD)], {icon: puntero});
-                           markersLayer.addLayer(marker);
 
-                           if (reporte.USUARIO_FK == sessionUsuario){
+                        if (reporte.USUARIO_FK == sessionUsuario) {
+
+                            puntero = L.divIcon({
+
+                                className: 'custom-marker-user',
+                                html: '<div class="pin-user"></div>',
+                                iconSize: [32, 32],
+
+                            });
+
+                        }
 
 
-                             marker.bindPopup(
+
+                        let marker = L.marker([(reporte.LATITUD), (reporte.LONGITUD)], { icon: puntero });
+                        markersLayer.addLayer(marker);
+
+                        if (reporte.USUARIO_FK == sessionUsuario) {
+
+
+                            marker.bindPopup(
 
                                 `<div style='border:3px solid #2E6DA4;height:auto;background-color:#1A3A5C;color:#F4F6F8' ><img style='width:100%;height:100%;object-fit:contain;' src='${image}' ><div style='padding:20px;' ><p>Daño: ${reporte.NOMBRE_DANO}</p><p class='categoriaDano' >Categoria: ${reporte.NOMBRE_CATEGORIA}</p><p>Provincia: ${reporte.PROVINCIA_NOM}</p><p>Cantó: ${reporte.CANTON_NOM}</p><p>Distrito: ${reporte.DISTRITO_NOM}</p><p>Fecha: ${reporte.FECHA}</p><button class='btn btn-success w-100' >Asignar responsable <i class="fa-solid fa-hammer"></i></button><div style='display:flex;gap:10px;padding-top:10px;' ><button onclick='EditarReporte(${reporte.REPORTE_ID})' class='btn btn-primary w-100' >Editar Reporte</button><button onclick='EliminarReporte(${reporte.REPORTE_ID})' class='btn btn-danger w-100' >Eliminar Reporte</button></div></div></div>`
-                                
+
                             ).openPopup();
 
 
 
-                           }else{
+                        } else {
 
                             marker.bindPopup(
 
                                 `<div style='border:3px solid #2E6DA4;height:auto;witdh:400px;background-color:#1A3A5C;color:#F4F6F8' ><img style='width:100%;height:100%;object-fit:contain;' src='${image}' ><div style='padding:20px;' ><p>Daño: ${reporte.NOMBRE_DANO}</p><p class='categoriaDano' >Categoria: ${reporte.NOMBRE_CATEGORIA}</p><p>Provincia: ${reporte.PROVINCIA_NOM}</p><p>Cantó: ${reporte.CANTON_NOM}</p><p>Distrito: ${reporte.DISTRITO_NOM}</p><p>Fecha: ${reporte.FECHA}</p><button class='btn btn-success w-100' >Asignar responsable <i class="fa-solid fa-hammer"></i></button></div></div>`
-                                
+
                             ).openPopup();
 
-                            }
+                        }
 
 
                     });
 
 
-                }else{
+                } else {
 
                     Swal.fire('No existen reportes según tu busqueda', '', 'warning');
                     listadoReportes();
                 }
-            }, error: function(xhr, status){
+            }, error: function (xhr, status) {
 
                 console.log('ERROR:', xhr.responseText);
                 console.log('STATUS:', status)
@@ -2237,141 +2237,141 @@ $(function () {
 
     });
 
-    $('#botonFiltroAll').click(function(){
+    $('#botonFiltroAll').click(function () {
 
 
         listadoReportes();
 
     });
 
-        
-    function listadoReportes(){
+
+    function listadoReportes() {
 
         markersLayer.clearLayers();
 
 
-         $.ajax({
+        $.ajax({
 
             url: '../router/rutas.php?action=obtenerReportes',
             method: 'GET',
             dataType: 'json',
-            success: function(response){
+            success: function (response) {
 
-                if(response.status == 'success'){
+                if (response.status == 'success') {
 
                     markersLayer = L.layerGroup().addTo(map);
 
-                    response.data.forEach(reporte =>{
+                    response.data.forEach(reporte => {
 
-                         let image = '';
+                        let image = '';
 
-                            if(reporte.NOMBRE_DANO == 'Hueco' ){
+                        if (reporte.NOMBRE_DANO == 'Hueco') {
 
-                                image = '../image/hueco.png';
+                            image = '../image/hueco.png';
 
-                            }else if(reporte.NOMBRE_DANO == 'Daño en desague'){
+                        } else if (reporte.NOMBRE_DANO == 'Daño en desague') {
 
-                                image = '../image/desague.png';
+                            image = '../image/desague.png';
 
-                            }else if (reporte.NOMBRE_DANO == 'Semaforo dañado'){
+                        } else if (reporte.NOMBRE_DANO == 'Semaforo dañado') {
 
-                                image = '../image/semaforo.png';
+                            image = '../image/semaforo.png';
 
-                            }else if (reporte.NOMBRE_DANO == 'Grieta'){
+                        } else if (reporte.NOMBRE_DANO == 'Grieta') {
 
-                                image = '../image/Grieta.png';
+                            image = '../image/Grieta.png';
 
-                            }else if(reporte.NOMBRE_DANO == 'Señal caida'){
+                        } else if (reporte.NOMBRE_DANO == 'Señal caida') {
 
-                                image = '../image/SenalCaida.png';
-                            }
+                            image = '../image/SenalCaida.png';
+                        }
 
-                            if(reporte.NOMBRE_CATEGORIA == 'Leve'){
+                        if (reporte.NOMBRE_CATEGORIA == 'Leve') {
 
-                                  puntero = L.divIcon({
+                            puntero = L.divIcon({
 
-                                  className: 'custom-marker-leve',
-                                  html: '<div class="pin-leve"></div>',
-                                  iconSize: [32, 32],
-                         
-                                 });
+                                className: 'custom-marker-leve',
+                                html: '<div class="pin-leve"></div>',
+                                iconSize: [32, 32],
 
-                            }else if (reporte.NOMBRE_CATEGORIA == 'Medio'){
+                            });
 
-                                 puntero = L.divIcon({
+                        } else if (reporte.NOMBRE_CATEGORIA == 'Medio') {
 
-                                  className: 'custom-marker-medio',
-                                  html: '<div class="pin-medio"></div>',
-                                  iconSize: [32, 32],
-                         
-                                 });
-                                
-                            }else{
+                            puntero = L.divIcon({
 
-                                 puntero = L.divIcon({
+                                className: 'custom-marker-medio',
+                                html: '<div class="pin-medio"></div>',
+                                iconSize: [32, 32],
 
-                                  className: 'custom-marker',
-                                  html: '<div class="pin"></div>',
-                                  iconSize: [32, 32],
-                         
-                                 });
+                            });
 
+                        } else {
 
-                            }
+                            puntero = L.divIcon({
 
-                            let sessionUsuario = $("#Identidad").val();
-                            console.log('La cedula de session es:', sessionUsuario, 'y el id del usuario recojido del listado es:', reporte.USUARIO_FK);
+                                className: 'custom-marker',
+                                html: '<div class="pin"></div>',
+                                iconSize: [32, 32],
 
-                          
+                            });
 
 
-                            if(reporte.USUARIO_FK == sessionUsuario){
+                        }
 
-                                  puntero = L.divIcon({
-
-                                  className: 'custom-marker-user',
-                                  html: '<div class="pin-user"></div>',
-                                  iconSize: [32, 32],
-                         
-                                 });
-
-                            }                          
+                        let sessionUsuario = $("#Identidad").val();
+                        console.log('La cedula de session es:', sessionUsuario, 'y el id del usuario recojido del listado es:', reporte.USUARIO_FK);
 
 
 
-                           let marker = L.marker([(reporte.LATITUD), (reporte.LONGITUD)], {icon: puntero});
-                           markersLayer.addLayer(marker);
 
-                           if (reporte.USUARIO_FK == sessionUsuario){
+                        if (reporte.USUARIO_FK == sessionUsuario) {
+
+                            puntero = L.divIcon({
+
+                                className: 'custom-marker-user',
+                                html: '<div class="pin-user"></div>',
+                                iconSize: [32, 32],
+
+                            });
+
+                        }
 
 
-                             marker.bindPopup(
+
+                        let marker = L.marker([(reporte.LATITUD), (reporte.LONGITUD)], { icon: puntero });
+                        markersLayer.addLayer(marker);
+
+                        if (reporte.USUARIO_FK == sessionUsuario) {
+
+
+                            marker.bindPopup(
 
                                 `<div style='border:3px solid #2E6DA4;height:auto;background-color:#1A3A5C;color:#F4F6F8' ><img style='width:100%;height:100%;object-fit:contain;' src='${image}' ><div style='padding:20px;' ><p>Daño: ${reporte.NOMBRE_DANO}</p><p class='categoriaDano' >Categoria: ${reporte.NOMBRE_CATEGORIA}</p><p>Provincia: ${reporte.PROVINCIA_NOM}</p><p>Cantó: ${reporte.CANTON_NOM}</p><p>Distrito: ${reporte.DISTRITO_NOM}</p><p>Fecha: ${reporte.FECHA}</p><button class='btn btn-success w-100' >Asignar responsable <i class="fa-solid fa-hammer"></i></button><div style='display:flex;gap:10px;padding-top:10px;' ><button onclick='EditarReporte(${reporte.REPORTE_ID})' class='btn btn-primary w-100' >Editar Reporte</button><button onclick='EliminarReporte(${reporte.REPORTE_ID})' class='btn btn-danger w-100' >Eliminar Reporte</button></div></div></div>`
-                                
+
                             ).openPopup();
 
 
 
-                           }else{
+                        } else {
 
                             marker.bindPopup(
 
                                 `<div style='border:3px solid #2E6DA4;height:auto;witdh:400px;background-color:#1A3A5C;color:#F4F6F8' ><img style='width:100%;height:100%;object-fit:contain;' src='${image}' ><div style='padding:20px;' ><p>Daño: ${reporte.NOMBRE_DANO}</p><p class='categoriaDano' >Categoria: ${reporte.NOMBRE_CATEGORIA}</p><p>Provincia: ${reporte.PROVINCIA_NOM}</p><p>Cantó: ${reporte.CANTON_NOM}</p><p>Distrito: ${reporte.DISTRITO_NOM}</p><p>Fecha: ${reporte.FECHA}</p><button class='btn btn-success w-100' >Asignar responsable <i class="fa-solid fa-hammer"></i></button></div></div>`
-                                
+
                             ).openPopup();
 
-                            }
+                        }
 
 
                     });
 
 
-                }else{
+                } else {
 
                     Swal.fire('No existen reportes según tu busqueda', '', 'warning');
                 }
-            }, error: function(xhr, status){
+            }, error: function (xhr, status) {
 
                 console.log('ERROR:', xhr.responseText);
                 console.log('STATUS:', status)
@@ -2383,10 +2383,10 @@ $(function () {
 
 
     };
-    
-    
 
-   
+
+
+
 
 
 

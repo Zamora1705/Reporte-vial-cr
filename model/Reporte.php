@@ -4,16 +4,19 @@
 require_once '../config/XEPDB1.php';
 
 
-class Reporte{
+class Reporte
+{
 
     private $DB;
 
-    public function __construct(){
+    public function __construct()
+    {
 
-        $this->DB = DataBase :: connect();
+        $this->DB = DataBase::connect();
     }
 
-    public function create($Longitud, $Latitud, $Tipodano, $Categoria, $Provincia, $Canton, $Distrito, $Calle){
+    public function create($Longitud, $Latitud, $Tipodano, $Categoria, $Provincia, $Canton, $Distrito, $Calle)
+    {
 
         session_start();
 
@@ -37,7 +40,7 @@ class Reporte{
         oci_bind_by_name($smtp, ':Distrito', $Distrito);
         oci_bind_by_name($smtp, ':Calle', $Calle);
 
-        
+
 
         $result = oci_execute($smtp);
         oci_execute($smtpCommit);
@@ -45,7 +48,8 @@ class Reporte{
         return $result;
     }
 
-    public function listado(){
+    public function listado()
+    {
 
         $query = "SELECT t.Nombre_dano, c.Nombre_categoria, r.Fecha, r.Reporte_ID, r.Usuario_FK, r.Longitud, r.Latitud, r.Provincia_nom, r.Canton_nom, r.Distrito_nom
         FROM Reporte r INNER JOIN Categoria c ON r.Categoria_FK = c.Categoria_ID INNER JOIN Tipo_dano t ON r.Tipo_Dano_FK = t.Dano_ID";
@@ -56,11 +60,11 @@ class Reporte{
 
         $listado = [];
 
-        while($row = oci_fetch_assoc($smtp)){
+        while ($row = oci_fetch_assoc($smtp)) {
 
             $filaLimpia = [];
 
-            foreach($row as $key => $value){
+            foreach ($row as $key => $value) {
 
                 $filaLimpia[$key] = mb_convert_encoding($value, 'UTF-8', 'Windows-1252');
             }
@@ -72,7 +76,8 @@ class Reporte{
         return $listado;
     }
 
-    public function obtenerReporteByID($idReporte){
+    public function obtenerReporteByID($idReporte)
+    {
 
         $query = "SELECT t.Nombre_dano, t.Dano_ID , c.Categoria_ID, c.Nombre_categoria, r.Fecha, r.Reporte_ID, r.Longitud, r.Latitud, r.Provincia_nom, r.Canton_nom, r.Distrito_nom, r.Calle_FK, a.Nombre_calle
         FROM Reporte r INNER JOIN Categoria c ON r.Categoria_FK = c.Categoria_ID INNER JOIN Tipo_dano t ON r.Tipo_Dano_FK = t.Dano_ID INNER JOIN Calle_Report a 
@@ -89,18 +94,19 @@ class Reporte{
         return $row;
     }
 
-    public function editarReporte($Tipodano, $Categoria, $Provincia, $Canton, $Distrito, $Calle, $idReporte){
+    public function editarReporte($Tipodano, $Categoria, $Provincia, $Canton, $Distrito, $Calle, $idReporte)
+    {
 
-       
 
-          $query="UPDATE Reporte SET Tipo_Dano_FK = :Tipodano, Categoria_FK = :Categoria, Calle_FK = :Calle, 
+
+        $query = "UPDATE Reporte SET Tipo_Dano_FK = :Tipodano, Categoria_FK = :Categoria, Calle_FK = :Calle, 
           Provincia_nom = :Provincia, Canton_nom = :Canton, Distrito_nom = :Distrito WHERE Reporte_ID = :idReporte";
-          $queryCommit = "COMMIT";
+        $queryCommit = "COMMIT";
 
-          $smtp=oci_parse($this->DB, $query);
-          $smtpCommit=oci_parse($this->DB, $queryCommit);
+        $smtp = oci_parse($this->DB, $query);
+        $smtpCommit = oci_parse($this->DB, $queryCommit);
 
-          
+
         oci_bind_by_name($smtp, ':Tipodano', $Tipodano);
         oci_bind_by_name($smtp, ':Categoria', $Categoria);
         oci_bind_by_name($smtp, ':Provincia', $Provincia);
@@ -116,24 +122,26 @@ class Reporte{
 
     }
 
-    public function eliminarReporte($idreporte){
+    public function eliminarReporte($idreporte)
+    {
 
-    $query="DELETE FROM Reporte WHERE Reporte_ID = :idreporte";
-    $queryCommit = "COMMIT";
+        $query = "DELETE FROM Reporte WHERE Reporte_ID = :idreporte";
+        $queryCommit = "COMMIT";
 
-    $smtp = oci_parse($this->DB, $query);
-    $smtpCommit=oci_parse($this->DB, $queryCommit);
+        $smtp = oci_parse($this->DB, $query);
+        $smtpCommit = oci_parse($this->DB, $queryCommit);
 
-    oci_bind_by_name($smtp, ':idreporte', $idreporte);
+        oci_bind_by_name($smtp, ':idreporte', $idreporte);
 
-    $result = oci_execute($smtp);
-    oci_execute($smtpCommit);
-    
-    return $result;
+        $result = oci_execute($smtp);
+        oci_execute($smtpCommit);
+
+        return $result;
 
     }
 
-    public function filtrarReporte($Tipodano){
+    public function filtrarReporte($Tipodano)
+    {
 
         $query = "SELECT t.Nombre_dano, c.Nombre_categoria, r.Fecha, r.Reporte_ID, r.Usuario_FK, r.Longitud, r.Latitud, r.Provincia_nom, r.Canton_nom, r.Distrito_nom
         FROM Reporte r INNER JOIN Categoria c ON r.Categoria_FK = c.Categoria_ID INNER JOIN Tipo_dano t ON r.Tipo_Dano_FK = t.Dano_ID WHERE r.Tipo_Dano_FK = :Tipodano";
@@ -146,17 +154,17 @@ class Reporte{
 
         $listado = [];
 
-        while($row = oci_fetch_assoc($smtp)){
+        while ($row = oci_fetch_assoc($smtp)) {
 
-           $filaLimpia = [];
+            $filaLimpia = [];
 
-           foreach($row as $key => $value){
+            foreach ($row as $key => $value) {
 
-               $filaLimpia[$key] = mb_convert_encoding($value, 'UTF-8', 'Windows-1252');
+                $filaLimpia[$key] = mb_convert_encoding($value, 'UTF-8', 'Windows-1252');
 
-           }
+            }
 
-           $listado[] = $filaLimpia;
+            $listado[] = $filaLimpia;
 
 
         }
@@ -165,7 +173,8 @@ class Reporte{
 
     }
 
-     public function filtrarReporteCategoria($categoria){
+    public function filtrarReporteCategoria($categoria)
+    {
 
         $query = "SELECT t.Nombre_dano, c.Nombre_categoria, r.Fecha, r.Reporte_ID, r.Usuario_FK, r.Longitud, r.Latitud, r.Provincia_nom, r.Canton_nom, r.Distrito_nom
         FROM Reporte r INNER JOIN Categoria c ON r.Categoria_FK = c.Categoria_ID INNER JOIN Tipo_dano t ON r.Tipo_Dano_FK = t.Dano_ID WHERE r.Categoria_FK = :Categoria";
@@ -178,17 +187,17 @@ class Reporte{
 
         $listado = [];
 
-        while($row = oci_fetch_assoc($smtp)){
+        while ($row = oci_fetch_assoc($smtp)) {
 
-           $filaLimpia = [];
+            $filaLimpia = [];
 
-           foreach($row as $key => $value){
+            foreach ($row as $key => $value) {
 
-               $filaLimpia[$key] = mb_convert_encoding($value, 'UTF-8', 'Windows-1252');
+                $filaLimpia[$key] = mb_convert_encoding($value, 'UTF-8', 'Windows-1252');
 
-           }
+            }
 
-           $listado[] = $filaLimpia;
+            $listado[] = $filaLimpia;
 
 
         }
@@ -197,8 +206,9 @@ class Reporte{
 
     }
 
-    public function filtrarReporteProvincia($provincia){
-        
+    public function filtrarReporteProvincia($provincia)
+    {
+
         $query = "SELECT t.Nombre_dano, c.Nombre_categoria, r.Fecha, r.Reporte_ID, r.Usuario_FK, r.Longitud, r.Latitud, r.Provincia_nom, r.Canton_nom, r.Distrito_nom
         FROM Reporte r INNER JOIN Categoria c ON r.Categoria_FK = c.Categoria_ID INNER JOIN Tipo_dano t ON r.Tipo_Dano_FK = t.Dano_ID WHERE r.Provincia_nom = :Provincia";
 
@@ -210,17 +220,17 @@ class Reporte{
 
         $listado = [];
 
-        while($row = oci_fetch_assoc($smtp)){
+        while ($row = oci_fetch_assoc($smtp)) {
 
-           $filaLimpia = [];
+            $filaLimpia = [];
 
-           foreach($row as $key => $value){
+            foreach ($row as $key => $value) {
 
-               $filaLimpia[$key] = mb_convert_encoding($value, 'UTF-8', 'Windows-1252');
+                $filaLimpia[$key] = mb_convert_encoding($value, 'UTF-8', 'Windows-1252');
 
-           }
+            }
 
-           $listado[] = $filaLimpia;
+            $listado[] = $filaLimpia;
 
 
         }
@@ -229,7 +239,8 @@ class Reporte{
 
     }
 
-    public function filtrarReporteTipoDanoXCategoria($tipodano, $categoria){
+    public function filtrarReporteTipoDanoXCategoria($tipodano, $categoria)
+    {
 
         $query = "SELECT t.Nombre_dano, c.Nombre_categoria, r.Fecha, r.Reporte_ID, r.Usuario_FK, r.Longitud, r.Latitud, r.Provincia_nom, r.Canton_nom, r.Distrito_nom
         FROM Reporte r INNER JOIN Categoria c ON r.Categoria_FK = c.Categoria_ID INNER JOIN Tipo_dano t ON r.Tipo_Dano_FK = t.Dano_ID 
@@ -244,17 +255,17 @@ class Reporte{
 
         $listado = [];
 
-        while($row = oci_fetch_assoc($smtp)){
+        while ($row = oci_fetch_assoc($smtp)) {
 
-           $filaLimpia = [];
+            $filaLimpia = [];
 
-           foreach($row as $key => $value){
+            foreach ($row as $key => $value) {
 
-               $filaLimpia[$key] = mb_convert_encoding($value, 'UTF-8', 'Windows-1252');
+                $filaLimpia[$key] = mb_convert_encoding($value, 'UTF-8', 'Windows-1252');
 
-           }
+            }
 
-           $listado[] = $filaLimpia;
+            $listado[] = $filaLimpia;
 
 
         }
@@ -263,7 +274,8 @@ class Reporte{
 
     }
 
-    public function filtrarReporteTipoDanoXprovincia($tipodano, $provincia){
+    public function filtrarReporteTipoDanoXprovincia($tipodano, $provincia)
+    {
 
         $query = "SELECT t.Nombre_dano, c.Nombre_categoria, r.Fecha, r.Reporte_ID, r.Usuario_FK, r.Longitud, r.Latitud, r.Provincia_nom, r.Canton_nom, r.Distrito_nom
         FROM Reporte r INNER JOIN Categoria c ON r.Categoria_FK = c.Categoria_ID INNER JOIN Tipo_dano t ON r.Tipo_Dano_FK = t.Dano_ID 
@@ -278,17 +290,17 @@ class Reporte{
 
         $listado = [];
 
-        while($row = oci_fetch_assoc($smtp)){
+        while ($row = oci_fetch_assoc($smtp)) {
 
-           $filaLimpia = [];
+            $filaLimpia = [];
 
-           foreach($row as $key => $value){
+            foreach ($row as $key => $value) {
 
-               $filaLimpia[$key] = mb_convert_encoding($value, 'UTF-8', 'Windows-1252');
+                $filaLimpia[$key] = mb_convert_encoding($value, 'UTF-8', 'Windows-1252');
 
-           }
+            }
 
-           $listado[] = $filaLimpia;
+            $listado[] = $filaLimpia;
 
 
         }
@@ -297,7 +309,8 @@ class Reporte{
 
     }
 
-    public function filtrarReporteCategoriaXprovincia($categoria, $provincia){
+    public function filtrarReporteCategoriaXprovincia($categoria, $provincia)
+    {
 
         $query = "SELECT t.Nombre_dano, c.Nombre_categoria, r.Fecha, r.Reporte_ID, r.Usuario_FK, r.Longitud, r.Latitud, r.Provincia_nom, r.Canton_nom, r.Distrito_nom
         FROM Reporte r INNER JOIN Categoria c ON r.Categoria_FK = c.Categoria_ID INNER JOIN Tipo_dano t ON r.Tipo_Dano_FK = t.Dano_ID 
@@ -312,17 +325,17 @@ class Reporte{
 
         $listado = [];
 
-        while($row = oci_fetch_assoc($smtp)){
+        while ($row = oci_fetch_assoc($smtp)) {
 
-           $filaLimpia = [];
+            $filaLimpia = [];
 
-           foreach($row as $key => $value){
+            foreach ($row as $key => $value) {
 
-               $filaLimpia[$key] = mb_convert_encoding($value, 'UTF-8', 'Windows-1252');
+                $filaLimpia[$key] = mb_convert_encoding($value, 'UTF-8', 'Windows-1252');
 
-           }
+            }
 
-           $listado[] = $filaLimpia;
+            $listado[] = $filaLimpia;
 
 
         }
@@ -332,9 +345,10 @@ class Reporte{
 
     }
 
-    public function filtrarReporteCategoriaXprovinciaXtipodano($tipodano, $categoria, $provincia){
+    public function filtrarReporteCategoriaXprovinciaXtipodano($tipodano, $categoria, $provincia)
+    {
 
-       $query = "SELECT t.Nombre_dano, c.Nombre_categoria, r.Fecha, r.Reporte_ID, r.Usuario_FK, r.Longitud, r.Latitud, r.Provincia_nom, r.Canton_nom, r.Distrito_nom
+        $query = "SELECT t.Nombre_dano, c.Nombre_categoria, r.Fecha, r.Reporte_ID, r.Usuario_FK, r.Longitud, r.Latitud, r.Provincia_nom, r.Canton_nom, r.Distrito_nom
         FROM Reporte r INNER JOIN Categoria c ON r.Categoria_FK = c.Categoria_ID INNER JOIN Tipo_dano t ON r.Tipo_Dano_FK = t.Dano_ID 
         WHERE r.Categoria_FK = :categoria and r.Provincia_nom = :provincia and r.Tipo_Dano_FK = :tipodano";
 
@@ -348,17 +362,17 @@ class Reporte{
 
         $listado = [];
 
-        while($row = oci_fetch_assoc($smtp)){
+        while ($row = oci_fetch_assoc($smtp)) {
 
-           $filaLimpia = [];
+            $filaLimpia = [];
 
-           foreach($row as $key => $value){
+            foreach ($row as $key => $value) {
 
-               $filaLimpia[$key] = mb_convert_encoding($value, 'UTF-8', 'Windows-1252');
+                $filaLimpia[$key] = mb_convert_encoding($value, 'UTF-8', 'Windows-1252');
 
-           }
+            }
 
-           $listado[] = $filaLimpia;
+            $listado[] = $filaLimpia;
 
 
         }
@@ -368,7 +382,8 @@ class Reporte{
 
     }
 
-    public function filtrarReporteUsuario($usuario){
+    public function filtrarReporteUsuario($usuario)
+    {
 
         $query = "SELECT t.Nombre_dano, c.Nombre_categoria, r.Fecha, r.Reporte_ID, r.Usuario_FK, r.Longitud, r.Latitud, r.Provincia_nom, r.Canton_nom, r.Distrito_nom
         FROM Reporte r INNER JOIN Categoria c ON r.Categoria_FK = c.Categoria_ID INNER JOIN Tipo_dano t ON r.Tipo_Dano_FK = t.Dano_ID 
@@ -383,17 +398,17 @@ class Reporte{
 
         $listado = [];
 
-        while($row = oci_fetch_assoc($smtp)){
+        while ($row = oci_fetch_assoc($smtp)) {
 
-           $filaLimpia = [];
+            $filaLimpia = [];
 
-           foreach($row as $key => $value){
+            foreach ($row as $key => $value) {
 
-               $filaLimpia[$key] = mb_convert_encoding($value, 'UTF-8', 'Windows-1252');
+                $filaLimpia[$key] = mb_convert_encoding($value, 'UTF-8', 'Windows-1252');
 
-           }
+            }
 
-           $listado[] = $filaLimpia;
+            $listado[] = $filaLimpia;
 
 
         }

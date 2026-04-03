@@ -2,7 +2,7 @@
 
 session_start();
 
-if(isset($_SESSION['Usuario'])){
+if (isset($_SESSION['Usuario'])) {
 
     $Cedula = $_SESSION['Cedula'];
 
@@ -85,32 +85,56 @@ if(isset($_SESSION['Usuario'])){
                         <li>
                             <div class="busqueda">
                                 <h2>Busqueda de reportes</h2>
-                                
-                                <select name="tipodano" class="filtro1_dano"  id="tipodanoFiltro">
+
+                                <select name="tipodano" class="filtro1_dano" id="tipodanoFiltro">
                                     <option value="">Tipo de daño</option>
                                 </select>
                                 <select name="categoria" class="filtro2_dano" id="CategoriaFiltro">
                                     <option value="">Categoria de daño</option>
                                 </select>
-                                 <select name="provincia" class="filtro2_dano" id="ProvinciaFiltro">
+                                <select name="provincia" class="filtro2_dano" id="ProvinciaFiltro">
                                     <option value="">Provincia</option>
                                 </select>
                                 <button type='button' id='botonFiltro' class="button-busqueda">Realizar busqueda <i
                                         class='fa-solid fa-magnifying-glass'></i></button>
                                 <button type='button' id='botonFiltroAll' class='button-busqueda'>Todos los reportes <i
-                                        class='fa-solid fa-magnifying-glass'></i></button>          
-                                        
+                                        class='fa-solid fa-magnifying-glass'></i></button>
+
                                 <?php
-                                
-                                if(isset($_SESSION['Usuario'])){
-                                
-                               echo "<button type='button' id='botonFiltroMisReportes' class='button-busqueda'>Mis reportes <i
+
+                                if (isset($_SESSION['Usuario'])) {
+
+                                    echo "<button type='button' id='botonFiltroMisReportes' class='button-busqueda'>Mis reportes <i
                                         class='fa-solid fa-magnifying-glass'></i></button> ";
 
-                                }        
+                                }
 
-                                ?>        
+                                ?>
                             </div>
+                        </li>
+                        <li>
+                            <div class="bloqueInformativoReportes" >
+                                <div class="reporteLeve" >
+                                    <div id="iconoReporte-leve"></div>
+                                    <p>Daño leve</p>
+                                </div>
+                                <div class="reporteLeve" >
+                                    <div id="iconoReporte-medio"></div>
+                                    <p>Daño medio</p>
+                                </div>
+                                <div class="reporteLeve" >
+                                    <div id="iconoReporte-alto"></div>
+                                    <p>Daño alto</p>
+                                </div>
+                                <div class="reporteLeve" >
+                                    <div id="iconoReporte-personal"></div>
+                                    <p>Reportes personales</p>
+                                </div>
+                                
+
+                            </div>
+
+
                         </li>
                     </ul>
                 </div>
@@ -184,7 +208,8 @@ if(isset($_SESSION['Usuario'])){
             <div class='modal-content'>
                 <div class='modal-header'>
                     <h5 class='modal-title'>Reportar Daño</h5>
-                    <button type='button' id="botonCerrarModel" class='btn-close' data-bs-dismiss='modal' aria-label='Close'></button>
+                    <button type='button' id="botonCerrarModel" class='btn-close' data-bs-dismiss='modal'
+                        aria-label='Close'></button>
                 </div>
                 <form id='formularioNuevoReporte'>
                     <div class='modal-body'>
@@ -197,40 +222,40 @@ if(isset($_SESSION['Usuario'])){
                         <div class="select mt-3">
                             <label for="Categoria" class="form-label">Categoría del daño</label>
                             <select name="Categoria" class="form-control" id="Categoria">
-                               
+
                             </select>
                         </div>
                         <div class="select mt-3">
                             <label for="Provincia" class="form-label">Provincia</label>
                             <select name="Provincia" class="form-control" id="Provincia">
-                                
+
                             </select>
                         </div>
                         <div id="bloqueCanton" class="select mt-3">
                             <label for="Canton" class="form-label">Cantón</label>
                             <select name="Canton" class="form-control" id="Canton">
-                              
+
                             </select>
                         </div>
                         <div id="bloqueDistrito" class="select mt-3">
                             <label for="Distrito" class="form-label">Distrito </label>
                             <select name="Distrito" class="form-control" id="Distrito">
-                              
+
                             </select>
                         </div>
                         <div id="bloqueCalle" class="select mt-3 mb-3">
                             <label for="calle" class="form-label">Nombre de la calle </label>
                             <select name="calle" class="form-control" id="calle">
-                
+
                             </select>
-            
-                            <input style="display:none;" type="text" name="Longitud" id="Longitud" >
-                            <input style="display:none;" type="text" name="Latitud" id="Latitud" >
-                           
+
+                            <input style="display:none;" type="text" name="Longitud" id="Longitud">
+                            <input style="display:none;" type="text" name="Latitud" id="Latitud">
+
                         </div>
-                    <div class='modal-footer'>
-                        <button type='submit' class='btn w-100'>Generar reporte</button>
-                    </div>
+                        <div class='modal-footer'>
+                            <button type='submit' class='btn w-100'>Generar reporte</button>
+                        </div>
                 </form>
             </div>
         </div>
@@ -254,40 +279,40 @@ if(isset($_SESSION['Usuario'])){
                         <div class="select mt-3">
                             <label for="Categoria" class="form-label">Categoría del daño</label>
                             <select name="Categoria" class="form-control" id="CategoriaOld">
-                               
+
                             </select>
                         </div>
                         <div class="select mt-3">
                             <label for="Provincia" class="form-label">Provincia</label>
                             <select name="Provincia" class="form-control" id="ProvinciaOld">
-                                
+
                             </select>
                         </div>
                         <div id="bloqueCantonOld" class="select mt-3">
                             <label for="Canton" class="form-label">Cantón</label>
                             <select name="Canton" class="form-control" id="CantonOld">
-                              
+
                             </select>
                         </div>
                         <div id="bloqueDistritoOld" class="select mt-3">
                             <label for="Distrito" class="form-label">Distrito</label>
                             <select name="Distrito" class="form-control" id="DistritoOld">
-                              
+
                             </select>
                         </div>
                         <div id="bloqueCalleOld" class="select mt-3 mb-3">
                             <label for="calle" class="form-label">Nombre de la calle</label>
                             <select name="calle" class="form-control" id="calleOld">
-                
+
                             </select>
-            
-                            
+
+
                             <input style="display:none;" type="text" name="idreporte" id="idreporte">
-                           
+
                         </div>
-                    <div class='modal-footer'>
-                        <button type='submit' class='btn w-100'>Editar reporte</button>
-                    </div>
+                        <div class='modal-footer'>
+                            <button type='submit' class='btn w-100'>Editar reporte</button>
+                        </div>
                 </form>
             </div>
         </div>
