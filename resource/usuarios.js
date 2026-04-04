@@ -50,7 +50,7 @@ $(function (){
                         Swal.fire('! Registro exitso !', '', 'success');
                         setTimeout(function (){
         
-                            window.location.href='../../main/index.php';
+                            window.location.href='login.php';
                         }, 1000);
                     }else{
         

@@ -77,6 +77,8 @@ if (isset($_SESSION['Usuario'])) {
         </nav>
     </header>
 
+    <div style="display:none;" class="alert alert-success alertaReporte"> ¡ Haz click en un punto del mapa para crear tu reporte ! <button id="btnCerrarAlert"><i class="fa-solid fa-xmark"></i></button></div>
+
     <section class="main">
         <div class="container-fluid">
             <div class="row">

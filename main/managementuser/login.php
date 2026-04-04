@@ -42,6 +42,14 @@
                         <button id="botonIniciarSesionCorreo" type="submit" class="btn w-100">Iniciar sesión</button>
                     </div>
                 </div>
+                <div class="row pt-4">
+                    <div id="linkNoaccount" class="col-12">
+                        <a href="registro.php">
+                            <p>¿ Aún no tiene cuenta ?</p>
+                        </a>
+
+                    </div>
+                </div>
         </form>
         </div>
     </section>

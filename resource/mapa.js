@@ -26,6 +26,7 @@ $(function () {
                 $('#Canton').prop('disabled', true);
                 $('#Distrito').prop('disabled', true);
                 $('#calle').prop('disabled', true);
+                $('.alert').fadeOut(1000);
 
                 console.log(lon);
                 console.log(lat);
@@ -2383,6 +2384,50 @@ $(function () {
 
 
     };
+
+    $('.botonAgregar').click(function(){
+
+        let identidad = $('#Identidad').val();
+
+        if(identidad == null){
+
+            
+
+            document.body.style.cursor = 'poninter';
+            $('.alert').show();
+            
+
+
+
+        }else{
+
+            Swal.fire({ 
+            title:'Para crear un reporte debes de iniciar sesión', 
+            icon: 'warning', 
+            showCancelButton: true,
+            cancelButtonColor: '#d33',
+            confirmButtonColor: 'green',
+            confirmButtonText: 'Iniciar sesión'}).then((result)=>{
+
+                if(result.isConfirmed){
+
+                    window.location.href = 'managementuser/login.php';
+                }
+
+
+            });
+        }
+
+
+    });
+
+    $('.alertaReporte').appendTo('body');
+
+    $('#btnCerrarAlert').click(function(){
+
+        $('.alert').fadeOut(1000);
+
+    });
 
 
 

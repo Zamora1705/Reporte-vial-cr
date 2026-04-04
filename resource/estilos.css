@@ -687,3 +687,69 @@ footer .content-socialmedia ul li a p{
     background-color: blue;
    
 }
+
+#contenedorOjos{
+
+    position: relative;
+}
+
+#ojoVerLogin, #ojoNoVerLogin{
+
+    position: absolute;
+    background: transparent;
+    border: none;
+    right: 45px;
+    top: 175px;
+    width: 0;
+
+}
+
+#ojoVerLogin, #ojoNoVerLogin i{
+
+    color: #1A3A5C;
+}
+#linkOlvido a{
+
+    text-decoration: underline #F4F6F8;
+}
+
+#linkOlvido a p{
+
+    color: #F4F6F8;
+    
+}
+
+#linkNoaccount a{
+
+    text-decoration: underline #F4F6F8;
+}
+
+#linkNoaccount a p{
+
+    color: #F4F6F8;
+    
+}
+
+.alert{
+
+    width: 480px;
+    position: absolute;
+    top: 150px;
+    left: 50%;
+    z-index: 9997;
+}
+
+.alert button{
+
+    background: transparent;
+    border: none;
+    padding-left: 10px;
+    
+}
+
+.alert button i{
+
+    font-size: 20px;
+}
+
+

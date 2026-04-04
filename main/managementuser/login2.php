@@ -32,7 +32,7 @@
             <h2>Iniciar sesión</h2>
             <form id="formularioIniciarSesion2">
                 <div class="row pt-3">
-                    <div class="col-12">
+                    <div id="contenedorOjos" class="col-12">
                         <?php
 
                         $usuario = $_GET['Usuario'];
@@ -42,7 +42,9 @@
 
                             ?>
                         <label for="Contra" class="form-label">Contraseña</label>
-                        <input type="text" class="form-control" name="Contra" id="Contra">
+                        <input type="password" class="form-control" name="Contra" id="ContraLogin">
+                        <button style="display:none;" id="ojoVerLogin" ><i class="fa-solid fa-eye"></i></button>
+                        <button id="ojoNoVerLogin" ><i class="fa-solid fa-eye-slash"></i></button>
                     </div>
                 </div>
 
@@ -53,7 +55,7 @@
                     </div>
                 </div>
                 <div class="row pt-4">
-                    <div class="col-12">
+                    <div id="linkOlvido" class="col-12">
                         <a href="#">
                             <p>¿ Olvido su Contraseña ?</p>
                         </a>

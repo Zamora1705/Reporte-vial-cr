@@ -74,4 +74,22 @@ $(function () {
 
     });
 
+    $('#ojoVerLogin').click(function(){
+
+        $('#ojoVerLogin').hide();
+        $('#ojoNoVerLogin').show();
+        $('#ContraLogin').attr('type', 'text');
+
+
+    });
+
+    $('#ojoNoVerLogin').click(function(){
+
+        $('#ojoNoVerLogin').hide();
+        $('#ojoVerLogin').show();
+        $('#ContraLogin').attr('type', 'password');
+
+
+    });
+
 });
