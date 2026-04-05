@@ -76,7 +76,8 @@ class Usuarios{
 
     public function IniciarSesion($User, $Password){
 
-        $query = "SELECT * FROM Usuarios WHERE Nombre = :Usuario";
+        $query = "SELECT u.Nombre, u.Correo, u.Cedula, u.Contrasena, rxu.Rol_FK FROM Usuarios u 
+        LEFT JOIN RolXUsuario rxu ON u.Cedula = rxu.Usuario_FK WHERE u.Nombre = :Usuario";
         
         $smtp = oci_parse($this->DB, $query);
 
@@ -97,6 +98,7 @@ class Usuarios{
                 $_SESSION['Usuario'] = $row['NOMBRE'];
                 $_SESSION['Correo'] = $row['CORREO'];
                 $_SESSION['Cedula'] = $row['CEDULA'];
+                $_SESSION['Rol'] = $row['ROL_FK'];
             
 
                 return true;

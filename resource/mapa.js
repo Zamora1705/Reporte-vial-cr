@@ -19,6 +19,13 @@ $(function () {
 
             map.on('click', function (e) {
 
+                let identidad = $('#Identidad').val();
+
+                if(identidad != null){
+
+
+                
+
                 lat = e.latlng.lat;
                 lon = e.latlng.lng;
 
@@ -32,6 +39,29 @@ $(function () {
                 console.log(lat);
                 $('#Longitud').attr('value', lon);
                 $('#Latitud').attr('value', lat);
+
+                }else{
+
+                    Swal.fire({
+
+                        title: 'Debes iniciar sesión para crear un reporte',
+                        icon: 'warning',
+                        showCancelButton:true,
+                        cancelButtonColor: '#d33',
+                        confirmButtonColor: 'green',
+                        confirmButtonText: 'Iniciar sesión'
+
+
+                    }).then((result)=>{
+
+                        if(result.isConfirmed){
+
+                            window.location.href = 'managementuser/login.php';
+                        }
+
+
+                    });
+                }
 
             });
 
@@ -168,8 +198,9 @@ $(function () {
                             }
 
                             let sessionUsuario = $("#Identidad").val();
+                            let rol = $('#Rol').val();
                             console.log('La cedula de session es:', sessionUsuario, 'y el id del usuario recojido del listado es:', reporte.USUARIO_FK);
-
+                            console.log('El id del rol del usuario es:', rol);
 
 
 
@@ -192,20 +223,65 @@ $(function () {
 
                             if (reporte.USUARIO_FK == sessionUsuario) {
 
+                                if(rol == 1){
+
+                                    if(reporte.REPORTE_FK == null){
+
+                                 marker.bindPopup(
+
+                                    `<div style='border:3px solid #2E6DA4;height:auto;background-color:#1A3A5C;color:#F4F6F8' ><img style='width:100%;height:100%;object-fit:contain;' src='${image}' ><div style='padding:20px;' ><p>Daño: ${reporte.NOMBRE_DANO}</p><p class='categoriaDano' >Categoria: ${reporte.NOMBRE_CATEGORIA}</p><p>Provincia: ${reporte.PROVINCIA_NOM}</p><p>Cantó: ${reporte.CANTON_NOM}</p><p>Distrito: ${reporte.DISTRITO_NOM}</p><p>Fecha: ${reporte.FECHA}</p><button onclick='asignarResponsable(${reporte.REPORTE_ID})' class='btn btn-success w-100' >Asignar responsable <i class="fa-solid fa-hammer"></i></button><div style='display:flex;gap:10px;padding-top:10px;' ><button onclick='EditarReporte(${reporte.REPORTE_ID})' class='btn btn-primary w-100' >Editar Reporte</button><button onclick='EliminarReporte(${reporte.REPORTE_ID})' class='btn btn-danger w-100' >Eliminar Reporte</button></div></div></div>`
+
+                                ).openPopup();
+
+                                }else{
 
                                 marker.bindPopup(
 
-                                    `<div style='border:3px solid #2E6DA4;height:auto;background-color:#1A3A5C;color:#F4F6F8' ><img style='width:100%;height:100%;object-fit:contain;' src='${image}' ><div style='padding:20px;' ><p>Daño: ${reporte.NOMBRE_DANO}</p><p class='categoriaDano' >Categoria: ${reporte.NOMBRE_CATEGORIA}</p><p>Provincia: ${reporte.PROVINCIA_NOM}</p><p>Cantó: ${reporte.CANTON_NOM}</p><p>Distrito: ${reporte.DISTRITO_NOM}</p><p>Fecha: ${reporte.FECHA}</p><button class='btn btn-success w-100' >Asignar responsable <i class="fa-solid fa-hammer"></i></button><div style='display:flex;gap:10px;padding-top:10px;' ><button onclick='EditarReporte(${reporte.REPORTE_ID})' class='btn btn-primary w-100' >Editar Reporte</button><button onclick='EliminarReporte(${reporte.REPORTE_ID})' class='btn btn-danger w-100' >Eliminar Reporte</button></div></div></div>`
+                                    `<div style='border:3px solid #2E6DA4;height:auto;background-color:#1A3A5C;color:#F4F6F8' ><img style='width:100%;height:100%;object-fit:contain;' src='${image}' ><div style='padding:20px;' ><p>Daño: ${reporte.NOMBRE_DANO}</p><p class='categoriaDano' >Categoria: ${reporte.NOMBRE_CATEGORIA}</p><p>Provincia: ${reporte.PROVINCIA_NOM}</p><p>Cantó: ${reporte.CANTON_NOM}</p><p>Distrito: ${reporte.DISTRITO_NOM}</p><p>Fecha: ${reporte.FECHA}</p><button readonly class='btn btn-primary w-100' >Reporte en reparación <i class="fa-solid fa-hammer"></i></button><div style='display:flex;gap:10px;padding-top:10px;' ><button onclick='EditarReporte(${reporte.REPORTE_ID})' class='btn btn-primary w-100' >Editar Reporte</button><button onclick='EliminarReporte(${reporte.REPORTE_ID})' class='btn btn-danger w-100' >Eliminar Reporte</button></div></div></div>`
 
                                 ).openPopup();
 
 
+                                }
 
-                            } else {
+                                }else{
+
 
                                 marker.bindPopup(
 
-                                    `<div style='border:3px solid #2E6DA4;height:auto;witdh:400px;background-color:#1A3A5C;color:#F4F6F8' ><img style='width:100%;height:100%;object-fit:contain;' src='${image}' ><div style='padding:20px;' ><p>Daño: ${reporte.NOMBRE_DANO}</p><p class='categoriaDano' >Categoria: ${reporte.NOMBRE_CATEGORIA}</p><p>Provincia: ${reporte.PROVINCIA_NOM}</p><p>Cantó: ${reporte.CANTON_NOM}</p><p>Distrito: ${reporte.DISTRITO_NOM}</p><p>Fecha: ${reporte.FECHA}</p><button class='btn btn-success w-100' >Asignar responsable <i class="fa-solid fa-hammer"></i></button></div></div>`
+                                    `<div style='border:3px solid #2E6DA4;height:auto;background-color:#1A3A5C;color:#F4F6F8' ><img style='width:100%;height:100%;object-fit:contain;' src='${image}' ><div style='padding:20px;' ><p>Daño: ${reporte.NOMBRE_DANO}</p><p class='categoriaDano' >Categoria: ${reporte.NOMBRE_CATEGORIA}</p><p>Provincia: ${reporte.PROVINCIA_NOM}</p><p>Cantó: ${reporte.CANTON_NOM}</p><p>Distrito: ${reporte.DISTRITO_NOM}</p><p>Fecha: ${reporte.FECHA}</p><div style='display:flex;gap:10px;padding-top:10px;' ><button onclick='EditarReporte(${reporte.REPORTE_ID})' class='btn btn-primary w-100' >Editar Reporte</button><button onclick='EliminarReporte(${reporte.REPORTE_ID})' class='btn btn-danger w-100' >Eliminar Reporte</button></div></div></div>`
+
+                                ).openPopup();
+
+                                }
+                                
+                            
+                            }else if(rol == 1){
+
+                                  if(reporte.REPORTE_FK == null){
+
+                                 marker.bindPopup(
+
+                                    `<div style='border:3px solid #2E6DA4;height:auto;background-color:#1A3A5C;color:#F4F6F8' ><img style='width:100%;height:100%;object-fit:contain;' src='${image}' ><div style='padding:20px;' ><p>Daño: ${reporte.NOMBRE_DANO}</p><p class='categoriaDano' >Categoria: ${reporte.NOMBRE_CATEGORIA}</p><p>Provincia: ${reporte.PROVINCIA_NOM}</p><p>Cantó: ${reporte.CANTON_NOM}</p><p>Distrito: ${reporte.DISTRITO_NOM}</p><p>Fecha: ${reporte.FECHA}</p><button onclick='asignarResponsable(${reporte.REPORTE_ID})' class='btn btn-success w-100' >Asignar responsable <i class="fa-solid fa-hammer"></i></button><div style='display:flex;gap:10px;padding-top:10px;' ><button onclick='EditarReporte(${reporte.REPORTE_ID})' class='btn btn-primary w-100' >Editar Reporte</button><button onclick='EliminarReporte(${reporte.REPORTE_ID})' class='btn btn-danger w-100' >Eliminar Reporte</button></div></div></div>`
+
+                                ).openPopup();
+
+                                }else{
+
+                                marker.bindPopup(
+
+                                    `<div style='border:3px solid #2E6DA4;height:auto;background-color:#1A3A5C;color:#F4F6F8' ><img style='width:100%;height:100%;object-fit:contain;' src='${image}' ><div style='padding:20px;' ><p>Daño: ${reporte.NOMBRE_DANO}</p><p class='categoriaDano' >Categoria: ${reporte.NOMBRE_CATEGORIA}</p><p>Provincia: ${reporte.PROVINCIA_NOM}</p><p>Cantó: ${reporte.CANTON_NOM}</p><p>Distrito: ${reporte.DISTRITO_NOM}</p><p>Fecha: ${reporte.FECHA}</p><button readonly class='btn btn-primary w-100' >Reporte en reparación <i class="fa-solid fa-hammer"></i></button><div style='display:flex;gap:10px;padding-top:10px;' ><button onclick='EditarReporte(${reporte.REPORTE_ID})' class='btn btn-primary w-100' >Editar Reporte</button><button onclick='EliminarReporte(${reporte.REPORTE_ID})' class='btn btn-danger w-100' >Eliminar Reporte</button></div></div></div>`
+
+                                ).openPopup();
+
+
+                                }
+                            
+                            }else {
+
+                                marker.bindPopup(
+
+                                    `<div style='border:3px solid #2E6DA4;height:auto;witdh:400px;background-color:#1A3A5C;color:#F4F6F8' ><img style='width:100%;height:100%;object-fit:contain;' src='${image}' ><div style='padding:20px;' ><p>Daño: ${reporte.NOMBRE_DANO}</p><p class='categoriaDano' >Categoria: ${reporte.NOMBRE_CATEGORIA}</p><p>Provincia: ${reporte.PROVINCIA_NOM}</p><p>Cantó: ${reporte.CANTON_NOM}</p><p>Distrito: ${reporte.DISTRITO_NOM}</p><p>Fecha: ${reporte.FECHA}</p></div></div>`
 
                                 ).openPopup();
 
@@ -1139,6 +1215,7 @@ $(function () {
         let tipodano = $('#tipodanoFiltro').val();
         let categoria = $('#CategoriaFiltro').val();
         let provincia = $('#ProvinciaFiltro').val();
+        let rol = $('#Rol').val();
 
         if (tipodano != 97 && categoria == 98 && provincia == 99) {
 
@@ -1157,6 +1234,7 @@ $(function () {
                         console.log('Funcion de filtro perfecta. los datos son:', response.data);
 
                         markersLayer = L.layerGroup().addTo(map);
+                        
 
                         response.data.forEach(reporte => {
 
@@ -1217,8 +1295,9 @@ $(function () {
                             }
 
                             let sessionUsuario = $("#Identidad").val();
+                            rol = $('#Rol').val();
                             console.log('La cedula de session es:', sessionUsuario, 'y el id del usuario recojido del listado es:', reporte.USUARIO_FK);
-
+                            console.log('El id del rol del usuario es:', rol);
 
 
 
@@ -1241,25 +1320,69 @@ $(function () {
 
                             if (reporte.USUARIO_FK == sessionUsuario) {
 
+                                if(rol == 1){
+
+                                    if(reporte.REPORTE_FK == null){
+
+                                 marker.bindPopup(
+
+                                    `<div style='border:3px solid #2E6DA4;height:auto;background-color:#1A3A5C;color:#F4F6F8' ><img style='width:100%;height:100%;object-fit:contain;' src='${image}' ><div style='padding:20px;' ><p>Daño: ${reporte.NOMBRE_DANO}</p><p class='categoriaDano' >Categoria: ${reporte.NOMBRE_CATEGORIA}</p><p>Provincia: ${reporte.PROVINCIA_NOM}</p><p>Cantó: ${reporte.CANTON_NOM}</p><p>Distrito: ${reporte.DISTRITO_NOM}</p><p>Fecha: ${reporte.FECHA}</p><button onclick='asignarResponsable(${reporte.REPORTE_ID})' class='btn btn-success w-100' >Asignar responsable <i class="fa-solid fa-hammer"></i></button><div style='display:flex;gap:10px;padding-top:10px;' ><button onclick='EditarReporte(${reporte.REPORTE_ID})' class='btn btn-primary w-100' >Editar Reporte</button><button onclick='EliminarReporte(${reporte.REPORTE_ID})' class='btn btn-danger w-100' >Eliminar Reporte</button></div></div></div>`
+
+                                ).openPopup();
+
+                                }else{
 
                                 marker.bindPopup(
 
-                                    `<div style='border:3px solid #2E6DA4;height:auto;background-color:#1A3A5C;color:#F4F6F8' ><img style='width:100%;height:100%;object-fit:contain;' src='${image}' ><div style='padding:20px;' ><p>Daño: ${reporte.NOMBRE_DANO}</p><p class='categoriaDano' >Categoria: ${reporte.NOMBRE_CATEGORIA}</p><p>Provincia: ${reporte.PROVINCIA_NOM}</p><p>Cantó: ${reporte.CANTON_NOM}</p><p>Distrito: ${reporte.DISTRITO_NOM}</p><p>Fecha: ${reporte.FECHA}</p><button class='btn btn-success w-100' >Asignar responsable <i class="fa-solid fa-hammer"></i></button><div style='display:flex;gap:10px;padding-top:10px;' ><button onclick='EditarReporte(${reporte.REPORTE_ID})' class='btn btn-primary w-100' >Editar Reporte</button><button onclick='EliminarReporte(${reporte.REPORTE_ID})' class='btn btn-danger w-100' >Eliminar Reporte</button></div></div></div>`
+                                    `<div style='border:3px solid #2E6DA4;height:auto;background-color:#1A3A5C;color:#F4F6F8' ><img style='width:100%;height:100%;object-fit:contain;' src='${image}' ><div style='padding:20px;' ><p>Daño: ${reporte.NOMBRE_DANO}</p><p class='categoriaDano' >Categoria: ${reporte.NOMBRE_CATEGORIA}</p><p>Provincia: ${reporte.PROVINCIA_NOM}</p><p>Cantó: ${reporte.CANTON_NOM}</p><p>Distrito: ${reporte.DISTRITO_NOM}</p><p>Fecha: ${reporte.FECHA}</p><button readonly class='btn btn-primary w-100' >Reporte en reparación <i class="fa-solid fa-hammer"></i></button><div style='display:flex;gap:10px;padding-top:10px;' ><button onclick='EditarReporte(${reporte.REPORTE_ID})' class='btn btn-primary w-100' >Editar Reporte</button><button onclick='EliminarReporte(${reporte.REPORTE_ID})' class='btn btn-danger w-100' >Eliminar Reporte</button></div></div></div>`
 
                                 ).openPopup();
 
 
+                                }
 
-                            } else {
+                                }else{
+
 
                                 marker.bindPopup(
 
-                                    `<div style='border:3px solid #2E6DA4;height:auto;witdh:400px;background-color:#1A3A5C;color:#F4F6F8' ><img style='width:100%;height:100%;object-fit:contain;' src='${image}' ><div style='padding:20px;' ><p>Daño: ${reporte.NOMBRE_DANO}</p><p class='categoriaDano' >Categoria: ${reporte.NOMBRE_CATEGORIA}</p><p>Provincia: ${reporte.PROVINCIA_NOM}</p><p>Cantó: ${reporte.CANTON_NOM}</p><p>Distrito: ${reporte.DISTRITO_NOM}</p><p>Fecha: ${reporte.FECHA}</p><button class='btn btn-success w-100' >Asignar responsable <i class="fa-solid fa-hammer"></i></button></div></div>`
+                                    `<div style='border:3px solid #2E6DA4;height:auto;background-color:#1A3A5C;color:#F4F6F8' ><img style='width:100%;height:100%;object-fit:contain;' src='${image}' ><div style='padding:20px;' ><p>Daño: ${reporte.NOMBRE_DANO}</p><p class='categoriaDano' >Categoria: ${reporte.NOMBRE_CATEGORIA}</p><p>Provincia: ${reporte.PROVINCIA_NOM}</p><p>Cantó: ${reporte.CANTON_NOM}</p><p>Distrito: ${reporte.DISTRITO_NOM}</p><p>Fecha: ${reporte.FECHA}</p><div style='display:flex;gap:10px;padding-top:10px;' ><button onclick='EditarReporte(${reporte.REPORTE_ID})' class='btn btn-primary w-100' >Editar Reporte</button><button onclick='EliminarReporte(${reporte.REPORTE_ID})' class='btn btn-danger w-100' >Eliminar Reporte</button></div></div></div>`
+
+                                ).openPopup();
+
+                                }
+                                
+                            
+                            }else if(rol == 1){
+
+                                  if(reporte.REPORTE_FK == null){
+
+                                 marker.bindPopup(
+
+                                    `<div style='border:3px solid #2E6DA4;height:auto;background-color:#1A3A5C;color:#F4F6F8' ><img style='width:100%;height:100%;object-fit:contain;' src='${image}' ><div style='padding:20px;' ><p>Daño: ${reporte.NOMBRE_DANO}</p><p class='categoriaDano' >Categoria: ${reporte.NOMBRE_CATEGORIA}</p><p>Provincia: ${reporte.PROVINCIA_NOM}</p><p>Cantó: ${reporte.CANTON_NOM}</p><p>Distrito: ${reporte.DISTRITO_NOM}</p><p>Fecha: ${reporte.FECHA}</p><button onclick='asignarResponsable(${reporte.REPORTE_ID})' class='btn btn-success w-100' >Asignar responsable <i class="fa-solid fa-hammer"></i></button><div style='display:flex;gap:10px;padding-top:10px;' ><button onclick='EditarReporte(${reporte.REPORTE_ID})' class='btn btn-primary w-100' >Editar Reporte</button><button onclick='EliminarReporte(${reporte.REPORTE_ID})' class='btn btn-danger w-100' >Eliminar Reporte</button></div></div></div>`
+
+                                ).openPopup();
+
+                                }else{
+
+                                marker.bindPopup(
+
+                                    `<div style='border:3px solid #2E6DA4;height:auto;background-color:#1A3A5C;color:#F4F6F8' ><img style='width:100%;height:100%;object-fit:contain;' src='${image}' ><div style='padding:20px;' ><p>Daño: ${reporte.NOMBRE_DANO}</p><p class='categoriaDano' >Categoria: ${reporte.NOMBRE_CATEGORIA}</p><p>Provincia: ${reporte.PROVINCIA_NOM}</p><p>Cantó: ${reporte.CANTON_NOM}</p><p>Distrito: ${reporte.DISTRITO_NOM}</p><p>Fecha: ${reporte.FECHA}</p><button readonly class='btn btn-primary w-100' >Reporte en reparación <i class="fa-solid fa-hammer"></i></button><div style='display:flex;gap:10px;padding-top:10px;' ><button onclick='EditarReporte(${reporte.REPORTE_ID})' class='btn btn-primary w-100' >Editar Reporte</button><button onclick='EliminarReporte(${reporte.REPORTE_ID})' class='btn btn-danger w-100' >Eliminar Reporte</button></div></div></div>`
+
+                                ).openPopup();
+
+
+                                }
+                            
+                            }else {
+
+                                marker.bindPopup(
+
+                                    `<div style='border:3px solid #2E6DA4;height:auto;witdh:400px;background-color:#1A3A5C;color:#F4F6F8' ><img style='width:100%;height:100%;object-fit:contain;' src='${image}' ><div style='padding:20px;' ><p>Daño: ${reporte.NOMBRE_DANO}</p><p class='categoriaDano' >Categoria: ${reporte.NOMBRE_CATEGORIA}</p><p>Provincia: ${reporte.PROVINCIA_NOM}</p><p>Cantó: ${reporte.CANTON_NOM}</p><p>Distrito: ${reporte.DISTRITO_NOM}</p><p>Fecha: ${reporte.FECHA}</p></div></div>`
 
                                 ).openPopup();
 
                             }
-
 
                         });
 
@@ -1375,20 +1498,65 @@ $(function () {
 
                             if (reporte.USUARIO_FK == sessionUsuario) {
 
+                                if(rol == 1){
+
+                                    if(reporte.REPORTE_FK == null){
+
+                                 marker.bindPopup(
+
+                                    `<div style='border:3px solid #2E6DA4;height:auto;background-color:#1A3A5C;color:#F4F6F8' ><img style='width:100%;height:100%;object-fit:contain;' src='${image}' ><div style='padding:20px;' ><p>Daño: ${reporte.NOMBRE_DANO}</p><p class='categoriaDano' >Categoria: ${reporte.NOMBRE_CATEGORIA}</p><p>Provincia: ${reporte.PROVINCIA_NOM}</p><p>Cantó: ${reporte.CANTON_NOM}</p><p>Distrito: ${reporte.DISTRITO_NOM}</p><p>Fecha: ${reporte.FECHA}</p><button onclick='asignarResponsable(${reporte.REPORTE_ID})' class='btn btn-success w-100' >Asignar responsable <i class="fa-solid fa-hammer"></i></button><div style='display:flex;gap:10px;padding-top:10px;' ><button onclick='EditarReporte(${reporte.REPORTE_ID})' class='btn btn-primary w-100' >Editar Reporte</button><button onclick='EliminarReporte(${reporte.REPORTE_ID})' class='btn btn-danger w-100' >Eliminar Reporte</button></div></div></div>`
+
+                                ).openPopup();
+
+                                }else{
 
                                 marker.bindPopup(
 
-                                    `<div style='border:3px solid #2E6DA4;height:auto;background-color:#1A3A5C;color:#F4F6F8' ><img style='width:100%;height:100%;object-fit:contain;' src='${image}' ><div style='padding:20px;' ><p>Daño: ${reporte.NOMBRE_DANO}</p><p class='categoriaDano' >Categoria: ${reporte.NOMBRE_CATEGORIA}</p><p>Provincia: ${reporte.PROVINCIA_NOM}</p><p>Cantó: ${reporte.CANTON_NOM}</p><p>Distrito: ${reporte.DISTRITO_NOM}</p><p>Fecha: ${reporte.FECHA}</p><button class='btn btn-success w-100' >Asignar responsable <i class="fa-solid fa-hammer"></i></button><div style='display:flex;gap:10px;padding-top:10px;' ><button onclick='EditarReporte(${reporte.REPORTE_ID})' class='btn btn-primary w-100' >Editar Reporte</button><button onclick='EliminarReporte(${reporte.REPORTE_ID})' class='btn btn-danger w-100' >Eliminar Reporte</button></div></div></div>`
+                                    `<div style='border:3px solid #2E6DA4;height:auto;background-color:#1A3A5C;color:#F4F6F8' ><img style='width:100%;height:100%;object-fit:contain;' src='${image}' ><div style='padding:20px;' ><p>Daño: ${reporte.NOMBRE_DANO}</p><p class='categoriaDano' >Categoria: ${reporte.NOMBRE_CATEGORIA}</p><p>Provincia: ${reporte.PROVINCIA_NOM}</p><p>Cantó: ${reporte.CANTON_NOM}</p><p>Distrito: ${reporte.DISTRITO_NOM}</p><p>Fecha: ${reporte.FECHA}</p><button readonly class='btn btn-primary w-100' >Reporte en reparación <i class="fa-solid fa-hammer"></i></button><div style='display:flex;gap:10px;padding-top:10px;' ><button onclick='EditarReporte(${reporte.REPORTE_ID})' class='btn btn-primary w-100' >Editar Reporte</button><button onclick='EliminarReporte(${reporte.REPORTE_ID})' class='btn btn-danger w-100' >Eliminar Reporte</button></div></div></div>`
 
                                 ).openPopup();
 
 
+                                }
 
-                            } else {
+                                }else{
+
 
                                 marker.bindPopup(
 
-                                    `<div style='border:3px solid #2E6DA4;height:auto;witdh:400px;background-color:#1A3A5C;color:#F4F6F8' ><img style='width:100%;height:100%;object-fit:contain;' src='${image}' ><div style='padding:20px;' ><p>Daño: ${reporte.NOMBRE_DANO}</p><p class='categoriaDano' >Categoria: ${reporte.NOMBRE_CATEGORIA}</p><p>Provincia: ${reporte.PROVINCIA_NOM}</p><p>Cantó: ${reporte.CANTON_NOM}</p><p>Distrito: ${reporte.DISTRITO_NOM}</p><p>Fecha: ${reporte.FECHA}</p><button class='btn btn-success w-100' >Asignar responsable <i class="fa-solid fa-hammer"></i></button></div></div>`
+                                    `<div style='border:3px solid #2E6DA4;height:auto;background-color:#1A3A5C;color:#F4F6F8' ><img style='width:100%;height:100%;object-fit:contain;' src='${image}' ><div style='padding:20px;' ><p>Daño: ${reporte.NOMBRE_DANO}</p><p class='categoriaDano' >Categoria: ${reporte.NOMBRE_CATEGORIA}</p><p>Provincia: ${reporte.PROVINCIA_NOM}</p><p>Cantó: ${reporte.CANTON_NOM}</p><p>Distrito: ${reporte.DISTRITO_NOM}</p><p>Fecha: ${reporte.FECHA}</p><div style='display:flex;gap:10px;padding-top:10px;' ><button onclick='EditarReporte(${reporte.REPORTE_ID})' class='btn btn-primary w-100' >Editar Reporte</button><button onclick='EliminarReporte(${reporte.REPORTE_ID})' class='btn btn-danger w-100' >Eliminar Reporte</button></div></div></div>`
+
+                                ).openPopup();
+
+                                }
+                                
+                            
+                            }else if(rol == 1){
+
+                                  if(reporte.REPORTE_FK == null){
+
+                                 marker.bindPopup(
+
+                                    `<div style='border:3px solid #2E6DA4;height:auto;background-color:#1A3A5C;color:#F4F6F8' ><img style='width:100%;height:100%;object-fit:contain;' src='${image}' ><div style='padding:20px;' ><p>Daño: ${reporte.NOMBRE_DANO}</p><p class='categoriaDano' >Categoria: ${reporte.NOMBRE_CATEGORIA}</p><p>Provincia: ${reporte.PROVINCIA_NOM}</p><p>Cantó: ${reporte.CANTON_NOM}</p><p>Distrito: ${reporte.DISTRITO_NOM}</p><p>Fecha: ${reporte.FECHA}</p><button onclick='asignarResponsable(${reporte.REPORTE_ID})' class='btn btn-success w-100' >Asignar responsable <i class="fa-solid fa-hammer"></i></button><div style='display:flex;gap:10px;padding-top:10px;' ><button onclick='EditarReporte(${reporte.REPORTE_ID})' class='btn btn-primary w-100' >Editar Reporte</button><button onclick='EliminarReporte(${reporte.REPORTE_ID})' class='btn btn-danger w-100' >Eliminar Reporte</button></div></div></div>`
+
+                                ).openPopup();
+
+                                }else{
+
+                                marker.bindPopup(
+
+                                    `<div style='border:3px solid #2E6DA4;height:auto;background-color:#1A3A5C;color:#F4F6F8' ><img style='width:100%;height:100%;object-fit:contain;' src='${image}' ><div style='padding:20px;' ><p>Daño: ${reporte.NOMBRE_DANO}</p><p class='categoriaDano' >Categoria: ${reporte.NOMBRE_CATEGORIA}</p><p>Provincia: ${reporte.PROVINCIA_NOM}</p><p>Cantó: ${reporte.CANTON_NOM}</p><p>Distrito: ${reporte.DISTRITO_NOM}</p><p>Fecha: ${reporte.FECHA}</p><button readonly class='btn btn-primary w-100' >Reporte en reparación <i class="fa-solid fa-hammer"></i></button><div style='display:flex;gap:10px;padding-top:10px;' ><button onclick='EditarReporte(${reporte.REPORTE_ID})' class='btn btn-primary w-100' >Editar Reporte</button><button onclick='EliminarReporte(${reporte.REPORTE_ID})' class='btn btn-danger w-100' >Eliminar Reporte</button></div></div></div>`
+
+                                ).openPopup();
+
+
+                                }
+                            
+                            }else {
+
+                                marker.bindPopup(
+
+                                    `<div style='border:3px solid #2E6DA4;height:auto;witdh:400px;background-color:#1A3A5C;color:#F4F6F8' ><img style='width:100%;height:100%;object-fit:contain;' src='${image}' ><div style='padding:20px;' ><p>Daño: ${reporte.NOMBRE_DANO}</p><p class='categoriaDano' >Categoria: ${reporte.NOMBRE_CATEGORIA}</p><p>Provincia: ${reporte.PROVINCIA_NOM}</p><p>Cantó: ${reporte.CANTON_NOM}</p><p>Distrito: ${reporte.DISTRITO_NOM}</p><p>Fecha: ${reporte.FECHA}</p></div></div>`
 
                                 ).openPopup();
 
@@ -1510,25 +1678,69 @@ $(function () {
 
                             if (reporte.USUARIO_FK == sessionUsuario) {
 
+                                if(rol == 1){
+
+                                    if(reporte.REPORTE_FK == null){
+
+                                 marker.bindPopup(
+
+                                    `<div style='border:3px solid #2E6DA4;height:auto;background-color:#1A3A5C;color:#F4F6F8' ><img style='width:100%;height:100%;object-fit:contain;' src='${image}' ><div style='padding:20px;' ><p>Daño: ${reporte.NOMBRE_DANO}</p><p class='categoriaDano' >Categoria: ${reporte.NOMBRE_CATEGORIA}</p><p>Provincia: ${reporte.PROVINCIA_NOM}</p><p>Cantó: ${reporte.CANTON_NOM}</p><p>Distrito: ${reporte.DISTRITO_NOM}</p><p>Fecha: ${reporte.FECHA}</p><button onclick='asignarResponsable(${reporte.REPORTE_ID})' class='btn btn-success w-100' >Asignar responsable <i class="fa-solid fa-hammer"></i></button><div style='display:flex;gap:10px;padding-top:10px;' ><button onclick='EditarReporte(${reporte.REPORTE_ID})' class='btn btn-primary w-100' >Editar Reporte</button><button onclick='EliminarReporte(${reporte.REPORTE_ID})' class='btn btn-danger w-100' >Eliminar Reporte</button></div></div></div>`
+
+                                ).openPopup();
+
+                                }else{
 
                                 marker.bindPopup(
 
-                                    `<div style='border:3px solid #2E6DA4;height:auto;background-color:#1A3A5C;color:#F4F6F8' ><img style='width:100%;height:100%;object-fit:contain;' src='${image}' ><div style='padding:20px;' ><p>Daño: ${reporte.NOMBRE_DANO}</p><p class='categoriaDano' >Categoria: ${reporte.NOMBRE_CATEGORIA}</p><p>Provincia: ${reporte.PROVINCIA_NOM}</p><p>Cantó: ${reporte.CANTON_NOM}</p><p>Distrito: ${reporte.DISTRITO_NOM}</p><p>Fecha: ${reporte.FECHA}</p><button class='btn btn-success w-100' >Asignar responsable <i class="fa-solid fa-hammer"></i></button><div style='display:flex;gap:10px;padding-top:10px;' ><button onclick='EditarReporte(${reporte.REPORTE_ID})' class='btn btn-primary w-100' >Editar Reporte</button><button onclick='EliminarReporte(${reporte.REPORTE_ID})' class='btn btn-danger w-100' >Eliminar Reporte</button></div></div></div>`
+                                    `<div style='border:3px solid #2E6DA4;height:auto;background-color:#1A3A5C;color:#F4F6F8' ><img style='width:100%;height:100%;object-fit:contain;' src='${image}' ><div style='padding:20px;' ><p>Daño: ${reporte.NOMBRE_DANO}</p><p class='categoriaDano' >Categoria: ${reporte.NOMBRE_CATEGORIA}</p><p>Provincia: ${reporte.PROVINCIA_NOM}</p><p>Cantó: ${reporte.CANTON_NOM}</p><p>Distrito: ${reporte.DISTRITO_NOM}</p><p>Fecha: ${reporte.FECHA}</p><button readonly class='btn btn-primary w-100' >Reporte en reparación <i class="fa-solid fa-hammer"></i></button><div style='display:flex;gap:10px;padding-top:10px;' ><button onclick='EditarReporte(${reporte.REPORTE_ID})' class='btn btn-primary w-100' >Editar Reporte</button><button onclick='EliminarReporte(${reporte.REPORTE_ID})' class='btn btn-danger w-100' >Eliminar Reporte</button></div></div></div>`
 
                                 ).openPopup();
 
 
+                                }
 
-                            } else {
+                                }else{
+
 
                                 marker.bindPopup(
 
-                                    `<div style='border:3px solid #2E6DA4;height:auto;witdh:400px;background-color:#1A3A5C;color:#F4F6F8' ><img style='width:100%;height:100%;object-fit:contain;' src='${image}' ><div style='padding:20px;' ><p>Daño: ${reporte.NOMBRE_DANO}</p><p class='categoriaDano' >Categoria: ${reporte.NOMBRE_CATEGORIA}</p><p>Provincia: ${reporte.PROVINCIA_NOM}</p><p>Cantó: ${reporte.CANTON_NOM}</p><p>Distrito: ${reporte.DISTRITO_NOM}</p><p>Fecha: ${reporte.FECHA}</p><button class='btn btn-success w-100' >Asignar responsable <i class="fa-solid fa-hammer"></i></button></div></div>`
+                                    `<div style='border:3px solid #2E6DA4;height:auto;background-color:#1A3A5C;color:#F4F6F8' ><img style='width:100%;height:100%;object-fit:contain;' src='${image}' ><div style='padding:20px;' ><p>Daño: ${reporte.NOMBRE_DANO}</p><p class='categoriaDano' >Categoria: ${reporte.NOMBRE_CATEGORIA}</p><p>Provincia: ${reporte.PROVINCIA_NOM}</p><p>Cantó: ${reporte.CANTON_NOM}</p><p>Distrito: ${reporte.DISTRITO_NOM}</p><p>Fecha: ${reporte.FECHA}</p><div style='display:flex;gap:10px;padding-top:10px;' ><button onclick='EditarReporte(${reporte.REPORTE_ID})' class='btn btn-primary w-100' >Editar Reporte</button><button onclick='EliminarReporte(${reporte.REPORTE_ID})' class='btn btn-danger w-100' >Eliminar Reporte</button></div></div></div>`
+
+                                ).openPopup();
+
+                                }
+                                
+                            
+                            }else if(rol == 1){
+
+                                  if(reporte.REPORTE_FK == null){
+
+                                 marker.bindPopup(
+
+                                    `<div style='border:3px solid #2E6DA4;height:auto;background-color:#1A3A5C;color:#F4F6F8' ><img style='width:100%;height:100%;object-fit:contain;' src='${image}' ><div style='padding:20px;' ><p>Daño: ${reporte.NOMBRE_DANO}</p><p class='categoriaDano' >Categoria: ${reporte.NOMBRE_CATEGORIA}</p><p>Provincia: ${reporte.PROVINCIA_NOM}</p><p>Cantó: ${reporte.CANTON_NOM}</p><p>Distrito: ${reporte.DISTRITO_NOM}</p><p>Fecha: ${reporte.FECHA}</p><button onclick='asignarResponsable(${reporte.REPORTE_ID})' class='btn btn-success w-100' >Asignar responsable <i class="fa-solid fa-hammer"></i></button><div style='display:flex;gap:10px;padding-top:10px;' ><button onclick='EditarReporte(${reporte.REPORTE_ID})' class='btn btn-primary w-100' >Editar Reporte</button><button onclick='EliminarReporte(${reporte.REPORTE_ID})' class='btn btn-danger w-100' >Eliminar Reporte</button></div></div></div>`
+
+                                ).openPopup();
+
+                                }else{
+
+                                marker.bindPopup(
+
+                                    `<div style='border:3px solid #2E6DA4;height:auto;background-color:#1A3A5C;color:#F4F6F8' ><img style='width:100%;height:100%;object-fit:contain;' src='${image}' ><div style='padding:20px;' ><p>Daño: ${reporte.NOMBRE_DANO}</p><p class='categoriaDano' >Categoria: ${reporte.NOMBRE_CATEGORIA}</p><p>Provincia: ${reporte.PROVINCIA_NOM}</p><p>Cantó: ${reporte.CANTON_NOM}</p><p>Distrito: ${reporte.DISTRITO_NOM}</p><p>Fecha: ${reporte.FECHA}</p><button readonly class='btn btn-primary w-100' >Reporte en reparación <i class="fa-solid fa-hammer"></i></button><div style='display:flex;gap:10px;padding-top:10px;' ><button onclick='EditarReporte(${reporte.REPORTE_ID})' class='btn btn-primary w-100' >Editar Reporte</button><button onclick='EliminarReporte(${reporte.REPORTE_ID})' class='btn btn-danger w-100' >Eliminar Reporte</button></div></div></div>`
+
+                                ).openPopup();
+
+
+                                }
+                            
+                            }else {
+
+                                marker.bindPopup(
+
+                                    `<div style='border:3px solid #2E6DA4;height:auto;witdh:400px;background-color:#1A3A5C;color:#F4F6F8' ><img style='width:100%;height:100%;object-fit:contain;' src='${image}' ><div style='padding:20px;' ><p>Daño: ${reporte.NOMBRE_DANO}</p><p class='categoriaDano' >Categoria: ${reporte.NOMBRE_CATEGORIA}</p><p>Provincia: ${reporte.PROVINCIA_NOM}</p><p>Cantó: ${reporte.CANTON_NOM}</p><p>Distrito: ${reporte.DISTRITO_NOM}</p><p>Fecha: ${reporte.FECHA}</p></div></div>`
 
                                 ).openPopup();
 
                             }
-
 
                         });
 
@@ -1643,22 +1855,67 @@ $(function () {
                             let marker = L.marker([(reporte.LATITUD), (reporte.LONGITUD)], { icon: puntero });
                             markersLayer.addLayer(marker);
 
-                            if (reporte.USUARIO_FK == sessionUsuario) {
+                             if (reporte.USUARIO_FK == sessionUsuario) {
 
+                                if(rol == 1){
+
+                                    if(reporte.REPORTE_FK == null){
+
+                                 marker.bindPopup(
+
+                                    `<div style='border:3px solid #2E6DA4;height:auto;background-color:#1A3A5C;color:#F4F6F8' ><img style='width:100%;height:100%;object-fit:contain;' src='${image}' ><div style='padding:20px;' ><p>Daño: ${reporte.NOMBRE_DANO}</p><p class='categoriaDano' >Categoria: ${reporte.NOMBRE_CATEGORIA}</p><p>Provincia: ${reporte.PROVINCIA_NOM}</p><p>Cantó: ${reporte.CANTON_NOM}</p><p>Distrito: ${reporte.DISTRITO_NOM}</p><p>Fecha: ${reporte.FECHA}</p><button onclick='asignarResponsable(${reporte.REPORTE_ID})' class='btn btn-success w-100' >Asignar responsable <i class="fa-solid fa-hammer"></i></button><div style='display:flex;gap:10px;padding-top:10px;' ><button onclick='EditarReporte(${reporte.REPORTE_ID})' class='btn btn-primary w-100' >Editar Reporte</button><button onclick='EliminarReporte(${reporte.REPORTE_ID})' class='btn btn-danger w-100' >Eliminar Reporte</button></div></div></div>`
+
+                                ).openPopup();
+
+                                }else{
 
                                 marker.bindPopup(
 
-                                    `<div style='border:3px solid #2E6DA4;height:auto;background-color:#1A3A5C;color:#F4F6F8' ><img style='width:100%;height:100%;object-fit:contain;' src='${image}' ><div style='padding:20px;' ><p>Daño: ${reporte.NOMBRE_DANO}</p><p class='categoriaDano' >Categoria: ${reporte.NOMBRE_CATEGORIA}</p><p>Provincia: ${reporte.PROVINCIA_NOM}</p><p>Cantó: ${reporte.CANTON_NOM}</p><p>Distrito: ${reporte.DISTRITO_NOM}</p><p>Fecha: ${reporte.FECHA}</p><button class='btn btn-success w-100' >Asignar responsable <i class="fa-solid fa-hammer"></i></button><div style='display:flex;gap:10px;padding-top:10px;' ><button onclick='EditarReporte(${reporte.REPORTE_ID})' class='btn btn-primary w-100' >Editar Reporte</button><button onclick='EliminarReporte(${reporte.REPORTE_ID})' class='btn btn-danger w-100' >Eliminar Reporte</button></div></div></div>`
+                                    `<div style='border:3px solid #2E6DA4;height:auto;background-color:#1A3A5C;color:#F4F6F8' ><img style='width:100%;height:100%;object-fit:contain;' src='${image}' ><div style='padding:20px;' ><p>Daño: ${reporte.NOMBRE_DANO}</p><p class='categoriaDano' >Categoria: ${reporte.NOMBRE_CATEGORIA}</p><p>Provincia: ${reporte.PROVINCIA_NOM}</p><p>Cantó: ${reporte.CANTON_NOM}</p><p>Distrito: ${reporte.DISTRITO_NOM}</p><p>Fecha: ${reporte.FECHA}</p><button readonly class='btn btn-primary w-100' >Reporte en reparación <i class="fa-solid fa-hammer"></i></button><div style='display:flex;gap:10px;padding-top:10px;' ><button onclick='EditarReporte(${reporte.REPORTE_ID})' class='btn btn-primary w-100' >Editar Reporte</button><button onclick='EliminarReporte(${reporte.REPORTE_ID})' class='btn btn-danger w-100' >Eliminar Reporte</button></div></div></div>`
 
                                 ).openPopup();
 
 
+                                }
 
-                            } else {
+                                }else{
+
 
                                 marker.bindPopup(
 
-                                    `<div style='border:3px solid #2E6DA4;height:auto;witdh:400px;background-color:#1A3A5C;color:#F4F6F8' ><img style='width:100%;height:100%;object-fit:contain;' src='${image}' ><div style='padding:20px;' ><p>Daño: ${reporte.NOMBRE_DANO}</p><p class='categoriaDano' >Categoria: ${reporte.NOMBRE_CATEGORIA}</p><p>Provincia: ${reporte.PROVINCIA_NOM}</p><p>Cantó: ${reporte.CANTON_NOM}</p><p>Distrito: ${reporte.DISTRITO_NOM}</p><p>Fecha: ${reporte.FECHA}</p><button class='btn btn-success w-100' >Asignar responsable <i class="fa-solid fa-hammer"></i></button></div></div>`
+                                    `<div style='border:3px solid #2E6DA4;height:auto;background-color:#1A3A5C;color:#F4F6F8' ><img style='width:100%;height:100%;object-fit:contain;' src='${image}' ><div style='padding:20px;' ><p>Daño: ${reporte.NOMBRE_DANO}</p><p class='categoriaDano' >Categoria: ${reporte.NOMBRE_CATEGORIA}</p><p>Provincia: ${reporte.PROVINCIA_NOM}</p><p>Cantó: ${reporte.CANTON_NOM}</p><p>Distrito: ${reporte.DISTRITO_NOM}</p><p>Fecha: ${reporte.FECHA}</p><div style='display:flex;gap:10px;padding-top:10px;' ><button onclick='EditarReporte(${reporte.REPORTE_ID})' class='btn btn-primary w-100' >Editar Reporte</button><button onclick='EliminarReporte(${reporte.REPORTE_ID})' class='btn btn-danger w-100' >Eliminar Reporte</button></div></div></div>`
+
+                                ).openPopup();
+
+                                }
+                                
+                            
+                            }else if(rol == 1){
+
+                                  if(reporte.REPORTE_FK == null){
+
+                                 marker.bindPopup(
+
+                                    `<div style='border:3px solid #2E6DA4;height:auto;background-color:#1A3A5C;color:#F4F6F8' ><img style='width:100%;height:100%;object-fit:contain;' src='${image}' ><div style='padding:20px;' ><p>Daño: ${reporte.NOMBRE_DANO}</p><p class='categoriaDano' >Categoria: ${reporte.NOMBRE_CATEGORIA}</p><p>Provincia: ${reporte.PROVINCIA_NOM}</p><p>Cantó: ${reporte.CANTON_NOM}</p><p>Distrito: ${reporte.DISTRITO_NOM}</p><p>Fecha: ${reporte.FECHA}</p><button onclick='asignarResponsable(${reporte.REPORTE_ID})' class='btn btn-success w-100' >Asignar responsable <i class="fa-solid fa-hammer"></i></button><div style='display:flex;gap:10px;padding-top:10px;' ><button onclick='EditarReporte(${reporte.REPORTE_ID})' class='btn btn-primary w-100' >Editar Reporte</button><button onclick='EliminarReporte(${reporte.REPORTE_ID})' class='btn btn-danger w-100' >Eliminar Reporte</button></div></div></div>`
+
+                                ).openPopup();
+
+                                }else{
+
+                                marker.bindPopup(
+
+                                    `<div style='border:3px solid #2E6DA4;height:auto;background-color:#1A3A5C;color:#F4F6F8' ><img style='width:100%;height:100%;object-fit:contain;' src='${image}' ><div style='padding:20px;' ><p>Daño: ${reporte.NOMBRE_DANO}</p><p class='categoriaDano' >Categoria: ${reporte.NOMBRE_CATEGORIA}</p><p>Provincia: ${reporte.PROVINCIA_NOM}</p><p>Cantó: ${reporte.CANTON_NOM}</p><p>Distrito: ${reporte.DISTRITO_NOM}</p><p>Fecha: ${reporte.FECHA}</p><button readonly class='btn btn-primary w-100' >Reporte en reparación <i class="fa-solid fa-hammer"></i></button><div style='display:flex;gap:10px;padding-top:10px;' ><button onclick='EditarReporte(${reporte.REPORTE_ID})' class='btn btn-primary w-100' >Editar Reporte</button><button onclick='EliminarReporte(${reporte.REPORTE_ID})' class='btn btn-danger w-100' >Eliminar Reporte</button></div></div></div>`
+
+                                ).openPopup();
+
+
+                                }
+                            
+                            }else {
+
+                                marker.bindPopup(
+
+                                    `<div style='border:3px solid #2E6DA4;height:auto;witdh:400px;background-color:#1A3A5C;color:#F4F6F8' ><img style='width:100%;height:100%;object-fit:contain;' src='${image}' ><div style='padding:20px;' ><p>Daño: ${reporte.NOMBRE_DANO}</p><p class='categoriaDano' >Categoria: ${reporte.NOMBRE_CATEGORIA}</p><p>Provincia: ${reporte.PROVINCIA_NOM}</p><p>Cantó: ${reporte.CANTON_NOM}</p><p>Distrito: ${reporte.DISTRITO_NOM}</p><p>Fecha: ${reporte.FECHA}</p></div></div>`
 
                                 ).openPopup();
 
@@ -1779,20 +2036,65 @@ $(function () {
 
                             if (reporte.USUARIO_FK == sessionUsuario) {
 
+                                if(rol == 1){
+
+                                    if(reporte.REPORTE_FK == null){
+
+                                 marker.bindPopup(
+
+                                    `<div style='border:3px solid #2E6DA4;height:auto;background-color:#1A3A5C;color:#F4F6F8' ><img style='width:100%;height:100%;object-fit:contain;' src='${image}' ><div style='padding:20px;' ><p>Daño: ${reporte.NOMBRE_DANO}</p><p class='categoriaDano' >Categoria: ${reporte.NOMBRE_CATEGORIA}</p><p>Provincia: ${reporte.PROVINCIA_NOM}</p><p>Cantó: ${reporte.CANTON_NOM}</p><p>Distrito: ${reporte.DISTRITO_NOM}</p><p>Fecha: ${reporte.FECHA}</p><button onclick='asignarResponsable(${reporte.REPORTE_ID})' class='btn btn-success w-100' >Asignar responsable <i class="fa-solid fa-hammer"></i></button><div style='display:flex;gap:10px;padding-top:10px;' ><button onclick='EditarReporte(${reporte.REPORTE_ID})' class='btn btn-primary w-100' >Editar Reporte</button><button onclick='EliminarReporte(${reporte.REPORTE_ID})' class='btn btn-danger w-100' >Eliminar Reporte</button></div></div></div>`
+
+                                ).openPopup();
+
+                                }else{
 
                                 marker.bindPopup(
 
-                                    `<div style='border:3px solid #2E6DA4;height:auto;background-color:#1A3A5C;color:#F4F6F8' ><img style='width:100%;height:100%;object-fit:contain;' src='${image}' ><div style='padding:20px;' ><p>Daño: ${reporte.NOMBRE_DANO}</p><p class='categoriaDano' >Categoria: ${reporte.NOMBRE_CATEGORIA}</p><p>Provincia: ${reporte.PROVINCIA_NOM}</p><p>Cantó: ${reporte.CANTON_NOM}</p><p>Distrito: ${reporte.DISTRITO_NOM}</p><p>Fecha: ${reporte.FECHA}</p><button class='btn btn-success w-100' >Asignar responsable <i class="fa-solid fa-hammer"></i></button><div style='display:flex;gap:10px;padding-top:10px;' ><button onclick='EditarReporte(${reporte.REPORTE_ID})' class='btn btn-primary w-100' >Editar Reporte</button><button onclick='EliminarReporte(${reporte.REPORTE_ID})' class='btn btn-danger w-100' >Eliminar Reporte</button></div></div></div>`
+                                    `<div style='border:3px solid #2E6DA4;height:auto;background-color:#1A3A5C;color:#F4F6F8' ><img style='width:100%;height:100%;object-fit:contain;' src='${image}' ><div style='padding:20px;' ><p>Daño: ${reporte.NOMBRE_DANO}</p><p class='categoriaDano' >Categoria: ${reporte.NOMBRE_CATEGORIA}</p><p>Provincia: ${reporte.PROVINCIA_NOM}</p><p>Cantó: ${reporte.CANTON_NOM}</p><p>Distrito: ${reporte.DISTRITO_NOM}</p><p>Fecha: ${reporte.FECHA}</p><button readonly class='btn btn-primary w-100' >Reporte en reparación <i class="fa-solid fa-hammer"></i></button><div style='display:flex;gap:10px;padding-top:10px;' ><button onclick='EditarReporte(${reporte.REPORTE_ID})' class='btn btn-primary w-100' >Editar Reporte</button><button onclick='EliminarReporte(${reporte.REPORTE_ID})' class='btn btn-danger w-100' >Eliminar Reporte</button></div></div></div>`
 
                                 ).openPopup();
 
 
+                                }
 
-                            } else {
+                                }else{
+
 
                                 marker.bindPopup(
 
-                                    `<div style='border:3px solid #2E6DA4;height:auto;witdh:400px;background-color:#1A3A5C;color:#F4F6F8' ><img style='width:100%;height:100%;object-fit:contain;' src='${image}' ><div style='padding:20px;' ><p>Daño: ${reporte.NOMBRE_DANO}</p><p class='categoriaDano' >Categoria: ${reporte.NOMBRE_CATEGORIA}</p><p>Provincia: ${reporte.PROVINCIA_NOM}</p><p>Cantó: ${reporte.CANTON_NOM}</p><p>Distrito: ${reporte.DISTRITO_NOM}</p><p>Fecha: ${reporte.FECHA}</p><button class='btn btn-success w-100' >Asignar responsable <i class="fa-solid fa-hammer"></i></button></div></div>`
+                                    `<div style='border:3px solid #2E6DA4;height:auto;background-color:#1A3A5C;color:#F4F6F8' ><img style='width:100%;height:100%;object-fit:contain;' src='${image}' ><div style='padding:20px;' ><p>Daño: ${reporte.NOMBRE_DANO}</p><p class='categoriaDano' >Categoria: ${reporte.NOMBRE_CATEGORIA}</p><p>Provincia: ${reporte.PROVINCIA_NOM}</p><p>Cantó: ${reporte.CANTON_NOM}</p><p>Distrito: ${reporte.DISTRITO_NOM}</p><p>Fecha: ${reporte.FECHA}</p><div style='display:flex;gap:10px;padding-top:10px;' ><button onclick='EditarReporte(${reporte.REPORTE_ID})' class='btn btn-primary w-100' >Editar Reporte</button><button onclick='EliminarReporte(${reporte.REPORTE_ID})' class='btn btn-danger w-100' >Eliminar Reporte</button></div></div></div>`
+
+                                ).openPopup();
+
+                                }
+                                
+                            
+                            }else if(rol == 1){
+
+                                  if(reporte.REPORTE_FK == null){
+
+                                 marker.bindPopup(
+
+                                    `<div style='border:3px solid #2E6DA4;height:auto;background-color:#1A3A5C;color:#F4F6F8' ><img style='width:100%;height:100%;object-fit:contain;' src='${image}' ><div style='padding:20px;' ><p>Daño: ${reporte.NOMBRE_DANO}</p><p class='categoriaDano' >Categoria: ${reporte.NOMBRE_CATEGORIA}</p><p>Provincia: ${reporte.PROVINCIA_NOM}</p><p>Cantó: ${reporte.CANTON_NOM}</p><p>Distrito: ${reporte.DISTRITO_NOM}</p><p>Fecha: ${reporte.FECHA}</p><button onclick='asignarResponsable(${reporte.REPORTE_ID})' class='btn btn-success w-100' >Asignar responsable <i class="fa-solid fa-hammer"></i></button><div style='display:flex;gap:10px;padding-top:10px;' ><button onclick='EditarReporte(${reporte.REPORTE_ID})' class='btn btn-primary w-100' >Editar Reporte</button><button onclick='EliminarReporte(${reporte.REPORTE_ID})' class='btn btn-danger w-100' >Eliminar Reporte</button></div></div></div>`
+
+                                ).openPopup();
+
+                                }else{
+
+                                marker.bindPopup(
+
+                                    `<div style='border:3px solid #2E6DA4;height:auto;background-color:#1A3A5C;color:#F4F6F8' ><img style='width:100%;height:100%;object-fit:contain;' src='${image}' ><div style='padding:20px;' ><p>Daño: ${reporte.NOMBRE_DANO}</p><p class='categoriaDano' >Categoria: ${reporte.NOMBRE_CATEGORIA}</p><p>Provincia: ${reporte.PROVINCIA_NOM}</p><p>Cantó: ${reporte.CANTON_NOM}</p><p>Distrito: ${reporte.DISTRITO_NOM}</p><p>Fecha: ${reporte.FECHA}</p><button readonly class='btn btn-primary w-100' >Reporte en reparación <i class="fa-solid fa-hammer"></i></button><div style='display:flex;gap:10px;padding-top:10px;' ><button onclick='EditarReporte(${reporte.REPORTE_ID})' class='btn btn-primary w-100' >Editar Reporte</button><button onclick='EliminarReporte(${reporte.REPORTE_ID})' class='btn btn-danger w-100' >Eliminar Reporte</button></div></div></div>`
+
+                                ).openPopup();
+
+
+                                }
+                            
+                            }else {
+
+                                marker.bindPopup(
+
+                                    `<div style='border:3px solid #2E6DA4;height:auto;witdh:400px;background-color:#1A3A5C;color:#F4F6F8' ><img style='width:100%;height:100%;object-fit:contain;' src='${image}' ><div style='padding:20px;' ><p>Daño: ${reporte.NOMBRE_DANO}</p><p class='categoriaDano' >Categoria: ${reporte.NOMBRE_CATEGORIA}</p><p>Provincia: ${reporte.PROVINCIA_NOM}</p><p>Cantó: ${reporte.CANTON_NOM}</p><p>Distrito: ${reporte.DISTRITO_NOM}</p><p>Fecha: ${reporte.FECHA}</p></div></div>`
 
                                 ).openPopup();
 
@@ -1916,20 +2218,65 @@ $(function () {
 
                             if (reporte.USUARIO_FK == sessionUsuario) {
 
+                                if(rol == 1){
+
+                                    if(reporte.REPORTE_FK == null){
+
+                                 marker.bindPopup(
+
+                                    `<div style='border:3px solid #2E6DA4;height:auto;background-color:#1A3A5C;color:#F4F6F8' ><img style='width:100%;height:100%;object-fit:contain;' src='${image}' ><div style='padding:20px;' ><p>Daño: ${reporte.NOMBRE_DANO}</p><p class='categoriaDano' >Categoria: ${reporte.NOMBRE_CATEGORIA}</p><p>Provincia: ${reporte.PROVINCIA_NOM}</p><p>Cantó: ${reporte.CANTON_NOM}</p><p>Distrito: ${reporte.DISTRITO_NOM}</p><p>Fecha: ${reporte.FECHA}</p><button onclick='asignarResponsable(${reporte.REPORTE_ID})' class='btn btn-success w-100' >Asignar responsable <i class="fa-solid fa-hammer"></i></button><div style='display:flex;gap:10px;padding-top:10px;' ><button onclick='EditarReporte(${reporte.REPORTE_ID})' class='btn btn-primary w-100' >Editar Reporte</button><button onclick='EliminarReporte(${reporte.REPORTE_ID})' class='btn btn-danger w-100' >Eliminar Reporte</button></div></div></div>`
+
+                                ).openPopup();
+
+                                }else{
 
                                 marker.bindPopup(
 
-                                    `<div style='border:3px solid #2E6DA4;height:auto;background-color:#1A3A5C;color:#F4F6F8' ><img style='width:100%;height:100%;object-fit:contain;' src='${image}' ><div style='padding:20px;' ><p>Daño: ${reporte.NOMBRE_DANO}</p><p class='categoriaDano' >Categoria: ${reporte.NOMBRE_CATEGORIA}</p><p>Provincia: ${reporte.PROVINCIA_NOM}</p><p>Cantó: ${reporte.CANTON_NOM}</p><p>Distrito: ${reporte.DISTRITO_NOM}</p><p>Fecha: ${reporte.FECHA}</p><button class='btn btn-success w-100' >Asignar responsable <i class="fa-solid fa-hammer"></i></button><div style='display:flex;gap:10px;padding-top:10px;' ><button onclick='EditarReporte(${reporte.REPORTE_ID})' class='btn btn-primary w-100' >Editar Reporte</button><button onclick='EliminarReporte(${reporte.REPORTE_ID})' class='btn btn-danger w-100' >Eliminar Reporte</button></div></div></div>`
+                                    `<div style='border:3px solid #2E6DA4;height:auto;background-color:#1A3A5C;color:#F4F6F8' ><img style='width:100%;height:100%;object-fit:contain;' src='${image}' ><div style='padding:20px;' ><p>Daño: ${reporte.NOMBRE_DANO}</p><p class='categoriaDano' >Categoria: ${reporte.NOMBRE_CATEGORIA}</p><p>Provincia: ${reporte.PROVINCIA_NOM}</p><p>Cantó: ${reporte.CANTON_NOM}</p><p>Distrito: ${reporte.DISTRITO_NOM}</p><p>Fecha: ${reporte.FECHA}</p><button readonly class='btn btn-primary w-100' >Reporte en reparación <i class="fa-solid fa-hammer"></i></button><div style='display:flex;gap:10px;padding-top:10px;' ><button onclick='EditarReporte(${reporte.REPORTE_ID})' class='btn btn-primary w-100' >Editar Reporte</button><button onclick='EliminarReporte(${reporte.REPORTE_ID})' class='btn btn-danger w-100' >Eliminar Reporte</button></div></div></div>`
 
                                 ).openPopup();
 
 
+                                }
 
-                            } else {
+                                }else{
+
 
                                 marker.bindPopup(
 
-                                    `<div style='border:3px solid #2E6DA4;height:auto;witdh:400px;background-color:#1A3A5C;color:#F4F6F8' ><img style='width:100%;height:100%;object-fit:contain;' src='${image}' ><div style='padding:20px;' ><p>Daño: ${reporte.NOMBRE_DANO}</p><p class='categoriaDano' >Categoria: ${reporte.NOMBRE_CATEGORIA}</p><p>Provincia: ${reporte.PROVINCIA_NOM}</p><p>Cantó: ${reporte.CANTON_NOM}</p><p>Distrito: ${reporte.DISTRITO_NOM}</p><p>Fecha: ${reporte.FECHA}</p><button class='btn btn-success w-100' >Asignar responsable <i class="fa-solid fa-hammer"></i></button></div></div>`
+                                    `<div style='border:3px solid #2E6DA4;height:auto;background-color:#1A3A5C;color:#F4F6F8' ><img style='width:100%;height:100%;object-fit:contain;' src='${image}' ><div style='padding:20px;' ><p>Daño: ${reporte.NOMBRE_DANO}</p><p class='categoriaDano' >Categoria: ${reporte.NOMBRE_CATEGORIA}</p><p>Provincia: ${reporte.PROVINCIA_NOM}</p><p>Cantó: ${reporte.CANTON_NOM}</p><p>Distrito: ${reporte.DISTRITO_NOM}</p><p>Fecha: ${reporte.FECHA}</p><div style='display:flex;gap:10px;padding-top:10px;' ><button onclick='EditarReporte(${reporte.REPORTE_ID})' class='btn btn-primary w-100' >Editar Reporte</button><button onclick='EliminarReporte(${reporte.REPORTE_ID})' class='btn btn-danger w-100' >Eliminar Reporte</button></div></div></div>`
+
+                                ).openPopup();
+
+                                }
+                                
+                            
+                            }else if(rol == 1){
+
+                                  if(reporte.REPORTE_FK == null){
+
+                                 marker.bindPopup(
+
+                                    `<div style='border:3px solid #2E6DA4;height:auto;background-color:#1A3A5C;color:#F4F6F8' ><img style='width:100%;height:100%;object-fit:contain;' src='${image}' ><div style='padding:20px;' ><p>Daño: ${reporte.NOMBRE_DANO}</p><p class='categoriaDano' >Categoria: ${reporte.NOMBRE_CATEGORIA}</p><p>Provincia: ${reporte.PROVINCIA_NOM}</p><p>Cantó: ${reporte.CANTON_NOM}</p><p>Distrito: ${reporte.DISTRITO_NOM}</p><p>Fecha: ${reporte.FECHA}</p><button onclick='asignarResponsable(${reporte.REPORTE_ID})' class='btn btn-success w-100' >Asignar responsable <i class="fa-solid fa-hammer"></i></button><div style='display:flex;gap:10px;padding-top:10px;' ><button onclick='EditarReporte(${reporte.REPORTE_ID})' class='btn btn-primary w-100' >Editar Reporte</button><button onclick='EliminarReporte(${reporte.REPORTE_ID})' class='btn btn-danger w-100' >Eliminar Reporte</button></div></div></div>`
+
+                                ).openPopup();
+
+                                }else{
+
+                                marker.bindPopup(
+
+                                    `<div style='border:3px solid #2E6DA4;height:auto;background-color:#1A3A5C;color:#F4F6F8' ><img style='width:100%;height:100%;object-fit:contain;' src='${image}' ><div style='padding:20px;' ><p>Daño: ${reporte.NOMBRE_DANO}</p><p class='categoriaDano' >Categoria: ${reporte.NOMBRE_CATEGORIA}</p><p>Provincia: ${reporte.PROVINCIA_NOM}</p><p>Cantó: ${reporte.CANTON_NOM}</p><p>Distrito: ${reporte.DISTRITO_NOM}</p><p>Fecha: ${reporte.FECHA}</p><button readonly class='btn btn-primary w-100' >Reporte en reparación <i class="fa-solid fa-hammer"></i></button><div style='display:flex;gap:10px;padding-top:10px;' ><button onclick='EditarReporte(${reporte.REPORTE_ID})' class='btn btn-primary w-100' >Editar Reporte</button><button onclick='EliminarReporte(${reporte.REPORTE_ID})' class='btn btn-danger w-100' >Eliminar Reporte</button></div></div></div>`
+
+                                ).openPopup();
+
+
+                                }
+                            
+                            }else {
+
+                                marker.bindPopup(
+
+                                    `<div style='border:3px solid #2E6DA4;height:auto;witdh:400px;background-color:#1A3A5C;color:#F4F6F8' ><img style='width:100%;height:100%;object-fit:contain;' src='${image}' ><div style='padding:20px;' ><p>Daño: ${reporte.NOMBRE_DANO}</p><p class='categoriaDano' >Categoria: ${reporte.NOMBRE_CATEGORIA}</p><p>Provincia: ${reporte.PROVINCIA_NOM}</p><p>Cantó: ${reporte.CANTON_NOM}</p><p>Distrito: ${reporte.DISTRITO_NOM}</p><p>Fecha: ${reporte.FECHA}</p></div></div>`
 
                                 ).openPopup();
 
@@ -2051,20 +2398,65 @@ $(function () {
 
                             if (reporte.USUARIO_FK == sessionUsuario) {
 
+                                if(rol == 1){
+
+                                    if(reporte.REPORTE_FK == null){
+
+                                 marker.bindPopup(
+
+                                    `<div style='border:3px solid #2E6DA4;height:auto;background-color:#1A3A5C;color:#F4F6F8' ><img style='width:100%;height:100%;object-fit:contain;' src='${image}' ><div style='padding:20px;' ><p>Daño: ${reporte.NOMBRE_DANO}</p><p class='categoriaDano' >Categoria: ${reporte.NOMBRE_CATEGORIA}</p><p>Provincia: ${reporte.PROVINCIA_NOM}</p><p>Cantó: ${reporte.CANTON_NOM}</p><p>Distrito: ${reporte.DISTRITO_NOM}</p><p>Fecha: ${reporte.FECHA}</p><button onclick='asignarResponsable(${reporte.REPORTE_ID})' class='btn btn-success w-100' >Asignar responsable <i class="fa-solid fa-hammer"></i></button><div style='display:flex;gap:10px;padding-top:10px;' ><button onclick='EditarReporte(${reporte.REPORTE_ID})' class='btn btn-primary w-100' >Editar Reporte</button><button onclick='EliminarReporte(${reporte.REPORTE_ID})' class='btn btn-danger w-100' >Eliminar Reporte</button></div></div></div>`
+
+                                ).openPopup();
+
+                                }else{
 
                                 marker.bindPopup(
 
-                                    `<div style='border:3px solid #2E6DA4;height:auto;background-color:#1A3A5C;color:#F4F6F8' ><img style='width:100%;height:100%;object-fit:contain;' src='${image}' ><div style='padding:20px;' ><p>Daño: ${reporte.NOMBRE_DANO}</p><p class='categoriaDano' >Categoria: ${reporte.NOMBRE_CATEGORIA}</p><p>Provincia: ${reporte.PROVINCIA_NOM}</p><p>Cantó: ${reporte.CANTON_NOM}</p><p>Distrito: ${reporte.DISTRITO_NOM}</p><p>Fecha: ${reporte.FECHA}</p><button class='btn btn-success w-100' >Asignar responsable <i class="fa-solid fa-hammer"></i></button><div style='display:flex;gap:10px;padding-top:10px;' ><button onclick='EditarReporte(${reporte.REPORTE_ID})' class='btn btn-primary w-100' >Editar Reporte</button><button onclick='EliminarReporte(${reporte.REPORTE_ID})' class='btn btn-danger w-100' >Eliminar Reporte</button></div></div></div>`
+                                    `<div style='border:3px solid #2E6DA4;height:auto;background-color:#1A3A5C;color:#F4F6F8' ><img style='width:100%;height:100%;object-fit:contain;' src='${image}' ><div style='padding:20px;' ><p>Daño: ${reporte.NOMBRE_DANO}</p><p class='categoriaDano' >Categoria: ${reporte.NOMBRE_CATEGORIA}</p><p>Provincia: ${reporte.PROVINCIA_NOM}</p><p>Cantó: ${reporte.CANTON_NOM}</p><p>Distrito: ${reporte.DISTRITO_NOM}</p><p>Fecha: ${reporte.FECHA}</p><button readonly class='btn btn-primary w-100' >Reporte en reparación <i class="fa-solid fa-hammer"></i></button><div style='display:flex;gap:10px;padding-top:10px;' ><button onclick='EditarReporte(${reporte.REPORTE_ID})' class='btn btn-primary w-100' >Editar Reporte</button><button onclick='EliminarReporte(${reporte.REPORTE_ID})' class='btn btn-danger w-100' >Eliminar Reporte</button></div></div></div>`
 
                                 ).openPopup();
 
 
+                                }
 
-                            } else {
+                                }else{
+
 
                                 marker.bindPopup(
 
-                                    `<div style='border:3px solid #2E6DA4;height:auto;witdh:400px;background-color:#1A3A5C;color:#F4F6F8' ><img style='width:100%;height:100%;object-fit:contain;' src='${image}' ><div style='padding:20px;' ><p>Daño: ${reporte.NOMBRE_DANO}</p><p class='categoriaDano' >Categoria: ${reporte.NOMBRE_CATEGORIA}</p><p>Provincia: ${reporte.PROVINCIA_NOM}</p><p>Cantó: ${reporte.CANTON_NOM}</p><p>Distrito: ${reporte.DISTRITO_NOM}</p><p>Fecha: ${reporte.FECHA}</p><button class='btn btn-success w-100' >Asignar responsable <i class="fa-solid fa-hammer"></i></button></div></div>`
+                                    `<div style='border:3px solid #2E6DA4;height:auto;background-color:#1A3A5C;color:#F4F6F8' ><img style='width:100%;height:100%;object-fit:contain;' src='${image}' ><div style='padding:20px;' ><p>Daño: ${reporte.NOMBRE_DANO}</p><p class='categoriaDano' >Categoria: ${reporte.NOMBRE_CATEGORIA}</p><p>Provincia: ${reporte.PROVINCIA_NOM}</p><p>Cantó: ${reporte.CANTON_NOM}</p><p>Distrito: ${reporte.DISTRITO_NOM}</p><p>Fecha: ${reporte.FECHA}</p><div style='display:flex;gap:10px;padding-top:10px;' ><button onclick='EditarReporte(${reporte.REPORTE_ID})' class='btn btn-primary w-100' >Editar Reporte</button><button onclick='EliminarReporte(${reporte.REPORTE_ID})' class='btn btn-danger w-100' >Eliminar Reporte</button></div></div></div>`
+
+                                ).openPopup();
+
+                                }
+                                
+                            
+                            }else if(rol == 1){
+
+                                  if(reporte.REPORTE_FK == null){
+
+                                 marker.bindPopup(
+
+                                    `<div style='border:3px solid #2E6DA4;height:auto;background-color:#1A3A5C;color:#F4F6F8' ><img style='width:100%;height:100%;object-fit:contain;' src='${image}' ><div style='padding:20px;' ><p>Daño: ${reporte.NOMBRE_DANO}</p><p class='categoriaDano' >Categoria: ${reporte.NOMBRE_CATEGORIA}</p><p>Provincia: ${reporte.PROVINCIA_NOM}</p><p>Cantó: ${reporte.CANTON_NOM}</p><p>Distrito: ${reporte.DISTRITO_NOM}</p><p>Fecha: ${reporte.FECHA}</p><button onclick='asignarResponsable(${reporte.REPORTE_ID})' class='btn btn-success w-100' >Asignar responsable <i class="fa-solid fa-hammer"></i></button><div style='display:flex;gap:10px;padding-top:10px;' ><button onclick='EditarReporte(${reporte.REPORTE_ID})' class='btn btn-primary w-100' >Editar Reporte</button><button onclick='EliminarReporte(${reporte.REPORTE_ID})' class='btn btn-danger w-100' >Eliminar Reporte</button></div></div></div>`
+
+                                ).openPopup();
+
+                                }else{
+
+                                marker.bindPopup(
+
+                                    `<div style='border:3px solid #2E6DA4;height:auto;background-color:#1A3A5C;color:#F4F6F8' ><img style='width:100%;height:100%;object-fit:contain;' src='${image}' ><div style='padding:20px;' ><p>Daño: ${reporte.NOMBRE_DANO}</p><p class='categoriaDano' >Categoria: ${reporte.NOMBRE_CATEGORIA}</p><p>Provincia: ${reporte.PROVINCIA_NOM}</p><p>Cantó: ${reporte.CANTON_NOM}</p><p>Distrito: ${reporte.DISTRITO_NOM}</p><p>Fecha: ${reporte.FECHA}</p><button readonly class='btn btn-primary w-100' >Reporte en reparación <i class="fa-solid fa-hammer"></i></button><div style='display:flex;gap:10px;padding-top:10px;' ><button onclick='EditarReporte(${reporte.REPORTE_ID})' class='btn btn-primary w-100' >Editar Reporte</button><button onclick='EliminarReporte(${reporte.REPORTE_ID})' class='btn btn-danger w-100' >Eliminar Reporte</button></div></div></div>`
+
+                                ).openPopup();
+
+
+                                }
+                            
+                            }else {
+
+                                marker.bindPopup(
+
+                                    `<div style='border:3px solid #2E6DA4;height:auto;witdh:400px;background-color:#1A3A5C;color:#F4F6F8' ><img style='width:100%;height:100%;object-fit:contain;' src='${image}' ><div style='padding:20px;' ><p>Daño: ${reporte.NOMBRE_DANO}</p><p class='categoriaDano' >Categoria: ${reporte.NOMBRE_CATEGORIA}</p><p>Provincia: ${reporte.PROVINCIA_NOM}</p><p>Cantó: ${reporte.CANTON_NOM}</p><p>Distrito: ${reporte.DISTRITO_NOM}</p><p>Fecha: ${reporte.FECHA}</p></div></div>`
 
                                 ).openPopup();
 
@@ -2101,6 +2493,7 @@ $(function () {
         markersLayer.clearLayers();
 
         let usuario = $('#Identidad').val();
+        let rol = $('#Rol').val();
 
         $.ajax({
 
@@ -2195,27 +2588,71 @@ $(function () {
                         let marker = L.marker([(reporte.LATITUD), (reporte.LONGITUD)], { icon: puntero });
                         markersLayer.addLayer(marker);
 
-                        if (reporte.USUARIO_FK == sessionUsuario) {
+                         if (reporte.USUARIO_FK == sessionUsuario) {
+
+                                if(rol == 1){
+
+                                    if(reporte.REPORTE_FK == null){
+
+                                 marker.bindPopup(
+
+                                    `<div style='border:3px solid #2E6DA4;height:auto;background-color:#1A3A5C;color:#F4F6F8' ><img style='width:100%;height:100%;object-fit:contain;' src='${image}' ><div style='padding:20px;' ><p>Daño: ${reporte.NOMBRE_DANO}</p><p class='categoriaDano' >Categoria: ${reporte.NOMBRE_CATEGORIA}</p><p>Provincia: ${reporte.PROVINCIA_NOM}</p><p>Cantó: ${reporte.CANTON_NOM}</p><p>Distrito: ${reporte.DISTRITO_NOM}</p><p>Fecha: ${reporte.FECHA}</p><button onclick='asignarResponsable(${reporte.REPORTE_ID})' class='btn btn-success w-100' >Asignar responsable <i class="fa-solid fa-hammer"></i></button><div style='display:flex;gap:10px;padding-top:10px;' ><button onclick='EditarReporte(${reporte.REPORTE_ID})' class='btn btn-primary w-100' >Editar Reporte</button><button onclick='EliminarReporte(${reporte.REPORTE_ID})' class='btn btn-danger w-100' >Eliminar Reporte</button></div></div></div>`
+
+                                ).openPopup();
+
+                                }else{
+
+                                marker.bindPopup(
+
+                                    `<div style='border:3px solid #2E6DA4;height:auto;background-color:#1A3A5C;color:#F4F6F8' ><img style='width:100%;height:100%;object-fit:contain;' src='${image}' ><div style='padding:20px;' ><p>Daño: ${reporte.NOMBRE_DANO}</p><p class='categoriaDano' >Categoria: ${reporte.NOMBRE_CATEGORIA}</p><p>Provincia: ${reporte.PROVINCIA_NOM}</p><p>Cantó: ${reporte.CANTON_NOM}</p><p>Distrito: ${reporte.DISTRITO_NOM}</p><p>Fecha: ${reporte.FECHA}</p><button readonly class='btn btn-primary w-100' >Reporte en reparación <i class="fa-solid fa-hammer"></i></button><div style='display:flex;gap:10px;padding-top:10px;' ><button onclick='EditarReporte(${reporte.REPORTE_ID})' class='btn btn-primary w-100' >Editar Reporte</button><button onclick='EliminarReporte(${reporte.REPORTE_ID})' class='btn btn-danger w-100' >Eliminar Reporte</button></div></div></div>`
+
+                                ).openPopup();
 
 
-                            marker.bindPopup(
+                                }
 
-                                `<div style='border:3px solid #2E6DA4;height:auto;background-color:#1A3A5C;color:#F4F6F8' ><img style='width:100%;height:100%;object-fit:contain;' src='${image}' ><div style='padding:20px;' ><p>Daño: ${reporte.NOMBRE_DANO}</p><p class='categoriaDano' >Categoria: ${reporte.NOMBRE_CATEGORIA}</p><p>Provincia: ${reporte.PROVINCIA_NOM}</p><p>Cantó: ${reporte.CANTON_NOM}</p><p>Distrito: ${reporte.DISTRITO_NOM}</p><p>Fecha: ${reporte.FECHA}</p><button class='btn btn-success w-100' >Asignar responsable <i class="fa-solid fa-hammer"></i></button><div style='display:flex;gap:10px;padding-top:10px;' ><button onclick='EditarReporte(${reporte.REPORTE_ID})' class='btn btn-primary w-100' >Editar Reporte</button><button onclick='EliminarReporte(${reporte.REPORTE_ID})' class='btn btn-danger w-100' >Eliminar Reporte</button></div></div></div>`
-
-                            ).openPopup();
+                                }else{
 
 
+                                marker.bindPopup(
 
-                        } else {
+                                    `<div style='border:3px solid #2E6DA4;height:auto;background-color:#1A3A5C;color:#F4F6F8' ><img style='width:100%;height:100%;object-fit:contain;' src='${image}' ><div style='padding:20px;' ><p>Daño: ${reporte.NOMBRE_DANO}</p><p class='categoriaDano' >Categoria: ${reporte.NOMBRE_CATEGORIA}</p><p>Provincia: ${reporte.PROVINCIA_NOM}</p><p>Cantó: ${reporte.CANTON_NOM}</p><p>Distrito: ${reporte.DISTRITO_NOM}</p><p>Fecha: ${reporte.FECHA}</p><div style='display:flex;gap:10px;padding-top:10px;' ><button onclick='EditarReporte(${reporte.REPORTE_ID})' class='btn btn-primary w-100' >Editar Reporte</button><button onclick='EliminarReporte(${reporte.REPORTE_ID})' class='btn btn-danger w-100' >Eliminar Reporte</button></div></div></div>`
 
-                            marker.bindPopup(
+                                ).openPopup();
 
-                                `<div style='border:3px solid #2E6DA4;height:auto;witdh:400px;background-color:#1A3A5C;color:#F4F6F8' ><img style='width:100%;height:100%;object-fit:contain;' src='${image}' ><div style='padding:20px;' ><p>Daño: ${reporte.NOMBRE_DANO}</p><p class='categoriaDano' >Categoria: ${reporte.NOMBRE_CATEGORIA}</p><p>Provincia: ${reporte.PROVINCIA_NOM}</p><p>Cantó: ${reporte.CANTON_NOM}</p><p>Distrito: ${reporte.DISTRITO_NOM}</p><p>Fecha: ${reporte.FECHA}</p><button class='btn btn-success w-100' >Asignar responsable <i class="fa-solid fa-hammer"></i></button></div></div>`
+                                }
+                                
+                            
+                            }else if(rol == 1){
 
-                            ).openPopup();
+                                  if(reporte.REPORTE_FK == null){
 
-                        }
+                                 marker.bindPopup(
 
+                                    `<div style='border:3px solid #2E6DA4;height:auto;background-color:#1A3A5C;color:#F4F6F8' ><img style='width:100%;height:100%;object-fit:contain;' src='${image}' ><div style='padding:20px;' ><p>Daño: ${reporte.NOMBRE_DANO}</p><p class='categoriaDano' >Categoria: ${reporte.NOMBRE_CATEGORIA}</p><p>Provincia: ${reporte.PROVINCIA_NOM}</p><p>Cantó: ${reporte.CANTON_NOM}</p><p>Distrito: ${reporte.DISTRITO_NOM}</p><p>Fecha: ${reporte.FECHA}</p><button onclick='asignarResponsable(${reporte.REPORTE_ID})' class='btn btn-success w-100' >Asignar responsable <i class="fa-solid fa-hammer"></i></button><div style='display:flex;gap:10px;padding-top:10px;' ><button onclick='EditarReporte(${reporte.REPORTE_ID})' class='btn btn-primary w-100' >Editar Reporte</button><button onclick='EliminarReporte(${reporte.REPORTE_ID})' class='btn btn-danger w-100' >Eliminar Reporte</button></div></div></div>`
+
+                                ).openPopup();
+
+                                }else{
+
+                                marker.bindPopup(
+
+                                    `<div style='border:3px solid #2E6DA4;height:auto;background-color:#1A3A5C;color:#F4F6F8' ><img style='width:100%;height:100%;object-fit:contain;' src='${image}' ><div style='padding:20px;' ><p>Daño: ${reporte.NOMBRE_DANO}</p><p class='categoriaDano' >Categoria: ${reporte.NOMBRE_CATEGORIA}</p><p>Provincia: ${reporte.PROVINCIA_NOM}</p><p>Cantó: ${reporte.CANTON_NOM}</p><p>Distrito: ${reporte.DISTRITO_NOM}</p><p>Fecha: ${reporte.FECHA}</p><button readonly class='btn btn-primary w-100' >Reporte en reparación <i class="fa-solid fa-hammer"></i></button><div style='display:flex;gap:10px;padding-top:10px;' ><button onclick='EditarReporte(${reporte.REPORTE_ID})' class='btn btn-primary w-100' >Editar Reporte</button><button onclick='EliminarReporte(${reporte.REPORTE_ID})' class='btn btn-danger w-100' >Eliminar Reporte</button></div></div></div>`
+
+                                ).openPopup();
+
+
+                                }
+                            
+                            }else {
+
+                                marker.bindPopup(
+
+                                    `<div style='border:3px solid #2E6DA4;height:auto;witdh:400px;background-color:#1A3A5C;color:#F4F6F8' ><img style='width:100%;height:100%;object-fit:contain;' src='${image}' ><div style='padding:20px;' ><p>Daño: ${reporte.NOMBRE_DANO}</p><p class='categoriaDano' >Categoria: ${reporte.NOMBRE_CATEGORIA}</p><p>Provincia: ${reporte.PROVINCIA_NOM}</p><p>Cantó: ${reporte.CANTON_NOM}</p><p>Distrito: ${reporte.DISTRITO_NOM}</p><p>Fecha: ${reporte.FECHA}</p></div></div>`
+
+                                ).openPopup();
+
+                            }
 
                     });
 
@@ -2261,7 +2698,7 @@ $(function () {
                 if (response.status == 'success') {
 
                     markersLayer = L.layerGroup().addTo(map);
-
+                    let rol = $('#Rol').val();
                     response.data.forEach(reporte => {
 
                         let image = '';
@@ -2345,24 +2782,69 @@ $(function () {
 
                         if (reporte.USUARIO_FK == sessionUsuario) {
 
+                                if(rol == 1){
 
-                            marker.bindPopup(
+                                    if(reporte.REPORTE_FK == null){
 
-                                `<div style='border:3px solid #2E6DA4;height:auto;background-color:#1A3A5C;color:#F4F6F8' ><img style='width:100%;height:100%;object-fit:contain;' src='${image}' ><div style='padding:20px;' ><p>Daño: ${reporte.NOMBRE_DANO}</p><p class='categoriaDano' >Categoria: ${reporte.NOMBRE_CATEGORIA}</p><p>Provincia: ${reporte.PROVINCIA_NOM}</p><p>Cantó: ${reporte.CANTON_NOM}</p><p>Distrito: ${reporte.DISTRITO_NOM}</p><p>Fecha: ${reporte.FECHA}</p><button class='btn btn-success w-100' >Asignar responsable <i class="fa-solid fa-hammer"></i></button><div style='display:flex;gap:10px;padding-top:10px;' ><button onclick='EditarReporte(${reporte.REPORTE_ID})' class='btn btn-primary w-100' >Editar Reporte</button><button onclick='EliminarReporte(${reporte.REPORTE_ID})' class='btn btn-danger w-100' >Eliminar Reporte</button></div></div></div>`
+                                 marker.bindPopup(
 
-                            ).openPopup();
+                                    `<div style='border:3px solid #2E6DA4;height:auto;background-color:#1A3A5C;color:#F4F6F8' ><img style='width:100%;height:100%;object-fit:contain;' src='${image}' ><div style='padding:20px;' ><p>Daño: ${reporte.NOMBRE_DANO}</p><p class='categoriaDano' >Categoria: ${reporte.NOMBRE_CATEGORIA}</p><p>Provincia: ${reporte.PROVINCIA_NOM}</p><p>Cantó: ${reporte.CANTON_NOM}</p><p>Distrito: ${reporte.DISTRITO_NOM}</p><p>Fecha: ${reporte.FECHA}</p><button onclick='asignarResponsable(${reporte.REPORTE_ID})' class='btn btn-success w-100' >Asignar responsable <i class="fa-solid fa-hammer"></i></button><div style='display:flex;gap:10px;padding-top:10px;' ><button onclick='EditarReporte(${reporte.REPORTE_ID})' class='btn btn-primary w-100' >Editar Reporte</button><button onclick='EliminarReporte(${reporte.REPORTE_ID})' class='btn btn-danger w-100' >Eliminar Reporte</button></div></div></div>`
+
+                                ).openPopup();
+
+                                }else{
+
+                                marker.bindPopup(
+
+                                    `<div style='border:3px solid #2E6DA4;height:auto;background-color:#1A3A5C;color:#F4F6F8' ><img style='width:100%;height:100%;object-fit:contain;' src='${image}' ><div style='padding:20px;' ><p>Daño: ${reporte.NOMBRE_DANO}</p><p class='categoriaDano' >Categoria: ${reporte.NOMBRE_CATEGORIA}</p><p>Provincia: ${reporte.PROVINCIA_NOM}</p><p>Cantó: ${reporte.CANTON_NOM}</p><p>Distrito: ${reporte.DISTRITO_NOM}</p><p>Fecha: ${reporte.FECHA}</p><button readonly class='btn btn-primary w-100' >Reporte en reparación <i class="fa-solid fa-hammer"></i></button><div style='display:flex;gap:10px;padding-top:10px;' ><button onclick='EditarReporte(${reporte.REPORTE_ID})' class='btn btn-primary w-100' >Editar Reporte</button><button onclick='EliminarReporte(${reporte.REPORTE_ID})' class='btn btn-danger w-100' >Eliminar Reporte</button></div></div></div>`
+
+                                ).openPopup();
 
 
+                                }
 
-                        } else {
+                                }else{
 
-                            marker.bindPopup(
 
-                                `<div style='border:3px solid #2E6DA4;height:auto;witdh:400px;background-color:#1A3A5C;color:#F4F6F8' ><img style='width:100%;height:100%;object-fit:contain;' src='${image}' ><div style='padding:20px;' ><p>Daño: ${reporte.NOMBRE_DANO}</p><p class='categoriaDano' >Categoria: ${reporte.NOMBRE_CATEGORIA}</p><p>Provincia: ${reporte.PROVINCIA_NOM}</p><p>Cantó: ${reporte.CANTON_NOM}</p><p>Distrito: ${reporte.DISTRITO_NOM}</p><p>Fecha: ${reporte.FECHA}</p><button class='btn btn-success w-100' >Asignar responsable <i class="fa-solid fa-hammer"></i></button></div></div>`
+                                marker.bindPopup(
 
-                            ).openPopup();
+                                    `<div style='border:3px solid #2E6DA4;height:auto;background-color:#1A3A5C;color:#F4F6F8' ><img style='width:100%;height:100%;object-fit:contain;' src='${image}' ><div style='padding:20px;' ><p>Daño: ${reporte.NOMBRE_DANO}</p><p class='categoriaDano' >Categoria: ${reporte.NOMBRE_CATEGORIA}</p><p>Provincia: ${reporte.PROVINCIA_NOM}</p><p>Cantó: ${reporte.CANTON_NOM}</p><p>Distrito: ${reporte.DISTRITO_NOM}</p><p>Fecha: ${reporte.FECHA}</p><div style='display:flex;gap:10px;padding-top:10px;' ><button onclick='EditarReporte(${reporte.REPORTE_ID})' class='btn btn-primary w-100' >Editar Reporte</button><button onclick='EliminarReporte(${reporte.REPORTE_ID})' class='btn btn-danger w-100' >Eliminar Reporte</button></div></div></div>`
 
-                        }
+                                ).openPopup();
+
+                                }
+                                
+                            
+                            }else if(rol == 1){
+
+                                  if(reporte.REPORTE_FK == null){
+
+                                 marker.bindPopup(
+
+                                    `<div style='border:3px solid #2E6DA4;height:auto;background-color:#1A3A5C;color:#F4F6F8' ><img style='width:100%;height:100%;object-fit:contain;' src='${image}' ><div style='padding:20px;' ><p>Daño: ${reporte.NOMBRE_DANO}</p><p class='categoriaDano' >Categoria: ${reporte.NOMBRE_CATEGORIA}</p><p>Provincia: ${reporte.PROVINCIA_NOM}</p><p>Cantó: ${reporte.CANTON_NOM}</p><p>Distrito: ${reporte.DISTRITO_NOM}</p><p>Fecha: ${reporte.FECHA}</p><button onclick='asignarResponsable(${reporte.REPORTE_ID})' class='btn btn-success w-100' >Asignar responsable <i class="fa-solid fa-hammer"></i></button><div style='display:flex;gap:10px;padding-top:10px;' ><button onclick='EditarReporte(${reporte.REPORTE_ID})' class='btn btn-primary w-100' >Editar Reporte</button><button onclick='EliminarReporte(${reporte.REPORTE_ID})' class='btn btn-danger w-100' >Eliminar Reporte</button></div></div></div>`
+
+                                ).openPopup();
+
+                                }else{
+
+                                marker.bindPopup(
+
+                                    `<div style='border:3px solid #2E6DA4;height:auto;background-color:#1A3A5C;color:#F4F6F8' ><img style='width:100%;height:100%;object-fit:contain;' src='${image}' ><div style='padding:20px;' ><p>Daño: ${reporte.NOMBRE_DANO}</p><p class='categoriaDano' >Categoria: ${reporte.NOMBRE_CATEGORIA}</p><p>Provincia: ${reporte.PROVINCIA_NOM}</p><p>Cantó: ${reporte.CANTON_NOM}</p><p>Distrito: ${reporte.DISTRITO_NOM}</p><p>Fecha: ${reporte.FECHA}</p><button readonly class='btn btn-primary w-100' >Reporte en reparación <i class="fa-solid fa-hammer"></i></button><div style='display:flex;gap:10px;padding-top:10px;' ><button onclick='EditarReporte(${reporte.REPORTE_ID})' class='btn btn-primary w-100' >Editar Reporte</button><button onclick='EliminarReporte(${reporte.REPORTE_ID})' class='btn btn-danger w-100' >Eliminar Reporte</button></div></div></div>`
+
+                                ).openPopup();
+
+
+                                }
+                            
+                            }else {
+
+                                marker.bindPopup(
+
+                                    `<div style='border:3px solid #2E6DA4;height:auto;witdh:400px;background-color:#1A3A5C;color:#F4F6F8' ><img style='width:100%;height:100%;object-fit:contain;' src='${image}' ><div style='padding:20px;' ><p>Daño: ${reporte.NOMBRE_DANO}</p><p class='categoriaDano' >Categoria: ${reporte.NOMBRE_CATEGORIA}</p><p>Provincia: ${reporte.PROVINCIA_NOM}</p><p>Cantó: ${reporte.CANTON_NOM}</p><p>Distrito: ${reporte.DISTRITO_NOM}</p><p>Fecha: ${reporte.FECHA}</p></div></div>`
+
+                                ).openPopup();
+
+                            }
 
 
                     });
@@ -2389,7 +2871,7 @@ $(function () {
 
         let identidad = $('#Identidad').val();
 
-        if(identidad == null){
+        if(identidad != null){
 
             
 
@@ -2426,6 +2908,91 @@ $(function () {
     $('#btnCerrarAlert').click(function(){
 
         $('.alert').fadeOut(1000);
+
+    });
+
+    window.asignarResponsable = function(reporteid){
+
+        $('#asignarResponsable').appendTo('body');
+        $('#asignarResponsable').modal('show');
+        $('#idreporteAsignar').attr('value', reporteid);
+
+        $.ajax({
+
+            url: '../router/rutas.php?action=listadoResponsables',
+            method: 'GET',
+            dataType: 'json',
+            success: function (response){
+
+                if(response.status == 'success'){
+
+                    console.log('Las entidades son:', response.data);
+                    let options = '';
+                    options = '<option>Entidad responsable</option>';
+
+                    response.data.forEach(item => {
+
+                        options += `<option value='${item.ER_ID}' >${item.NOMBRE_ENTIDAD}</option>`;
+
+
+                    });
+
+                    $('#entidadSelect').html(options);
+
+                }else {
+
+                    Swal.fire('Error en obtener entidades responsables', '', 'error');
+                }
+            }, error: function(xhr, status){
+
+                console.log('ERROR:', xhr.responseText);
+                console.log('status:', status)
+            }
+
+
+        });
+
+    }
+
+    $('#formularioAsignarResponsable').submit(function(e){
+
+        console.log('el reporte es:', $('#idreporteAsignar').val());
+        console.log('La entidad es:', $('#entidadSelect').val());
+
+        e.preventDefault();
+
+        $.ajax({
+
+            url: '../router/rutas.php?action=asigarResponsable',
+            method : 'POST',
+            dataType: 'json',
+            data: $(this).serialize(),
+
+            success: function(response){
+
+                if(response.status == 'success'){
+
+                    Swal.fire('! Reporte perfectamente asigando ¡', '', 'success');
+                    setTimeout(function(){
+
+                        window.location.reload();
+
+                    }, 2000)
+                }else{
+
+                    Swal.fire('Error en asignar el reporte', '', 'error');
+
+                }
+            }, error: function(xhr, status){
+
+                console.log('error:', xhr.responseText);
+                console.log('status:', status);
+            }
+
+
+        });
+
+
 
     });
 

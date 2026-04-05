@@ -5,8 +5,10 @@ session_start();
 if (isset($_SESSION['Usuario'])) {
 
     $Cedula = $_SESSION['Cedula'];
+    $Rol = $_SESSION['Rol'];
 
     echo "<input value='$Cedula' type='text' style='display:none;' id='Identidad' ></input>";
+    echo "<input value='$Rol' type='text' style='display:none;' id='Rol' ></input>";
 
 
 }
@@ -37,6 +39,13 @@ if (isset($_SESSION['Usuario'])) {
                 <h1 id="titulo-header">Reporte Vial</h1>
                 <button class="botonAgregar">Crear reporte <i class="fa-solid fa-plus"></i></button>
                 <?php
+
+                if(isset($_SESSION['Usuario']) && $_SESSION['Rol']==2){
+
+                    echo '<button>Reportes asignados <i class="fa-solid fa-wrench"></i></button>';
+
+                }
+
                 if (isset($_SESSION['Usuario'])) {
 
                     echo " <p class='bienvenida' >Bienvenido, " . $_SESSION['Usuario'] . "</p>";
@@ -314,6 +323,33 @@ if (isset($_SESSION['Usuario'])) {
                         </div>
                         <div class='modal-footer'>
                             <button type='submit' class='btn w-100'>Editar reporte</button>
+                        </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <div class='modal' id='asignarResponsable' tabindex='-1'>
+        <div class='modal-dialog'>
+            <div class='modal-content'>
+                <div class='modal-header'>
+                    <h5 class='modal-title'>Responsable de reparación</h5>
+                    <button type='button' class='btn-close' data-bs-dismiss='modal' aria-label='Close'></button>
+                </div>
+                <form id='formularioAsignarResponsable'>
+                    <div class='modal-body'>
+                        <div class="select">
+                            <label for="tipodano" class="form-label">Entidades</label>
+                            <select name="entidadSelect" class="form-control" id="entidadSelect">
+                                
+                            </select>
+                        </div>
+                        
+                            <input style="display:none;" type="text" name="idreporteAsignar" id="idreporteAsignar">
+
+                        </div>
+                        <div class='modal-footer'>
+                            <button type='submit' class='btn w-100'>Asignar responsable</button>
                         </div>
                 </form>
             </div>

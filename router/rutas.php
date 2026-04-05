@@ -8,6 +8,7 @@ require_once '../controller/CantonController.php';
 require_once '../controller/DistritoController.php';
 require_once '../controller/CalleController.php';
 require_once '../controller/ReporteController.php';
+require_once '../controller/EntidadController.php';
 
 
 $usuarios = new UsuariosController();
@@ -18,6 +19,7 @@ $Canton = new CantonController();
 $Distrito = new DistritoController();
 $Calle = new CalleController();
 $Reporte = new ReporteController();
+$Entidad = new EntidadController();
 
 $action = $_GET['action'] ?? '';
 
@@ -130,6 +132,14 @@ switch ($action){
       
    case 'filtrarReporteUsuario':
       $Reporte->filtrarReporteUsuario();
+      break;   
+
+   case 'listadoResponsables':
+      $Entidad->listadoResponsables();
+      break; 
+      
+   case 'asigarResponsable':
+      $Entidad->asigarResponsable();
       break;   
 
 

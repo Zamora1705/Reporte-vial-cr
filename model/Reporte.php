@@ -48,11 +48,11 @@ class Reporte
         return $result;
     }
 
-    public function listado()
-    {
+    public function listado(){
 
-        $query = "SELECT t.Nombre_dano, c.Nombre_categoria, r.Fecha, r.Reporte_ID, r.Usuario_FK, r.Longitud, r.Latitud, r.Provincia_nom, r.Canton_nom, r.Distrito_nom
-        FROM Reporte r INNER JOIN Categoria c ON r.Categoria_FK = c.Categoria_ID INNER JOIN Tipo_dano t ON r.Tipo_Dano_FK = t.Dano_ID";
+        $query = "SELECT t.Nombre_dano, c.Nombre_categoria, r.Fecha, r.Reporte_ID, r.Usuario_FK, r.Longitud, r.Latitud, r.Provincia_nom, r.Canton_nom, 
+                  r.Distrito_nom, rd.Reporte_FK FROM Reporte r INNER JOIN Categoria c ON r.Categoria_FK = c.Categoria_ID INNER JOIN Tipo_dano t ON r.Tipo_Dano_FK = t.Dano_ID 
+                  FULL OUTER JOIN Reporte_designado rd ON rd.Reporte_FK = r.Reporte_ID";
 
         $smtp = oci_parse($this->DB, $query);
 
@@ -66,7 +66,11 @@ class Reporte
 
             foreach ($row as $key => $value) {
 
+               if($value != null){
+
                 $filaLimpia[$key] = mb_convert_encoding($value, 'UTF-8', 'Windows-1252');
+
+               }
             }
 
             $listado[] = $filaLimpia;
@@ -76,8 +80,7 @@ class Reporte
         return $listado;
     }
 
-    public function obtenerReporteByID($idReporte)
-    {
+    public function obtenerReporteByID($idReporte){
 
         $query = "SELECT t.Nombre_dano, t.Dano_ID , c.Categoria_ID, c.Nombre_categoria, r.Fecha, r.Reporte_ID, r.Longitud, r.Latitud, r.Provincia_nom, r.Canton_nom, r.Distrito_nom, r.Calle_FK, a.Nombre_calle
         FROM Reporte r INNER JOIN Categoria c ON r.Categoria_FK = c.Categoria_ID INNER JOIN Tipo_dano t ON r.Tipo_Dano_FK = t.Dano_ID INNER JOIN Calle_Report a 
@@ -143,8 +146,9 @@ class Reporte
     public function filtrarReporte($Tipodano)
     {
 
-        $query = "SELECT t.Nombre_dano, c.Nombre_categoria, r.Fecha, r.Reporte_ID, r.Usuario_FK, r.Longitud, r.Latitud, r.Provincia_nom, r.Canton_nom, r.Distrito_nom
-        FROM Reporte r INNER JOIN Categoria c ON r.Categoria_FK = c.Categoria_ID INNER JOIN Tipo_dano t ON r.Tipo_Dano_FK = t.Dano_ID WHERE r.Tipo_Dano_FK = :Tipodano";
+        $query = "SELECT t.Nombre_dano, c.Nombre_categoria, rd.Reporte_FK, r.Fecha, r.Reporte_ID, r.Usuario_FK, r.Longitud, r.Latitud, r.Provincia_nom, r.Canton_nom, r.Distrito_nom
+        FROM Reporte r INNER JOIN Categoria c ON r.Categoria_FK = c.Categoria_ID INNER JOIN Tipo_dano t ON r.Tipo_Dano_FK = t.Dano_ID 
+        FULL OUTER JOIN Reporte_designado rd ON rd.Reporte_FK = r.Reporte_ID WHERE r.Tipo_Dano_FK = :Tipodano";
 
         $smtp = oci_parse($this->DB, $query);
 
@@ -160,8 +164,11 @@ class Reporte
 
             foreach ($row as $key => $value) {
 
+            if($value != null){
+
                 $filaLimpia[$key] = mb_convert_encoding($value, 'UTF-8', 'Windows-1252');
 
+              }
             }
 
             $listado[] = $filaLimpia;
@@ -176,8 +183,9 @@ class Reporte
     public function filtrarReporteCategoria($categoria)
     {
 
-        $query = "SELECT t.Nombre_dano, c.Nombre_categoria, r.Fecha, r.Reporte_ID, r.Usuario_FK, r.Longitud, r.Latitud, r.Provincia_nom, r.Canton_nom, r.Distrito_nom
-        FROM Reporte r INNER JOIN Categoria c ON r.Categoria_FK = c.Categoria_ID INNER JOIN Tipo_dano t ON r.Tipo_Dano_FK = t.Dano_ID WHERE r.Categoria_FK = :Categoria";
+        $query = "SELECT t.Nombre_dano, c.Nombre_categoria, r.Fecha, r.Reporte_ID, r.Usuario_FK, r.Longitud, r.Latitud, r.Provincia_nom, r.Canton_nom, rd.Reporte_FK, r.Distrito_nom
+        FROM Reporte r INNER JOIN Categoria c ON r.Categoria_FK = c.Categoria_ID INNER JOIN Tipo_dano t ON r.Tipo_Dano_FK = t.Dano_ID 
+        FULL OUTER JOIN Reporte_designado rd ON rd.Reporte_FK = r.Reporte_ID WHERE r.Categoria_FK = :Categoria";
 
         $smtp = oci_parse($this->DB, $query);
 
@@ -193,7 +201,11 @@ class Reporte
 
             foreach ($row as $key => $value) {
 
+            if($value != null){
+
                 $filaLimpia[$key] = mb_convert_encoding($value, 'UTF-8', 'Windows-1252');
+
+              }
 
             }
 
@@ -209,8 +221,9 @@ class Reporte
     public function filtrarReporteProvincia($provincia)
     {
 
-        $query = "SELECT t.Nombre_dano, c.Nombre_categoria, r.Fecha, r.Reporte_ID, r.Usuario_FK, r.Longitud, r.Latitud, r.Provincia_nom, r.Canton_nom, r.Distrito_nom
-        FROM Reporte r INNER JOIN Categoria c ON r.Categoria_FK = c.Categoria_ID INNER JOIN Tipo_dano t ON r.Tipo_Dano_FK = t.Dano_ID WHERE r.Provincia_nom = :Provincia";
+        $query = "SELECT t.Nombre_dano, c.Nombre_categoria, r.Fecha, rd.Reporte_FK, r.Reporte_ID, r.Usuario_FK, r.Longitud, r.Latitud, r.Provincia_nom, r.Canton_nom, r.Distrito_nom
+        FROM Reporte r INNER JOIN Categoria c ON r.Categoria_FK = c.Categoria_ID INNER JOIN Tipo_dano t ON r.Tipo_Dano_FK = t.Dano_ID 
+        FULL OUTER JOIN Reporte_designado rd ON rd.Reporte_FK = r.Reporte_ID WHERE r.Provincia_nom = :Provincia";
 
         $smtp = oci_parse($this->DB, $query);
 
@@ -226,8 +239,11 @@ class Reporte
 
             foreach ($row as $key => $value) {
 
+                if($value !=null ){
+
                 $filaLimpia[$key] = mb_convert_encoding($value, 'UTF-8', 'Windows-1252');
 
+                }
             }
 
             $listado[] = $filaLimpia;
@@ -242,9 +258,9 @@ class Reporte
     public function filtrarReporteTipoDanoXCategoria($tipodano, $categoria)
     {
 
-        $query = "SELECT t.Nombre_dano, c.Nombre_categoria, r.Fecha, r.Reporte_ID, r.Usuario_FK, r.Longitud, r.Latitud, r.Provincia_nom, r.Canton_nom, r.Distrito_nom
+        $query = "SELECT t.Nombre_dano, c.Nombre_categoria, r.Fecha, rd.Reporte_FK, r.Reporte_ID, r.Usuario_FK, r.Longitud, r.Latitud, r.Provincia_nom, r.Canton_nom, r.Distrito_nom
         FROM Reporte r INNER JOIN Categoria c ON r.Categoria_FK = c.Categoria_ID INNER JOIN Tipo_dano t ON r.Tipo_Dano_FK = t.Dano_ID 
-        WHERE r.Tipo_Dano_FK = :tipodano and r.Categoria_FK = :categoria";
+        FULL OUTER JOIN Reporte_designado rd ON rd.Reporte_FK = r.Reporte_ID WHERE r.Tipo_Dano_FK = :tipodano and r.Categoria_FK = :categoria";
 
         $smtp = oci_parse($this->DB, $query);
 
@@ -261,7 +277,11 @@ class Reporte
 
             foreach ($row as $key => $value) {
 
+                if($value != null){
+
                 $filaLimpia[$key] = mb_convert_encoding($value, 'UTF-8', 'Windows-1252');
+
+                }
 
             }
 
@@ -277,9 +297,9 @@ class Reporte
     public function filtrarReporteTipoDanoXprovincia($tipodano, $provincia)
     {
 
-        $query = "SELECT t.Nombre_dano, c.Nombre_categoria, r.Fecha, r.Reporte_ID, r.Usuario_FK, r.Longitud, r.Latitud, r.Provincia_nom, r.Canton_nom, r.Distrito_nom
+        $query = "SELECT t.Nombre_dano, c.Nombre_categoria, r.Fecha, rd.Reporte_FK, r.Reporte_ID, r.Usuario_FK, r.Longitud, r.Latitud, r.Provincia_nom, r.Canton_nom, r.Distrito_nom
         FROM Reporte r INNER JOIN Categoria c ON r.Categoria_FK = c.Categoria_ID INNER JOIN Tipo_dano t ON r.Tipo_Dano_FK = t.Dano_ID 
-        WHERE r.Tipo_Dano_FK = :tipodano and r.Provincia_nom = :provincia";
+        FULL OUTER JOIN Reporte_designado rd ON rd.Reporte_FK = r.Reporte_ID WHERE r.Tipo_Dano_FK = :tipodano and r.Provincia_nom = :provincia";
 
         $smtp = oci_parse($this->DB, $query);
 
@@ -296,8 +316,11 @@ class Reporte
 
             foreach ($row as $key => $value) {
 
+                if($value != null){
+
                 $filaLimpia[$key] = mb_convert_encoding($value, 'UTF-8', 'Windows-1252');
 
+                }
             }
 
             $listado[] = $filaLimpia;
@@ -312,9 +335,9 @@ class Reporte
     public function filtrarReporteCategoriaXprovincia($categoria, $provincia)
     {
 
-        $query = "SELECT t.Nombre_dano, c.Nombre_categoria, r.Fecha, r.Reporte_ID, r.Usuario_FK, r.Longitud, r.Latitud, r.Provincia_nom, r.Canton_nom, r.Distrito_nom
+        $query = "SELECT t.Nombre_dano, c.Nombre_categoria, r.Fecha, rd.Reporte_FK, r.Reporte_ID, r.Usuario_FK, r.Longitud, r.Latitud, r.Provincia_nom, r.Canton_nom, r.Distrito_nom
         FROM Reporte r INNER JOIN Categoria c ON r.Categoria_FK = c.Categoria_ID INNER JOIN Tipo_dano t ON r.Tipo_Dano_FK = t.Dano_ID 
-        WHERE r.Categoria_FK = :categoria and r.Provincia_nom = :provincia";
+        FULL OUTER JOIN Reporte_designado rd ON rd.Reporte_FK = r.Reporte_ID WHERE r.Categoria_FK = :categoria and r.Provincia_nom = :provincia";
 
         $smtp = oci_parse($this->DB, $query);
 
@@ -331,8 +354,11 @@ class Reporte
 
             foreach ($row as $key => $value) {
 
+                if($value != null){
+
                 $filaLimpia[$key] = mb_convert_encoding($value, 'UTF-8', 'Windows-1252');
 
+                }
             }
 
             $listado[] = $filaLimpia;
@@ -348,9 +374,9 @@ class Reporte
     public function filtrarReporteCategoriaXprovinciaXtipodano($tipodano, $categoria, $provincia)
     {
 
-        $query = "SELECT t.Nombre_dano, c.Nombre_categoria, r.Fecha, r.Reporte_ID, r.Usuario_FK, r.Longitud, r.Latitud, r.Provincia_nom, r.Canton_nom, r.Distrito_nom
+        $query = "SELECT t.Nombre_dano, c.Nombre_categoria, r.Fecha, r.Reporte_ID, r.Usuario_FK, rd.Reporte_FK, r.Longitud, r.Latitud, r.Provincia_nom, r.Canton_nom, r.Distrito_nom
         FROM Reporte r INNER JOIN Categoria c ON r.Categoria_FK = c.Categoria_ID INNER JOIN Tipo_dano t ON r.Tipo_Dano_FK = t.Dano_ID 
-        WHERE r.Categoria_FK = :categoria and r.Provincia_nom = :provincia and r.Tipo_Dano_FK = :tipodano";
+        FULL OUTER JOIN Reporte_designado rd ON rd.Reporte_FK = r.Reporte_ID WHERE r.Categoria_FK = :categoria and r.Provincia_nom = :provincia and r.Tipo_Dano_FK = :tipodano";
 
         $smtp = oci_parse($this->DB, $query);
 
@@ -368,8 +394,11 @@ class Reporte
 
             foreach ($row as $key => $value) {
 
+                if($value != null){
+
                 $filaLimpia[$key] = mb_convert_encoding($value, 'UTF-8', 'Windows-1252');
 
+                }
             }
 
             $listado[] = $filaLimpia;
@@ -385,9 +414,9 @@ class Reporte
     public function filtrarReporteUsuario($usuario)
     {
 
-        $query = "SELECT t.Nombre_dano, c.Nombre_categoria, r.Fecha, r.Reporte_ID, r.Usuario_FK, r.Longitud, r.Latitud, r.Provincia_nom, r.Canton_nom, r.Distrito_nom
+        $query = "SELECT t.Nombre_dano, c.Nombre_categoria, r.Fecha, rd.Reporte_FK, r.Reporte_ID, r.Usuario_FK, r.Longitud, r.Latitud, r.Provincia_nom, r.Canton_nom, r.Distrito_nom
         FROM Reporte r INNER JOIN Categoria c ON r.Categoria_FK = c.Categoria_ID INNER JOIN Tipo_dano t ON r.Tipo_Dano_FK = t.Dano_ID 
-        WHERE r.Usuario_FK = :usuario ";
+        FULL OUTER JOIN Reporte_designado rd ON rd.Reporte_FK = r.Reporte_ID WHERE r.Usuario_FK = :usuario ";
 
         $smtp = oci_parse($this->DB, $query);
 
@@ -404,8 +433,11 @@ class Reporte
 
             foreach ($row as $key => $value) {
 
+                if($value != null){
+
                 $filaLimpia[$key] = mb_convert_encoding($value, 'UTF-8', 'Windows-1252');
 
+                }
             }
 
             $listado[] = $filaLimpia;
