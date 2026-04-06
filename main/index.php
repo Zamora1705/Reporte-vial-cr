@@ -42,7 +42,7 @@ if (isset($_SESSION['Usuario'])) {
 
                 if(isset($_SESSION['Usuario']) && $_SESSION['Rol']==2){
 
-                    echo '<button>Reportes asignados <i class="fa-solid fa-wrench"></i></button>';
+                    echo '<button id="btnReportesA" ><a href="managereporte/reporte.php" >Reportes asignados <i class="fa-solid fa-wrench"></i></a></button>';
 
                 }
 

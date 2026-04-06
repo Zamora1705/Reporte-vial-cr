@@ -272,6 +272,47 @@ class ReporteController{
 
     }
 
+    public function listadoReportesAsignados(){
+
+       $Reporte = new Reporte();
+
+       $rol = $_GET['rol'] ?? '';
+
+       $resultado = $Reporte->listadoReportesAsignados($rol);
+
+       if($resultado){
+
+           echo json_encode(['status'=>'success', 'data'=>$resultado]);
+       }else{
+
+           echo json_encode(['status'=>'error']);
+       }
+
+
+    }
+
+    public function finalizarReporte(){
+
+        $Reporte = new Reporte();
+
+        $idreporte = $_GET['idreporte'] ?? '';
+
+        $resultado = $Reporte->finalizarReporte($idreporte);
+
+        if($resultado){
+
+           echo json_encode(['status'=>'success', 'data'=>$resultado]);
+
+        }else{
+
+           echo json_encode(['status'=>'error']);
+        }
+
+
+        
+
+    }
+
 
 
 

@@ -63,6 +63,17 @@
     background-color: #2E6DA4;
 }
 
+#btnReportesA{
+
+    padding: 10px;
+    height: 50px;
+    border: 2px solid #F4F6F8;
+    border-radius: 20px;
+    color: #F4F6F8;
+    background-color: #2E6DA4;
+
+}
+
 body{
 
     background-color: #1A3A5C;
@@ -390,6 +401,7 @@ footer .content-socialmedia ul li a p{
     padding-top: 150px;
 
 }
+
 
 
 
@@ -752,4 +764,17 @@ footer .content-socialmedia ul li a p{
     font-size: 20px;
 }
 
+.seccion-reportes table tbody tr th img{
 
+    width: 100px;
+    height: 100px;
+    border: 3px solid #2E6DA4;
+   
+    
+}
+
+.btnWaze a{
+
+    color: #F4F6F8;
+    text-decoration: none;
+}

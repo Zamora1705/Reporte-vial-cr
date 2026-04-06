@@ -450,6 +450,70 @@ class Reporte
 
 
     }
+
+    public function listadoReportesAsignados($rol){
+
+       $query = "SELECT t.Nombre_dano, c.Nombre_categoria, r.Fecha, r.Reporte_ID, r.Usuario_FK, r.Longitud, r.Latitud, r.Provincia_nom, r.Canton_nom, r.Distrito_nom
+       FROM Reporte r INNER JOIN Categoria c ON r.Categoria_FK = c.Categoria_ID INNER JOIN Tipo_dano t ON r.Tipo_Dano_FK = t.Dano_ID 
+       FULL OUTER JOIN Reporte_designado rd ON r.Reporte_ID = rd.Reporte_FK WHERE rd.Entidad_Responsable = :rolEntidad";
+
+       $smtp=oci_parse($this->DB, $query);
+
+       oci_bind_by_name($smtp, ':rolEntidad', $rol);
+
+       oci_execute($smtp);
+
+       $listado = [];
+
+       while($row = oci_fetch_assoc($smtp)){
+
+           $filaLimpia = [];
+
+           foreach($row as $key => $value){
+
+               $filaLimpia[$key] = mb_convert_encoding($value, 'UTF-8', 'Windows-1252');
+           }
+
+           $listado[]=$filaLimpia;
+
+       }
+
+       return $listado;
+
+    }
+
+    public function finalizarReporte($idreporte){
+
+       $query = "SELECT r.Fecha, u.Correo, u.Nombre FROM Reporte r 
+       INNER JOIN Usuarios u ON r.Usuario_FK = u.Cedula 
+       WHERE r.Reporte_ID = :idreporte";
+
+       $smtp=oci_parse($this->DB, $query);
+
+       oci_bind_by_name($smtp, ':idreporte', $idreporte);
+
+       oci_execute($smtp);
+
+       $datos = [];
+
+       while($row = oci_fetch_assoc($smtp)){
+
+           $filaLimpia = [];
+
+           foreach($row as $key => $value){
+
+                $filaLimpia[$key] = mb_convert_encoding($value, 'UTF-8', 'Windows-1252');
+
+           }
+
+           $datos[] = $filaLimpia;
+
+
+       }
+
+       return $datos;
+    
+    }
 }
 
 

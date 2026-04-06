@@ -142,6 +142,14 @@ switch ($action){
       $Entidad->asigarResponsable();
       break;   
 
+   case 'listadoReportesAsignados':
+      $Reporte->listadoReportesAsignados();
+      break;  
+      
+   case 'finalizarReporte':
+      $Reporte->finalizarReporte();
+      break;   
+
 
  
 
