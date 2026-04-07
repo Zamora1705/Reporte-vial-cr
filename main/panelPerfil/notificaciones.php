@@ -1,3 +1,22 @@
+
+<?php
+
+session_start();
+
+if (isset($_SESSION['Usuario'])) {
+
+    $Cedula = $_SESSION['Cedula'];
+    
+
+    echo "<input value='$Cedula' type='text' style='display:none;' id='Identidad' ></input>";
+
+
+
+}
+
+
+?>
+
 <!DOCTYPE html>
 <html lang="en">
 
@@ -8,6 +27,7 @@
     <link rel="stylesheet" href="../../resource/estilos.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11/dist/sweetalert2.all.min.js"></script>
     <title>Registro</title>
 </head>
 
@@ -34,20 +54,9 @@
                     <th></th>
                 </tr>
             </thead>
-            <tbody>
-                <tr>
-                    <th><img src="../../image/conavi.png" alt=""></th>
-                    <th>17/5/2025</th>
-                    <th>Daño reparado de forma satisfactoria</th>
-                    <th><button class="btn btn-danger" ><i class="fa-solid fa-trash"></i></button></th>
-                </tr>
-                <tr>
-
-                    <th><img src="../../image/mopt.jpeg" alt=""></th>
-                    <th>2/2/2025</th>
-                    <th>Daño reparado de forma satisfactoria</th>
-                    <th><button class="btn btn-danger" ><i class="fa-solid fa-trash"></i></button></th>
-                </tr>
+            <tbody  id='tablaNotificacion' >
+               
+              
             </tbody>
         </table>
         </div>
@@ -63,7 +72,7 @@
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.bundle.min.js"></script>
     <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"
         integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo=" crossorigin=""></script>
-    <script src="../resource/mapa.js"></script>
+    <script src="../../resource/notificacion.js"></script>
 </body>
 
 </html>

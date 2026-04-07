@@ -9,6 +9,8 @@ require_once '../controller/DistritoController.php';
 require_once '../controller/CalleController.php';
 require_once '../controller/ReporteController.php';
 require_once '../controller/EntidadController.php';
+require_once '../controller/HistorialController.php';
+require_once '../controller/NotificacionController.php';
 
 
 $usuarios = new UsuariosController();
@@ -20,6 +22,8 @@ $Distrito = new DistritoController();
 $Calle = new CalleController();
 $Reporte = new ReporteController();
 $Entidad = new EntidadController();
+$historial = new HistorialController();
+$notificacion = new NotificacionController();
 
 $action = $_GET['action'] ?? '';
 
@@ -102,6 +106,10 @@ switch ($action){
       $Reporte->eliminarReporte();
       break;
 
+   case 'HistorialReporte':
+      $Reporte->HistorialReporte();
+      break;   
+
    case 'filtrarReporte':
       $Reporte->filtrarReporte();
       break;
@@ -148,6 +156,22 @@ switch ($action){
       
    case 'finalizarReporte':
       $Reporte->finalizarReporte();
+      break;   
+
+   case 'listadoMisReportes':
+      $historial->listadoMisReportes();
+      break; 
+      
+   case 'crearNotificacion':
+      $notificacion->create();
+      break;  
+      
+   case 'listadoNotificaciones':
+      $notificacion->listado();
+      break;
+      
+   case 'eliminarNotificacion':
+      $notificacion->eliminarNotificacion();
       break;   
 
 

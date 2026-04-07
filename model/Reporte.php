@@ -484,9 +484,11 @@ class Reporte
 
     public function finalizarReporte($idreporte){
 
-       $query = "SELECT r.Fecha, u.Correo, u.Nombre FROM Reporte r 
-       INNER JOIN Usuarios u ON r.Usuario_FK = u.Cedula 
-       WHERE r.Reporte_ID = :idreporte";
+       $query = "SELECT r.Fecha, u.Correo, u.Nombre, r.Provincia_nom, r.Canton_nom, r.Distrito_nom
+       , r.Usuario_FK, c.Nombre_categoria, t.Nombre_dano, cl.Nombre_calle, rd.Entidad_Responsable FROM Reporte r 
+       INNER JOIN Usuarios u ON r.Usuario_FK = u.Cedula INNER JOIN Calle_Report cl ON r.Calle_FK = cl.Calle_ID 
+       INNER JOIN Categoria c ON r.Categoria_FK = c.Categoria_ID INNER JOIN Tipo_dano t ON r.Tipo_Dano_FK = t.Dano_ID
+       INNER JOIN Reporte_designado rd ON rd.Reporte_FK = r.Reporte_ID WHERE r.Reporte_ID = :idreporte";
 
        $smtp=oci_parse($this->DB, $query);
 
@@ -513,6 +515,41 @@ class Reporte
 
        return $datos;
     
+    }
+
+    public function HistorialReporte($idreporte, $tipodano, $categoria, $provincia, $canton, $distrito, $calle, $usuario, $fecha){
+
+     $query = "INSERT INTO Historial_reporte VALUES (:idreporte, :tipodano, :categoria, :provincia, :canton, :distrito, :calle, :fecha, :usuario)";
+     $queryCommit = 'COMMIT';
+     $smtp = oci_parse($this->DB, $query);
+     $smtpCommit = oci_parse($this->DB, $queryCommit);
+
+     oci_bind_by_name($smtp, ':idreporte', $idreporte);
+     oci_bind_by_name($smtp, ':tipodano', $tipodano);
+     oci_bind_by_name($smtp, ':categoria', $categoria);
+     oci_bind_by_name($smtp, ':provincia', $provincia);
+     oci_bind_by_name($smtp, ':canton', $canton);
+     oci_bind_by_name($smtp, ':distrito', $distrito);
+     oci_bind_by_name($smtp, ':calle', $calle);
+     oci_bind_by_name($smtp, ':fecha', $fecha);
+     oci_bind_by_name($smtp, ':usuario', $usuario);
+
+     $result = oci_execute($smtp);
+     oci_execute($smtpCommit);
+
+     if (!$result) {
+    $e = oci_error($smtp);
+    file_put_contents('error_log.txt', $e['message']);
+}else{
+     return $result;
+
+}
+
+
+
+
+             
+
     }
 }
 

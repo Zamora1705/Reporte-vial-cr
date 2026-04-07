@@ -101,6 +101,32 @@ class ReporteController{
 
     }
 
+    public function HistorialReporte(){
+
+        $Reporte = new Reporte();
+
+        $idreporte = $_POST['idreporte'] ?? '';
+        $tipodano = $_POST['tipodano'] ?? '';
+        $categoria = $_POST['categoria'] ?? '';
+        $provincia = $_POST['provincia'] ?? '';
+        $canton = $_POST['canton'] ?? '';
+        $distrito = $_POST['distrito'] ?? '';
+        $calle = $_POST['calle'] ?? '';
+        $usuario = $_POST['Usuario_FK'] ?? '';
+        $fecha = $_POST['fecha'] ?? '';
+
+        if($Reporte->HistorialReporte($idreporte, $tipodano, $categoria, $provincia, $canton, $distrito, $calle, $usuario, $fecha)){
+
+           echo json_encode(['status'=>'success']);
+        }else{
+
+           echo json_encode(['status'=>'error']);
+        }
+
+
+
+    }
+
     public function filtrarReporte(){
 
         $Reporte = new Reporte();

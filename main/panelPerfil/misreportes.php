@@ -1,3 +1,19 @@
+
+<?php
+
+session_start();
+
+if (isset($_SESSION['Usuario'])) {
+
+    $Cedula = $_SESSION['Cedula'];
+
+    echo "<input value='$Cedula' type='text' style='display:none;' id='Identidad' ></input>";
+    
+}
+
+
+?>
+
 <!DOCTYPE html>
 <html lang="en">
 
@@ -39,40 +55,10 @@
                         <th></th>
                     </tr>
                 </thead>
-                <tbody>
-                    <tr>
-                    <th><img src="../../image/semaforo.png" alt=""></th>
-                        <th>Avería</th>
-                        <th class="categoriadano" >Grave</th>
-                        <th>Alajuela</th>
-                        <th>San Ramón</th>
-                        <th>San Rafel</th>
-                        <th>Calle Santa Fe</th>
-                        <th>8/7/2026</th>
-                        <th></th>
-                    </tr>
-                    <tr>
-                    <th><img src="../../image/hueco.png" alt=""></th>
-                        <th>Creater</th>
-                        <th class="categoriadano"  >Medio</th>
-                        <th>Alajuela</th>
-                        <th>San Ramón</th>
-                        <th>San Rafel</th>
-                        <th>Calle Santa Fe</th>
-                        <th>8/7/2026</th>
-                        <th></th>
-                    </tr>
-                    <tr>
-                    <th><img src="../../image/desague.png" alt=""></th>
-                        <th>Daño en desague</th>
-                        <th class="categoriadano"  >Grave</th>
-                        <th>Alajuela</th>
-                        <th>San Ramón</th>
-                        <th>San Rafel</th>
-                        <th>Calle Santa Fe</th>
-                        <th>8/7/2026</th>
-                        <th></th>
-                    </tr>
+                <tbody id='tablaMisReportes' >
+                    
+                    
+                    
                 </tbody>
 
 
@@ -89,7 +75,8 @@
     <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"
         integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo=" crossorigin=""></script>
     <script src="../resource/mapa.js"></script>
-    <script src="../../resource/General.js" ></script>
+    <script src="../../resource/misreportes.js" ></script>
+    
 </body>
 
 </html>

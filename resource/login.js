@@ -57,7 +57,7 @@ $(function () {
                         Swal.fire('! Inicio de sesión exitoso ¡', '', 'success');
                         window.location.href = '../index.php';
 
-                    }, 1000);
+                    }, 2000);
                 } else {
 
                     Swal.fire('Contraseña incorrecta', '', 'error');

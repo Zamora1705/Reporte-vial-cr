@@ -49,7 +49,7 @@ $(function(){
 
                 }else{
 
-                    Swal.fire('No hay reportes asignados', '', 'Warning');
+                    Swal.fire('Error en obtener los reportes', '', 'error');
                 }
 
 
