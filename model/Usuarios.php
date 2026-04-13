@@ -119,6 +119,7 @@ class Usuarios{
 
     public function EditarDatoPerfil($DatoNuevo, $TipoDato){
 
+        session_start();
         $Cedula= $_SESSION['Cedula'];
 
         $query = "UPDATE Usuarios SET $TipoDato = :DatoNuevo WHERE Cedula = :Cedula";
@@ -138,10 +139,12 @@ class Usuarios{
             $_SESSION['Usuario'] = $DatoNuevo;
 
         }else if ($TipoDato == 'Correo'){
+            
 
             $_SESSION['Correo'] = $DatoNuevo;
 
         }else{
+         
 
             $_SESSION['Cedula'] = $DatoNuevo;
 

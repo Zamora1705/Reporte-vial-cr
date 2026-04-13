@@ -1,0 +1,1 @@
+ORA-00001: restricción única (REPORTEVIAL_ADMIN.SYS_C008639) violada

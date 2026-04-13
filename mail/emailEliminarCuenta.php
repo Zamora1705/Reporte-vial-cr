@@ -28,13 +28,13 @@ try {
 
     //Attachments
  
-    
+    $usuario = $_GET['usuario'] ?? '';
 
     $url='http://localhost:8000/main/manageaccount/eliminarCuenta.php';
     //Content
     $mail->isHTML(true);                                  //Set email format to HTML
     $mail->Subject = 'Eliminación de cuenta';
-    $mail->Body    = "<div style='width:500px;height:auto;background:#1A3A5C;color:#F4F6F8;border-radius:16px;border:3px solid #2E6DA4;padding:20px;' ><h2>Estimado Sad tavo, </h2>
+    $mail->Body    = "<div style='width:500px;height:auto;background:#1A3A5C;color:#F4F6F8;border-radius:16px;border:3px solid #2E6DA4;padding:20px;' ><h2>Estimado $usuario, </h2>
     
 
     

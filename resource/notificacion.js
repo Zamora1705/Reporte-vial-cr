@@ -33,8 +33,8 @@ $(function (){
 
                        fila += ` <tr>
                     <th><img src="${image}" alt=""></th>
-                    <th>${item.COMENTARIO}</th>
                     <th>${item.FECHA}</th>
+                    <th>${item.COMENTARIO}</th>
                     <th><button onclick='eliminarNotificacion(${item.NOTIFICACION_ID})' class="btn btn-danger" ><i class="fa-solid fa-trash"></i></button></th>
                     </tr>`;
                         
@@ -44,7 +44,7 @@ $(function (){
 
                 }else{
 
-                    Swal.fire('Error en obtener notificaciones');
+                    Swal.fire('No hay notificaciones', '', 'warning');
                 }
 
 
